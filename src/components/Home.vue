@@ -1,34 +1,76 @@
 <script setup>
-  import { ref, computed } from "vue"
+  import { ref, computed, onMounted } from "vue"
+  import { db } from "../firebase.config.js"
+  import { collection, addDoc, getDocs, query, where } from "firebase/firestore"
 
+
+  const incomeCollectionRef = collection(db, "income")
+  const maaserCollectionRef = collection(db, "maaser")
+
+  const tempUid = "y.havin@gmail.com"
 
   let incomeId = 0
-  const newIncome = ref({ description: "", amount: null, date: null })
+  const newIncome = ref({ description: "", amount: null, date: null, uid: null })
   const incomes = ref([])
 
-  const handleSubmitIncome = () => {
-    incomes.value.push({ 
+  const fetchIncome = async () => {
+    const querySnapshot = await getDocs(
+      query(incomeCollectionRef, where("uid", "==", tempUid))
+    )
+    const fetchedIncomes = []
+    querySnapshot.forEach((doc) => {
+      fetchedIncomes.push({ id: doc.id, ...doc.data() })
+    })
+    incomes.value = fetchedIncomes
+  }
+
+  const handleSubmitIncome = async () => {
+    newIncome.value = { 
       id: incomeId++, 
       description: newIncome.value.description, 
       amount: newIncome.value.amount,
-      date: new Date()
+      date: new Date(),
+      uid: tempUid
+    }
+    const docRef = await addDoc(incomeCollectionRef, newIncome.value)
+    console.log("Income added with ID:", docRef.id)
+    fetchIncome()
+    newIncome.value = { description: "", amount: null, date: null, uid: null }
+  }
+
+  const fetchMaaser = async () => {
+    const querySnapshot = await getDocs(
+      query(maaserCollectionRef, where("uid", "==", tempUid))
+    )
+    const fetchedMaasers = []
+    querySnapshot.forEach((doc) => {
+      fetchedMaasers.push({ id: doc.id, ...doc.data() })
     })
-    newIncome.value = { description: "", amount: null, date: null }
+    maasers.value = fetchedMaasers
   }
 
   let maaserId = 0
-  const newMaaser = ref({ description: "", amount: null, date: null })
+  const newMaaser = ref({ description: "", amount: null, date: null, uid: null })
   const maasers = ref([])
 
-  const handleSubmitMaaser = () => {
-    maasers.value.push({ 
+  const handleSubmitMaaser = async () => {
+    newMaaser.value = { 
       id: maaserId++, 
       description: newMaaser.value.description, 
       amount: newMaaser.value.amount,
-      date: new Date()
-    })
-    newMaaser.value = { description: "", amount: null, date: null }
+      date: new Date(),
+      uid: tempUid
+    }
+    const docRef = await addDoc(maaserCollectionRef, newMaaser.value)
+    console.log("Ma'aser added with ID:", docRef.id)
+    fetchMaaser()
+    newMaaser.value = { description: "", amount: null, date: null, uid: null }
   }
+
+  onMounted(() => {
+    fetchIncome()
+    fetchMaaser()
+  })
 
   const totalIncome = computed(() => {
     return incomes.value.reduce((sum, income) =>  sum + income.amount, 0)
@@ -83,7 +125,7 @@
             <tr v-for="(income, index) in incomes" :key="index">
               <td>{{ income.description }}</td>
               <td>{{ income.amount }}</td>
-              <td>{{ income.date.toLocaleDateString() }}</td>
+              <td>{{ income.date.toDate().toLocaleDateString() }}</td>
             </tr>
           </tbody>
         </table>
@@ -103,7 +145,7 @@
             <tr v-for="(maaser, index) in maasers" :key="index">
               <td>{{ maaser.description }}</td>
               <td>{{ maaser.amount }}</td>
-              <td>{{ maaser.date.toLocaleDateString() }}</td>
+              <td>{{ maaser.date.toDate().toLocaleDateString() }}</td>
             </tr>
           </tbody>
         </table>

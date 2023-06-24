@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@picocss/pico": "^1.5.10",
-    "vue": "^3.3.4"
+    "firebase": "^9.23.0",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
