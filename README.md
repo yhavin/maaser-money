@@ -1,29 +1,19 @@
-# maaser
+# Ma'aser tracking
 
-This template should help get you started developing with Vue 3 in Vite.
+An easy-to-use application for Jewish people to track how much ma'aser they owe.
 
-## Recommended IDE Setup
+## Background
+Jewish people are obligated to donate to charity 10% of their income (Deuteronomy 14:22). The 10% portion is called "ma'aser" in Hebrew. This application solves the problem of keeping track of how much ma'aser one has given and how much one owes.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Instructions
+1. Create an account and log in
+2. Enter incomes
+3. Enter ma'aser / donations
+4. View the calculation on the screen
+5. Income and ma'aser are saved in the user's account
 
-## Customize configuration
+## Usage
+[Live application](https://ma-aser.web.app)
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+## Technical specifications
+This application is written in Vue.js and uses Firebase for hosting and as a database.

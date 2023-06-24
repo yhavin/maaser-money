@@ -137,46 +137,50 @@
     <article>
       <details open>
         <summary>Income</summary>
-        <table>
-          <thead>
-            <tr>
-              <th>Description</th>
-              <th>Amount</th>
-              <th>Date</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(income, index) in incomes" :key="index">
-              <td>{{ income.description }}</td>
-              <td>{{ income.amount.toLocaleString() }}</td>
-              <td>{{ income.date.toDate().toLocaleDateString() }}</td>
-              <td><a @click="handleDeleteIncome(income.id)">Delete</a></td>
-            </tr>
-          </tbody>
-        </table>
+        <figure>
+          <table>
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(income, index) in incomes" :key="index">
+                <td>{{ income.description }}</td>
+                <td>{{ income.amount.toLocaleString() }}</td>
+                <td>{{ income.date.toDate().toLocaleDateString() }}</td>
+                <td><a @click="handleDeleteIncome(income.id)">Delete</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </figure>
       </details>
 
       <details open>
         <summary>Ma'aser</summary>
-        <table>
-          <thead>
-            <tr>
-              <th>Description</th>
-              <th>Amount</th>
-              <th>Date</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(maaser, index) in maasers" :key="index">
-              <td>{{ maaser.description }}</td>
-              <td>{{ maaser.amount.toLocaleString() }}</td>
-              <td>{{ maaser.date.toDate().toLocaleDateString() }}</td>
-              <td><a @click="handleDeleteMaaser(maaser.id)">Delete</a></td>
-            </tr>
-          </tbody>
-        </table>
+        <figure>
+          <table>
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(maaser, index) in maasers" :key="index">
+                <td>{{ maaser.description }}</td>
+                <td>{{ maaser.amount.toLocaleString() }}</td>
+                <td>{{ maaser.date.toDate().toLocaleDateString() }}</td>
+                <td><a @click="handleDeleteMaaser(maaser.id)">Delete</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </figure>
       </details>
     </article>
     

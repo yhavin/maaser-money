@@ -1,17 +1,22 @@
 <script setup>
   import { ref } from "vue"
-  import { createUserWithEmailAndPassword } from "firebase/auth"
+  import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
   import { auth } from "../firebase.config.js"
   import { useRouter } from "vue-router"
 
   
+  const firstName = ref("")
+  const lastName = ref("")
   const username = ref("")
   const password = ref("")
   const router = useRouter()
 
   const register = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, username.value, password.value)
+      const { user } = await createUserWithEmailAndPassword(auth, username.value, password.value)
+      await updateProfile(user, {
+        displayName: `${firstName.value} ${lastName.value}`
+      })
       router.push("/home")
     } catch (error) {
       console.error(error)
@@ -23,6 +28,8 @@
 <template>
   <h3>Register</h3>
   <form @submit.prevent="register">
+    <input v-model="firstName" type="text" placeholder="First name" autocomplete="new-first-name">
+    <input v-model="lastName" type="text" placeholder="Last name" autocomplete="new-last-name">
     <input v-model="username" type="text" placeholder="Email address" autocomplete="new-username">
     <input v-model="password" type="password" placeholder="Password" autocomplete="new-password">
     <button>Create account</button>
