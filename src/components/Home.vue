@@ -2,12 +2,13 @@
   import { ref, computed, onMounted } from "vue"
   import { db } from "../firebase.config.js"
   import { collection, addDoc, getDocs, query, where } from "firebase/firestore"
+  import { auth } from "../firebase.config.js"
 
 
   const incomeCollectionRef = collection(db, "income")
   const maaserCollectionRef = collection(db, "maaser")
 
-  const tempUid = "y.havin@gmail.com"
+  const userId = auth.currentUser.uid 
 
   let incomeId = 0
   const newIncome = ref({ description: "", amount: null, date: null, uid: null })
@@ -15,7 +16,7 @@
 
   const fetchIncome = async () => {
     const querySnapshot = await getDocs(
-      query(incomeCollectionRef, where("uid", "==", tempUid))
+      query(incomeCollectionRef, where("uid", "==", userId))
     )
     const fetchedIncomes = []
     querySnapshot.forEach((doc) => {
@@ -30,7 +31,7 @@
       description: newIncome.value.description, 
       amount: newIncome.value.amount,
       date: new Date(),
-      uid: tempUid
+      uid: userId
     }
     const docRef = await addDoc(incomeCollectionRef, newIncome.value)
     console.log("Income added with ID:", docRef.id)
@@ -40,7 +41,7 @@
 
   const fetchMaaser = async () => {
     const querySnapshot = await getDocs(
-      query(maaserCollectionRef, where("uid", "==", tempUid))
+      query(maaserCollectionRef, where("uid", "==", userId))
     )
     const fetchedMaasers = []
     querySnapshot.forEach((doc) => {
@@ -59,7 +60,7 @@
       description: newMaaser.value.description, 
       amount: newMaaser.value.amount,
       date: new Date(),
-      uid: tempUid
+      uid: userId
     }
     const docRef = await addDoc(maaserCollectionRef, newMaaser.value)
     console.log("Ma'aser added with ID:", docRef.id)
