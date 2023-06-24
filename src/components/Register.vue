@@ -21,14 +21,10 @@
 </script>
 
 <template>
-  <main class="container">
-    <article>
-      <h3>Register</h3>
-      <form @submit.prevent="register">
-        <input v-model="username" type="text" placeholder="Email address">
-        <input v-model="password" type="password" placeholder="Password">
-        <button>Create account</button>
-      </form>
-    </article>
-  </main>
+  <h3>Register</h3>
+  <form @submit.prevent="register">
+    <input v-model="username" type="text" placeholder="Email address" autocomplete="new-username">
+    <input v-model="password" type="password" placeholder="Password" autocomplete="new-password">
+    <button>Create account</button>
+  </form>
 </template>

@@ -3,8 +3,18 @@
   import { db } from "../firebase.config.js"
   import { collection, addDoc, getDocs, query, where } from "firebase/firestore"
   import { auth } from "../firebase.config.js"
+  import { signOut } from "firebase/auth"
+  import { useRouter } from "vue-router"
 
 
+  const router = useRouter()
+
+  const logout = () => {
+    signOut(auth)
+    router.push("/")
+
+  }
+  
   const incomeCollectionRef = collection(db, "income")
   const maaserCollectionRef = collection(db, "maaser")
 
@@ -89,6 +99,14 @@
 
 <template>
   <main class="container">
+    <nav>
+      <ul>
+        <li>Logged in as <strong>{{ auth.currentUser.email }}</strong></li>
+      </ul>
+      <ul>
+        <li><a @click="logout" >Logout</a></li>
+      </ul>
+    </nav>
     <article>
       <div class="grid">
         <form @submit.prevent="handleSubmitIncome">
@@ -162,3 +180,9 @@
     
   </main>
 </template>
+
+<style scoped>
+  a {
+    cursor: pointer;
+  }
+</style>
