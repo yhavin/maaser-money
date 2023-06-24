@@ -1,8 +1,7 @@
 <script setup>
   import { ref, computed, onMounted } from "vue"
-  import { db } from "../firebase.config.js"
-  import { collection, addDoc, getDocs, query, where } from "firebase/firestore"
-  import { auth } from "../firebase.config.js"
+  import { db, auth } from "../firebase.config.js"
+  import { collection, addDoc, getDocs, query, where, doc, deleteDoc } from "firebase/firestore"
   import { signOut } from "firebase/auth"
   import { useRouter } from "vue-router"
 
@@ -12,7 +11,6 @@
   const logout = () => {
     signOut(auth)
     router.push("/")
-
   }
   
   const incomeCollectionRef = collection(db, "income")
@@ -20,7 +18,6 @@
 
   const userId = auth.currentUser.uid 
 
-  let incomeId = 0
   const newIncome = ref({ description: "", amount: null, date: null, uid: null })
   const incomes = ref([])
 
@@ -33,11 +30,11 @@
       fetchedIncomes.push({ id: doc.id, ...doc.data() })
     })
     incomes.value = fetchedIncomes
+    console.log(incomes.value)
   }
 
   const handleSubmitIncome = async () => {
     newIncome.value = { 
-      id: incomeId++, 
       description: newIncome.value.description, 
       amount: newIncome.value.amount,
       date: new Date(),
@@ -47,6 +44,11 @@
     console.log("Income added with ID:", docRef.id)
     fetchIncome()
     newIncome.value = { description: "", amount: null, date: null, uid: null }
+  }
+
+  const handleDeleteIncome = async (id) => {
+    await deleteDoc(doc(incomeCollectionRef, id))
+    fetchIncome()
   }
 
   const fetchMaaser = async () => {
@@ -60,13 +62,11 @@
     maasers.value = fetchedMaasers
   }
 
-  let maaserId = 0
   const newMaaser = ref({ description: "", amount: null, date: null, uid: null })
   const maasers = ref([])
 
   const handleSubmitMaaser = async () => {
     newMaaser.value = { 
-      id: maaserId++, 
       description: newMaaser.value.description, 
       amount: newMaaser.value.amount,
       date: new Date(),
@@ -76,6 +76,11 @@
     console.log("Ma'aser added with ID:", docRef.id)
     fetchMaaser()
     newMaaser.value = { description: "", amount: null, date: null, uid: null }
+  }
+
+  const handleDeleteMaaser = async (id) => {
+    await deleteDoc(doc(maaserCollectionRef, id))
+    fetchMaaser()
   }
 
   onMounted(() => {
@@ -138,13 +143,15 @@
               <th>Description</th>
               <th>Amount</th>
               <th>Date</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(income, index) in incomes" :key="index">
               <td>{{ income.description }}</td>
-              <td>{{ income.amount }}</td>
+              <td>{{ income.amount.toLocaleString() }}</td>
               <td>{{ income.date.toDate().toLocaleDateString() }}</td>
+              <td><a @click="handleDeleteIncome(income.id)">Delete</a></td>
             </tr>
           </tbody>
         </table>
@@ -158,13 +165,15 @@
               <th>Description</th>
               <th>Amount</th>
               <th>Date</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(maaser, index) in maasers" :key="index">
               <td>{{ maaser.description }}</td>
-              <td>{{ maaser.amount }}</td>
+              <td>{{ maaser.amount.toLocaleString() }}</td>
               <td>{{ maaser.date.toDate().toLocaleDateString() }}</td>
+              <td><a @click="handleDeleteMaaser(maaser.id)">Delete</a></td>
             </tr>
           </tbody>
         </table>

@@ -11,6 +11,7 @@
     "@picocss/pico": "^1.5.10",
     "firebase": "^9.23.0",
     "vue": "^3.3.4",
+    "vue-icons": "^2.0.0",
     "vue-router": "^4.2.2"
   },
   "devDependencies": {

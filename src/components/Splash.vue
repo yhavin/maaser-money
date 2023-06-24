@@ -12,6 +12,10 @@
 <template>
   <main class="container">
     <article>
+      <hgroup>
+        <h1>Track your ma'aser</h1>
+        <h3>Ditch the paper and use a proper app</h3>
+      </hgroup>
       <div v-if="!showRegister"><Login /></div>
       <a v-if="!showRegister" @click="toggleRegister">Don't have an account? Create one</a>
       <div v-if="showRegister"><Register /></div>
