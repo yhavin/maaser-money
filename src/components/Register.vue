@@ -17,7 +17,7 @@
       await updateProfile(user, {
         displayName: `${firstName.value} ${lastName.value}`
       })
-      router.push("/home")
+      // router.push("/home")
     } catch (error) {
       console.error(error)
     }

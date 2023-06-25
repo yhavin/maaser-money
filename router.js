@@ -9,12 +9,14 @@ const router = createRouter({
       {
         path: "/",
         name: "Splash",
-        component: Splash
+        component: Splash,
+        meta: { requiresAuth: false }
       },
       {
-        path: "/home",
+        path: "/",
         name: "Home",
-        component: Home
+        component: Home,
+        meta: { requiresAuth: true }
       }
   ]
 })

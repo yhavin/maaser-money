@@ -12,7 +12,8 @@
   const login = async () => {
     try {
       await signInWithEmailAndPassword(auth, username.value, password.value)
-      router.push("/home")
+      console.log(auth.currentUser)
+      // router.push("/home")
     } catch (error) {
       console.error(error)
     }

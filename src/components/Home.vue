@@ -164,6 +164,7 @@
     </article>
 
     <article>
+      <h3>Transactions</h3>
       <details open>
         <summary>Income</summary>
         <figure>
