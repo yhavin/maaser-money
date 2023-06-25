@@ -14,6 +14,7 @@ Optionally, one can donate more than 10%, so there is the ability to choose what
 2. Enter income and donations as they occur
 3. View the ma'aser owing calculation
 4. Income and ma'aser are saved in the user's account
+5. Tick donations that are tax deductible (for the export)
 5. Export income and donations to CSV
 
 ## Stack
