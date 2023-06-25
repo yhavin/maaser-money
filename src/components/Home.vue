@@ -124,6 +124,11 @@
     return maasers.value.reduce((sum, maaser) =>  sum + maaser.amount, 0)
   })
 
+  const totalTaxDeductible = computed(() => {
+    const deductible = maasers.value.filter((maaser) => maaser.taxDeductible)
+    return deductible.reduce((sum, maaser) => sum + maaser.amount, 0)
+  })
+
   const maaserDue = computed(() => {
     let owing = 0
     incomes.value.forEach((income) => {
@@ -243,7 +248,7 @@
           <td>{{ totalIncome.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
         </tr>
         <tr>
-          <th>Total ma'aser</th>
+          <th>Total ma'aser *</th>
           <td>{{ totalMaaser.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
         </tr>
         <tfoot>
@@ -253,6 +258,7 @@
           </tr>
         </tfoot>
       </table>
+      <span>* Total tax deductible: {{ totalTaxDeductible.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</span>
     </article>
 
     <dialog :open="selectedIncome" v-if="selectedIncome">
