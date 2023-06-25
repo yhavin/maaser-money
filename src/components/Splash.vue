@@ -10,7 +10,7 @@
 </script>
 
 <template>
-  <main class="container">
+  <main class="container splash">
     <article>
       <hgroup>
         <h1>Track your ma'aser</h1>

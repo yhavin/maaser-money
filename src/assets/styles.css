@@ -39,6 +39,16 @@ h4 {
   --font-weight: 100;
 }
 
+.splash {
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .splash {
+    width: 30%;
+  }
+}
 
 /* Teal Light scheme (Default) */
 /* Can be forced with data-theme="light" */
