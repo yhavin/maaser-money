@@ -3,11 +3,10 @@
   "short_name": "Ma'aser",
   "icons": [
     {
-      "src": "./src/assets/favicon.ico",
+      "src": "/favicon.ico",
       "sizes": "32x32",
       "type": "image/x-icon"
     }
   ],
-  "start_url": "/",
   "display": "browser"
 }

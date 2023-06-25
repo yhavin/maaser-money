@@ -1,3 +1,4 @@
+import { auth } from "./src/firebase.config.js"
 import { createRouter, createWebHistory } from "vue-router"
 import Splash from "./src/components/Splash.vue"
 import Home from "./src/components/Home.vue"
@@ -7,7 +8,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
       {
-        path: "/",
+        path: "/auth",
         name: "Splash",
         component: Splash,
         meta: { requiresAuth: false }
@@ -19,6 +20,17 @@ const router = createRouter({
         meta: { requiresAuth: true }
       }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some((record) => {record.meta.requiresAuth})
+  const isAuthenticated = auth.currentUser !== null
+
+  if (requiresAuth && !isAuthenticated) {
+    next("/auth")
+  } else {
+    next()
+  }
 })
 
 export default router

@@ -10,7 +10,7 @@
 
   const logout = () => {
     signOut(auth)
-    router.push("/")
+    router.push("/auth")
   }
   
   const incomeCollectionRef = collection(db, "income")
