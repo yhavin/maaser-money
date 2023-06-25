@@ -26,6 +26,12 @@
   const newIncome = ref({ description: "", amount: null, date: null, percent: "10%", uid: null })
   const incomes = ref([])
 
+  const incomeOpen = ref(false)
+  const setIncomeOpen = () => incomeOpen.value = true
+  const setIncomeClosed = () => {
+    incomeOpen.value = false
+  }
+
   const formatPercent = (number=10) => {
     let value = null
     if (number.endsWith("%")) {
@@ -48,6 +54,7 @@
   }
 
   const handleSubmitIncome = async () => {
+    setIncomeClosed()
     newIncome.value = { 
       description: newIncome.value.description, 
       amount: newIncome.value.amount,
@@ -79,6 +86,12 @@
 
   const newMaaser = ref({ description: "", amount: null, date: null, uid: null })
   const maasers = ref([])
+
+  const maaserOpen = ref(false)
+  const setMaaserOpen = () => maaserOpen.value= true
+  const setMaaserClosed = () => {
+    maaserOpen.value = false
+  }
 
   const handleSubmitMaaser = async () => {
     newMaaser.value = { 
@@ -128,6 +141,50 @@
     </nav>
     <article>
       <div class="grid">
+        <button @click="setIncomeOpen">Add income</button>
+        <button @click="setMaaserOpen">Add ma'aser</button>
+      </div>
+    </article>
+
+    <dialog :open="incomeOpen">
+      <article>
+        <header>
+          Add income
+        </header>
+        <form>
+          <input v-model="newIncome.description" placeholder="Description">
+          <input v-model.number="newIncome.amount" placeholder="Amount">
+          <select v-model="newIncome.percent">
+            <option value="10%" selected>10%</option>
+            <option value="15%">15%</option>
+            <option value="20%">20%</option>
+            <option value="25%">25%</option>
+          </select>
+        </form>
+        <footer>
+            <a role="button" href="#" class="secondary" @click="setIncomeClosed">Cancel</a>
+            <a role="button" href="#" @click="handleSubmitIncome">Add income</a>
+        </footer>
+      </article>
+    </dialog>
+
+        <dialog :open="maaserOpen">
+      <article>
+        <header>
+          Add ma'aser
+        </header>
+        <form>
+          <input v-model="newMaaser.description" placeholder="Description">
+          <input v-model.number="newMaaser.amount" placeholder="Amount">
+        </form>
+        <footer>
+            <a role="button" href="#" class="secondary" @click="setMaaserClosed">Cancel</a>
+            <a role="button" href="#" @click="handleSubmitMaaser">Add ma'aser</a>
+        </footer>
+      </article>
+    </dialog>
+    <!-- <article>
+      <div class="grid">
         <form @submit.prevent="handleSubmitIncome">
           <h3>Add income</h3>
           <div class="grid">
@@ -152,7 +209,7 @@
           <button>Add ma'aser</button>
         </form>
       </div>
-    </article>
+    </article> -->
 
     <article>
       <h3>Balance</h3>
