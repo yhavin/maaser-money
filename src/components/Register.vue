@@ -1,6 +1,6 @@
 <script setup>
   import { ref } from "vue"
-  import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
+  import { createUserWithEmailAndPassword, updateProfile, setPersistence, browserLocalPersistence } from "firebase/auth"
   import { auth } from "../firebase.config.js"
   import { useRouter } from "vue-router"
 
@@ -13,6 +13,7 @@
 
   const register = async () => {
     try {
+      await setPersistence(auth, browserLocalPersistence)
       const { user } = await createUserWithEmailAndPassword(auth, username.value, password.value)
       await updateProfile(user, {
         displayName: `${firstName.value} ${lastName.value}`

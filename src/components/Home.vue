@@ -1,11 +1,16 @@
 <script setup>
-  import { ref, computed, onMounted, watch } from "vue"
+  import { ref, computed, onMounted } from "vue"
   import { db, auth } from "../firebase.config.js"
   import { collection, addDoc, getDocs, query, where, doc, deleteDoc } from "firebase/firestore"
-  import { signOut } from "firebase/auth"
+  import { signOut, onAuthStateChanged } from "firebase/auth"
   import { useRouter } from "vue-router"
 
 
+  onMounted(() => {
+    fetchIncome()
+    fetchMaaser()
+  })
+  
   const router = useRouter()
 
   const logout = () => {
@@ -40,11 +45,9 @@
       fetchedIncomes.push({ id: doc.id, ...doc.data() })
     })
     incomes.value = fetchedIncomes
-    console.log(incomes.value)
   }
 
   const handleSubmitIncome = async () => {
-    console.log(newIncome.value)
     newIncome.value = { 
       description: newIncome.value.description, 
       amount: newIncome.value.amount,
@@ -94,11 +97,6 @@
     await deleteDoc(doc(maaserCollectionRef, id))
     fetchMaaser()
   }
-
-  onMounted(() => {
-    fetchIncome()
-    fetchMaaser()
-  })
 
   const totalIncome = computed(() => {
     return incomes.value.reduce((sum, income) =>  sum + income.amount, 0)

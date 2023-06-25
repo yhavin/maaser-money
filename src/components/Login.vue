@@ -1,6 +1,6 @@
 <script setup>
   import { ref } from "vue"
-  import { signInWithEmailAndPassword } from "firebase/auth"
+  import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from "firebase/auth"
   import { auth } from "../firebase.config.js"
   import { useRouter } from "vue-router"
 
@@ -11,6 +11,7 @@
   
   const login = async () => {
     try {
+      await setPersistence(auth, browserLocalPersistence)
       await signInWithEmailAndPassword(auth, username.value, password.value)
       router.push("/")
     } catch (error) {
