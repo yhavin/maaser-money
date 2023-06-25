@@ -189,7 +189,7 @@
   <main class="container">
     <nav>
       <ul>
-        <li>Logged in as <strong>{{ auth.currentUser.email }}</strong></li>
+        <li>Logged in as {{ auth.currentUser.email }}</li>
       </ul>
       <ul>
         <li><a @click="logout" >Logout</a></li>
@@ -331,7 +331,7 @@
       <h3>Transactions</h3>
       <details open>
         <summary>Income</summary>
-        <a v-if="incomes.length" @click="exportIncomeToCsv"> &#x2193 Export</a>
+        <a v-if="incomes.length" @click="exportIncomeToCsv">&#x2193 Export</a>
         <p></p>
         <table>
           <tr v-for="income in incomes" :key="income.id" @click="openIncomeModal(income)">

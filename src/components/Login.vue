@@ -22,10 +22,10 @@
 </script>
 
 <template>
-  <h3>Login</h3>
+  <h3>Welcome back</h3>
   <form @submit.prevent="login">
     <input v-model="username" type="text" placeholder="Email address">
     <input v-model="password" type="password" placeholder="Password">
-    <button>Login</button>
+    <button>Continue</button>
   </form>
 </template>

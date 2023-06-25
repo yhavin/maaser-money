@@ -17,9 +17,9 @@
         <h3>Earn responsibly</h3>
       </hgroup>
       <div v-if="!showRegister"><Login /></div>
-      <a v-if="!showRegister" @click="toggleRegister">Don't have an account? Create one</a>
+      <span v-if="!showRegister">Don't have an account? &nbsp;</span><a v-if="!showRegister" @click="toggleRegister">Sign up</a>
       <div v-if="showRegister"><Register /></div>
-      <a v-if="showRegister" @click="toggleRegister">Already have an account?</a>
+      <span v-if="showRegister">Already have an account? &nbsp;</span><a v-if="showRegister" @click="toggleRegister">Log in</a>
     </article>
   </main>
 </template>

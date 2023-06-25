@@ -27,12 +27,12 @@
 </script>
 
 <template>
-  <h3>Register</h3>
+  <h3>Create your account</h3>
   <form @submit.prevent="register">
     <input v-model="firstName" type="text" placeholder="First name" autocomplete="new-first-name">
     <input v-model="lastName" type="text" placeholder="Last name" autocomplete="new-last-name">
     <input v-model="username" type="text" placeholder="Email address" autocomplete="new-username">
     <input v-model="password" type="password" placeholder="Password" autocomplete="new-password">
-    <button>Create account</button>
+    <button>Continue</button>
   </form>
 </template>
