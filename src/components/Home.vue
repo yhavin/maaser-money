@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, computed, onMounted } from "vue"
+  import { ref, computed, onMounted, watch } from "vue"
   import { db, auth } from "../firebase.config.js"
   import { collection, addDoc, getDocs, query, where, doc, deleteDoc } from "firebase/firestore"
   import { signOut } from "firebase/auth"
@@ -18,8 +18,18 @@
 
   const userId = auth.currentUser.uid 
 
-  const newIncome = ref({ description: "", amount: null, date: null, uid: null })
+  const newIncome = ref({ description: "", amount: null, date: null, percent: "10%", uid: null })
   const incomes = ref([])
+
+  const formatPercent = (number=10) => {
+    let value = null
+    if (number.endsWith("%")) {
+      value = parseFloat(number.replace("%", ""))
+    } else {
+      value = parseFloat(number)
+    }
+    return value / 100
+  }
 
   const fetchIncome = async () => {
     const querySnapshot = await getDocs(
@@ -34,16 +44,18 @@
   }
 
   const handleSubmitIncome = async () => {
+    console.log(newIncome.value)
     newIncome.value = { 
       description: newIncome.value.description, 
       amount: newIncome.value.amount,
       date: new Date(),
+      percent: formatPercent(newIncome.value.percent),
       uid: userId
     }
     const docRef = await addDoc(incomeCollectionRef, newIncome.value)
     console.log("Income added with ID:", docRef.id)
     fetchIncome()
-    newIncome.value = { description: "", amount: null, date: null, uid: null }
+    newIncome.value = { description: "", amount: null, date: null, percent: "10%", uid: null }
   }
 
   const handleDeleteIncome = async (id) => {
@@ -97,7 +109,11 @@
   })
 
   const maaserDue = computed(() => {
-    return (totalIncome.value / 10) - totalMaaser.value
+    let owing = 0
+    incomes.value.forEach((income) => {
+      owing += (income.amount * income.percent)
+    })
+    return owing - totalMaaser.value
   })
 
 </script>
@@ -117,8 +133,14 @@
         <form @submit.prevent="handleSubmitIncome">
           <h3>Add income</h3>
           <div class="grid">
-            <input v-model="newIncome.description" placeholder="Income">
+            <input v-model="newIncome.description" placeholder="Description">
             <input v-model.number="newIncome.amount" placeholder="Amount">
+            <select v-model="newIncome.percent">
+              <option value="10%" selected>10%</option>
+              <option value="15%">15%</option>
+              <option value="20%">20%</option>
+              <option value="25%">25%</option>
+            </select>
           </div>
           <button>Add income</button>
         </form>
@@ -126,12 +148,19 @@
         <form @submit.prevent="handleSubmitMaaser">
           <h3>Add ma'aser</h3>
           <div class="grid">
-            <input v-model="newMaaser.description" placeholder="Ma'aser">
+            <input v-model="newMaaser.description" placeholder="Description">
             <input v-model.number="newMaaser.amount" placeholder="Amount">
           </div>
           <button>Add ma'aser</button>
         </form>
       </div>
+    </article>
+
+    <article>
+      <h3>Balance</h3>
+      <p>Total income: {{ totalIncome.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</p>
+      <p>Total ma'aser: {{ totalMaaser.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</p>
+      <p>Ma'aser due: {{ maaserDue.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</p>
     </article>
 
     <article>
@@ -150,7 +179,7 @@
             <tbody>
               <tr v-for="(income, index) in incomes" :key="index">
                 <td>{{ income.description }}</td>
-                <td>{{ income.amount.toLocaleString() }}</td>
+                <td>{{ income.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) + " (" + ((income.percent * 100).toFixed(0) + "%)") }}</td>
                 <td>{{ income.date.toDate().toLocaleDateString() }}</td>
                 <td><a @click="handleDeleteIncome(income.id)">Delete</a></td>
               </tr>
@@ -174,7 +203,7 @@
             <tbody>
               <tr v-for="(maaser, index) in maasers" :key="index">
                 <td>{{ maaser.description }}</td>
-                <td>{{ maaser.amount.toLocaleString() }}</td>
+                <td>{{ maaser.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
                 <td>{{ maaser.date.toDate().toLocaleDateString() }}</td>
                 <td><a @click="handleDeleteMaaser(maaser.id)">Delete</a></td>
               </tr>
@@ -183,14 +212,6 @@
         </figure>
       </details>
     </article>
-    
-    <article>
-      <h3>Balance</h3>
-      <p>Total income: {{ totalIncome.toLocaleString() }}</p>
-      <p>Total ma'aser: {{ totalMaaser.toLocaleString() }}</p>
-      <p>Ma'aser due: {{ maaserDue.toLocaleString() }}</p>
-    </article>
-    
   </main>
 </template>
 
