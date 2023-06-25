@@ -237,9 +237,22 @@
 
     <article>
       <h3>Balance</h3>
-      <p>Total income: {{ totalIncome.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</p>
-      <p>Total ma'aser: {{ totalMaaser.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</p>
-      <p>Ma'aser due: {{ maaserDue.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</p>
+      <table>
+        <tr>
+          <th>Total income</th>
+          <td>{{ totalIncome.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
+        </tr>
+        <tr>
+          <th>Total ma'aser</th>
+          <td>{{ totalMaaser.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
+        </tr>
+        <tfoot>
+          <tr>
+            <th><strong>Ma'aser due</strong></th>
+            <td><strong>{{ maaserDue.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</strong></td>
+          </tr>
+        </tfoot>
+      </table>
     </article>
 
     <dialog :open="selectedIncome" v-if="selectedIncome">
@@ -312,54 +325,34 @@
       <h3>Transactions</h3>
       <details open>
         <summary>Income</summary>
-        <figure>
-          <a v-if="incomes.length" @click="exportIncomeToCsv"> &#x2193 Export to CSV</a>
-          <p></p>
-          <table>
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Amount</th>
-                <th>Date</th>
-                <!-- <th></th> -->
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(income, index) in incomes" :key="income.id" @click="openIncomeModal(income)">
-                <td>{{ income.description }}</td>
-                <td>{{ income.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) + " (" + ((income.percent * 100).toFixed(0) + "%)") }}</td>
-                <td>{{ income.date.toDate().toLocaleDateString() }}</td>
-                <!-- <td><a @click="handleDeleteIncome(income.id)">Delete</a></td> -->
-              </tr>
-            </tbody>
-          </table>
-        </figure>
+        <a v-if="incomes.length" @click="exportIncomeToCsv"> &#x2193 Export</a>
+        <p></p>
+        <table>
+          <tr v-for="income in incomes" :key="income.id" @click="openIncomeModal(income)">
+            <td>
+              <strong>{{ income.description }}</strong><br />
+              {{ income.date.toDate().toLocaleDateString() }} &nbsp; &nbsp; &nbsp; 
+              {{ income.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) }} &nbsp; &nbsp; &nbsp; 
+              {{ (income.percent * 100).toFixed(0) + "%" }}
+            </td>
+          </tr>
+        </table>
       </details>
 
       <details open>
         <summary>Ma'aser</summary>
-        <figure>
-          <a v-if="maasers.length" @click="exportMaaserToCsv">&#x2193 Export to CSV</a>
-          <p></p>
-          <table>
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Amount</th>
-                <th>Date</th>
-                <!-- <th></th> -->
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(maaser, index) in maasers" :key="maaser.id" @click="openMaaserModal(maaser)">
-                <td>{{ maaser.description }}</td>
-                <td>{{ maaser.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
-                <td>{{ maaser.date.toDate().toLocaleDateString() }}</td>
-                <!-- <td><a @click="handleDeleteMaaser(maaser.id)">Delete</a></td> -->
-              </tr>
-            </tbody>
-          </table>
-        </figure>
+        <a v-if="maasers.length" @click="exportMaaserToCsv">&#x2193 Export</a>
+        <p></p>
+        <table>
+          <tr v-for="maaser in maasers" :key="maaser.id" @click="openMaaserModal(maaser)">
+            <td>
+              <strong>{{ maaser.description }}</strong><br />
+              {{ maaser.date.toDate().toLocaleDateString() }} &nbsp; &nbsp; &nbsp; 
+              {{ maaser.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) }} &nbsp; &nbsp; &nbsp; 
+              {{ maaser.taxDeductible ? "#deductible" : null}}
+            </td>
+          </tr>
+        </table>
       </details>
     </article>
   </main>
