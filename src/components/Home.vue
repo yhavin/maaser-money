@@ -85,7 +85,7 @@
     maasers.value = fetchedMaasers
   }
 
-  const newMaaser = ref({ description: "", amount: null, date: null, uid: null })
+  const newMaaser = ref({ description: "", amount: null, date: null, taxDeductible: false, file: null, uid: null })
   const maasers = ref([])
 
   const maaserOpen = ref(false)
@@ -99,13 +99,15 @@
       description: newMaaser.value.description, 
       amount: newMaaser.value.amount,
       date: new Date(),
+      taxDeductible: newMaaser.value.taxDeductible,
+      file: null,
       uid: userId
     }
     const docRef = await addDoc(maaserCollectionRef, newMaaser.value)
     console.log("Ma'aser added with ID:", docRef.id)
     setMaaserClosed()
     fetchMaaser()
-    newMaaser.value = { description: "", amount: null, date: null, uid: null }
+    newMaaser.value = { description: "", amount: null, date: null, taxDeductible: false, file: null, uid: null }
   }
 
   const handleDeleteMaaser = async (id) => {
@@ -208,6 +210,10 @@
         <form>
           <input v-model="newMaaser.description" placeholder="Description">
           <input v-model.number="newMaaser.amount" placeholder="Amount">
+          <label>
+            <input type="checkbox" v-model="newMaaser.taxDeductible">
+            Tax deductible
+          </label>
         </form>
         <footer>
             <a role="button" href="#" class="secondary" @click="setMaaserClosed">Cancel</a>
