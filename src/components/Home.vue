@@ -2,8 +2,9 @@
   import { ref, computed, onMounted } from "vue"
   import { db, auth } from "../firebase.config.js"
   import { collection, addDoc, getDocs, query, where, doc, deleteDoc } from "firebase/firestore"
-  import { signOut, onAuthStateChanged } from "firebase/auth"
+  import { signOut } from "firebase/auth"
   import { useRouter } from "vue-router"
+  import { Parser } from "@json2csv/plainjs"
 
 
   onMounted(() => {
@@ -54,7 +55,6 @@
   }
 
   const handleSubmitIncome = async () => {
-    setIncomeClosed()
     newIncome.value = { 
       description: newIncome.value.description, 
       amount: newIncome.value.amount,
@@ -64,6 +64,7 @@
     }
     const docRef = await addDoc(incomeCollectionRef, newIncome.value)
     console.log("Income added with ID:", docRef.id)
+    setIncomeClosed()
     fetchIncome()
     newIncome.value = { description: "", amount: null, date: null, percent: "10%", uid: null }
   }
@@ -102,6 +103,7 @@
     }
     const docRef = await addDoc(maaserCollectionRef, newMaaser.value)
     console.log("Ma'aser added with ID:", docRef.id)
+    setMaaserClosed()
     fetchMaaser()
     newMaaser.value = { description: "", amount: null, date: null, uid: null }
   }
@@ -126,6 +128,36 @@
     })
     return owing - totalMaaser.value
   })
+
+  const exportIncomeToCsv = () => {
+    const parser = new Parser()
+    const incomesForExport = incomes.value.map((income) => {
+      return { ...income, date: income.date.toDate() }
+    })
+    const csv = parser.parse(incomesForExport)
+    console.log(csv)
+    const csvBlob = new Blob([csv], { type: "text/csv" })
+    const csvUrl = URL.createObjectURL(csvBlob)
+    const link = document.createElement("a")
+    link.href = csvUrl
+    link.download = "income.csv"
+    link.click()
+  }
+
+  const exportMaaserToCsv = () => {
+    const parser = new Parser()
+    const maasersForExport = maasers.value.map((maaser) => {
+      return { ...maaser, date: maaser.date.toDate() }
+    })
+    const csv = parser.parse(maasersForExport)
+    console.log(csv)
+    const csvBlob = new Blob([csv], { type: "text/csv" })
+    const csvUrl = URL.createObjectURL(csvBlob)
+    const link = document.createElement("a")
+    link.href = csvUrl
+    link.download = "maaser.csv"
+    link.click()
+  }
 
 </script>
 
@@ -183,33 +215,6 @@
         </footer>
       </article>
     </dialog>
-    <!-- <article>
-      <div class="grid">
-        <form @submit.prevent="handleSubmitIncome">
-          <h3>Add income</h3>
-          <div class="grid">
-            <input v-model="newIncome.description" placeholder="Description">
-            <input v-model.number="newIncome.amount" placeholder="Amount">
-            <select v-model="newIncome.percent">
-              <option value="10%" selected>10%</option>
-              <option value="15%">15%</option>
-              <option value="20%">20%</option>
-              <option value="25%">25%</option>
-            </select>
-          </div>
-          <button>Add income</button>
-        </form>
-
-        <form @submit.prevent="handleSubmitMaaser">
-          <h3>Add ma'aser</h3>
-          <div class="grid">
-            <input v-model="newMaaser.description" placeholder="Description">
-            <input v-model.number="newMaaser.amount" placeholder="Amount">
-          </div>
-          <button>Add ma'aser</button>
-        </form>
-      </div>
-    </article> -->
 
     <article>
       <h3>Balance</h3>
@@ -223,6 +228,8 @@
       <details open>
         <summary>Income</summary>
         <figure>
+          <a v-if="incomes.length" @click="exportIncomeToCsv"> &#x2193 Export to CSV</a>
+          <p></p>
           <table>
             <thead>
               <tr>
@@ -247,6 +254,8 @@
       <details open>
         <summary>Ma'aser</summary>
         <figure>
+          <a v-if="maasers.length" @click="exportMaaserToCsv">&#x2193 Export to CSV</a>
+          <p></p>
           <table>
             <thead>
               <tr>
@@ -275,4 +284,5 @@
   a {
     cursor: pointer;
   }
+
 </style>
