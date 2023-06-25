@@ -211,8 +211,8 @@
           </select>
         </form>
         <footer>
-            <a role="button" href="#" class="secondary" @click="setIncomeClosed">Cancel</a>
-            <a role="button" href="#" @click="handleSubmitIncome">Add income</a>
+            <a role="button" href="#" class="secondary" @click.prevent="setIncomeClosed">Cancel</a>
+            <a role="button" href="#" @click.prevent="handleSubmitIncome">Add income</a>
         </footer>
       </article>
     </dialog>
@@ -229,8 +229,8 @@
           </label>
         </form>
         <footer>
-            <a role="button" href="#" class="secondary" @click="setMaaserClosed">Cancel</a>
-            <a role="button" href="#" @click="handleSubmitMaaser">Add ma'aser</a>
+            <a role="button" href="#" class="secondary" @click.prevent="setMaaserClosed">Cancel</a>
+            <a role="button" href="#" @click.prevent="handleSubmitMaaser">Add ma'aser</a>
         </footer>
       </article>
     </dialog>
@@ -258,7 +258,7 @@
     <dialog :open="selectedIncome" v-if="selectedIncome">
       <article>
         <header>
-          <a href="#" class="close" @click="closeIncomeModal"></a>
+          <a href="#" class="close" @click.prevent="closeIncomeModal"></a>
           Income
         </header>
         <table>
@@ -284,8 +284,8 @@
           </tr>
         </table>
         <footer>
-          <a role="button" href="#" class="secondary" @click="handleDeleteIncome(selectedIncome.id)">Delete</a>
-          <a role="button" href="#" @click="closeIncomeModal">Exit</a>
+          <a role="button" href="#" class="secondary" @click.prevent="handleDeleteIncome(selectedIncome.id)">Delete</a>
+          <a role="button" href="#" @click.prevent="closeIncomeModal">Exit</a>
         </footer>
       </article>
     </dialog>
@@ -293,7 +293,7 @@
     <dialog :open="selectedMaaser" v-if="selectedMaaser">
       <article>
         <header>
-          <a href="#" class="close" @click="closeMaaserModal"></a>
+          <a href="#" class="close" @click.prevent="closeMaaserModal"></a>
           Ma'aser
         </header>
         <table>
@@ -315,8 +315,8 @@
           </tr>
         </table>
         <footer>
-          <a role="button" href="#" class="secondary" @click="handleDeleteMaaser(selectedMaaser.id)">Delete</a>
-          <a role="button" href="#" @click="closeMaaserModal">Exit</a>
+          <a role="button" href="#" class="secondary" @click.prevent="handleDeleteMaaser(selectedMaaser.id)">Delete</a>
+          <a role="button" href="#" @click.prevent="closeMaaserModal">Exit</a>
         </footer>
       </article>
     </dialog>
