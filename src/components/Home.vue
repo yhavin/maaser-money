@@ -72,6 +72,7 @@
   const handleDeleteIncome = async (id) => {
     await deleteDoc(doc(incomeCollectionRef, id))
     fetchIncome()
+    closeIncomeModal()
   }
 
   const fetchMaaser = async () => {
@@ -112,6 +113,7 @@
   const handleDeleteMaaser = async (id) => {
     await deleteDoc(doc(maaserCollectionRef, id))
     fetchMaaser()
+    closeMaaserModal()
   }
 
   const totalIncome = computed(() => {
@@ -160,6 +162,22 @@
     link.click()
   }
 
+  const selectedIncome = ref(null)
+  const openIncomeModal = (income) => {
+    selectedIncome.value = income
+  }
+  const closeIncomeModal = () => {
+    selectedIncome.value = null
+  }
+
+  const selectedMaaser = ref(null)
+  const openMaaserModal = (maaser) => {
+    selectedMaaser.value = maaser
+  }
+  const closeMaaserModal = () => {
+    selectedMaaser.value = null
+  }
+
 </script>
 
 <template>
@@ -181,9 +199,7 @@
 
     <dialog :open="incomeOpen">
       <article>
-        <header>
-          Add income
-        </header>
+        <header>Add income</header>
         <form>
           <input v-model="newIncome.description" placeholder="Description">
           <input v-model.number="newIncome.amount" placeholder="Amount">
@@ -201,11 +217,9 @@
       </article>
     </dialog>
 
-        <dialog :open="maaserOpen">
+    <dialog :open="maaserOpen">
       <article>
-        <header>
-          Add ma'aser
-        </header>
+        <header>Add ma'aser</header>
         <form>
           <input v-model="newMaaser.description" placeholder="Description">
           <input v-model.number="newMaaser.amount" placeholder="Amount">
@@ -228,6 +242,72 @@
       <p>Ma'aser due: {{ maaserDue.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</p>
     </article>
 
+    <dialog :open="selectedIncome" v-if="selectedIncome">
+      <article>
+        <header>
+          <a href="#" class="close" @click="closeIncomeModal"></a>
+          Income
+        </header>
+        <table>
+          <tr>
+            <th>Description</th>
+            <td>{{ selectedIncome.description }}</td>
+          </tr>
+          <tr>
+            <th>Amount</th>
+            <td>{{ selectedIncome.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
+          </tr>
+          <tr>
+            <th>Date</th>
+            <td>{{ selectedIncome.date.toDate().toLocaleDateString() }}</td>
+          </tr>
+          <tr>
+            <th>Ma'aser percent</th>
+            <td>{{ ((selectedIncome.percent * 100).toFixed(0) + "%") }}</td>
+          </tr>
+          <tr>
+            <th>Ma'aser owing</th>
+            <td>{{ (selectedIncome.amount * selectedIncome.percent).toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
+          </tr>
+        </table>
+        <footer>
+          <a role="button" href="#" class="secondary" @click="handleDeleteIncome(selectedIncome.id)">Delete</a>
+          <a role="button" href="#" @click="closeIncomeModal">Exit</a>
+        </footer>
+      </article>
+    </dialog>
+
+    <dialog :open="selectedMaaser" v-if="selectedMaaser">
+      <article>
+        <header>
+          <a href="#" class="close" @click="closeMaaserModal"></a>
+          Ma'aser
+        </header>
+        <table>
+          <tr>
+            <th>Description</th>
+            <td>{{ selectedMaaser.description }}</td>
+          </tr>
+          <tr>
+            <th>Amount</th>
+            <td>{{ selectedMaaser.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
+          </tr>
+          <tr>
+            <th>Date</th>
+            <td>{{ selectedMaaser.date.toDate().toLocaleDateString() }}</td>
+          </tr>
+          <tr>
+            <th>Tax deductible</th>
+            <td><input type="checkbox" :checked="selectedMaaser.taxDeductible" disabled></td>
+          </tr>
+        </table>
+        <footer>
+          <a role="button" href="#" class="secondary" @click="handleDeleteMaaser(selectedMaaser.id)">Delete</a>
+          <a role="button" href="#" @click="closeMaaserModal">Exit</a>
+        </footer>
+      </article>
+    </dialog>
+
     <article>
       <h3>Transactions</h3>
       <details open>
@@ -241,15 +321,15 @@
                 <th>Description</th>
                 <th>Amount</th>
                 <th>Date</th>
-                <th></th>
+                <!-- <th></th> -->
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(income, index) in incomes" :key="index">
+              <tr v-for="(income, index) in incomes" :key="income.id" @click="openIncomeModal(income)">
                 <td>{{ income.description }}</td>
                 <td>{{ income.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) + " (" + ((income.percent * 100).toFixed(0) + "%)") }}</td>
                 <td>{{ income.date.toDate().toLocaleDateString() }}</td>
-                <td><a @click="handleDeleteIncome(income.id)">Delete</a></td>
+                <!-- <td><a @click="handleDeleteIncome(income.id)">Delete</a></td> -->
               </tr>
             </tbody>
           </table>
@@ -267,15 +347,15 @@
                 <th>Description</th>
                 <th>Amount</th>
                 <th>Date</th>
-                <th></th>
+                <!-- <th></th> -->
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(maaser, index) in maasers" :key="index">
+              <tr v-for="(maaser, index) in maasers" :key="maaser.id" @click="openMaaserModal(maaser)">
                 <td>{{ maaser.description }}</td>
                 <td>{{ maaser.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
                 <td>{{ maaser.date.toDate().toLocaleDateString() }}</td>
-                <td><a @click="handleDeleteMaaser(maaser.id)">Delete</a></td>
+                <!-- <td><a @click="handleDeleteMaaser(maaser.id)">Delete</a></td> -->
               </tr>
             </tbody>
           </table>
@@ -286,7 +366,7 @@
 </template>
 
 <style scoped>
-  a {
+  a, td {
     cursor: pointer;
   }
 
