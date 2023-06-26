@@ -31,6 +31,9 @@
   const setIncomeOpen = () => incomeOpen.value = true
   const setIncomeClosed = () => {
     incomeOpen.value = false
+    newIncome.value = { description: "", amount: null, date: null, percent: "10%", uid: null }
+    invalidIncomeDescription.value = null
+    invalidIncomeAmount.value = null
   }
 
   const formatPercent = (number=10) => {
@@ -62,11 +65,17 @@
       percent: formatPercent(newIncome.value.percent),
       uid: userId
     }
-    const docRef = await addDoc(incomeCollectionRef, newIncome.value)
-    console.log("Income added with ID:", docRef.id)
-    setIncomeClosed()
-    fetchIncome()
-    newIncome.value = { description: "", amount: null, date: null, percent: "10%", uid: null }
+    if (validateIncome()) {
+      const docRef = await addDoc(incomeCollectionRef, newIncome.value)
+      console.log("Income added with ID:", docRef.id)
+      setIncomeClosed()
+      fetchIncome()
+      newIncome.value = { description: "", amount: null, date: null, percent: "10%", uid: null }
+      invalidIncomeDescription.value = null
+      invalidIncomeAmount.value = null
+    } else {
+      newIncome.value = { ...newIncome.value, percent: "10%" }
+    }
   }
 
   const handleDeleteIncome = async (id) => {
@@ -93,6 +102,9 @@
   const setMaaserOpen = () => maaserOpen.value= true
   const setMaaserClosed = () => {
     maaserOpen.value = false
+    newMaaser.value = { description: "", amount: null, date: null, taxDeductible: false, uid: null }
+    invalidMaaserDescription.value = null
+    invalidMaaserAmount.value = null
   }
 
   const handleSubmitMaaser = async () => {
@@ -103,11 +115,17 @@
       taxDeductible: newMaaser.value.taxDeductible,
       uid: userId
     }
-    const docRef = await addDoc(maaserCollectionRef, newMaaser.value)
-    console.log("Ma'aser added with ID:", docRef.id)
-    setMaaserClosed()
-    fetchMaaser()
-    newMaaser.value = { description: "", amount: null, date: null, taxDeductible: false, uid: null }
+    if (validateMaaser()) {
+      const docRef = await addDoc(maaserCollectionRef, newMaaser.value)
+      console.log("Ma'aser added with ID:", docRef.id)
+      setMaaserClosed()
+      fetchMaaser()
+      newMaaser.value = { description: "", amount: null, date: null, taxDeductible: false, uid: null }
+      invalidMaaserDescription.value = null
+      invalidMaaserAmount.value = null
+    } else {
+      newMaaser.value = { ...newMaaser.value }
+    }
   }
 
   const handleDeleteMaaser = async (id) => {
@@ -183,6 +201,22 @@
     selectedMaaser.value = null
   }
 
+  const invalidIncomeDescription = ref()
+  const invalidIncomeAmount = ref()
+  const validateIncome = () => {
+    invalidIncomeDescription.value = newIncome.value.description === null || newIncome.value.description.trim() === ""
+    invalidIncomeAmount.value = newIncome.value.amount === null || typeof newIncome.value.amount !== "number"
+    return !invalidIncomeDescription.value && !invalidIncomeAmount.value
+  }
+
+  const invalidMaaserDescription = ref()
+  const invalidMaaserAmount = ref()
+  const validateMaaser = () => {
+    invalidMaaserDescription.value = newMaaser.value.description === null || newMaaser.value.description.trim() === ""
+    invalidMaaserAmount.value = newMaaser.value.amount === null || typeof newMaaser.value.amount !== "number"
+    return !invalidMaaserDescription.value && !invalidMaaserAmount.value
+  }
+
 </script>
 
 <template>
@@ -206,8 +240,8 @@
       <article>
         <header>Add income</header>
         <form>
-          <input v-model="newIncome.description" placeholder="Description">
-          <input v-model.number="newIncome.amount" placeholder="Amount">
+          <input v-model="newIncome.description" placeholder="Description" :aria-invalid="invalidIncomeDescription">
+          <input v-model.number="newIncome.amount" placeholder="Amount" :aria-invalid="invalidIncomeAmount">
           <select v-model="newIncome.percent">
             <option value="10%" selected>10%</option>
             <option value="15%">15%</option>
@@ -225,9 +259,9 @@
     <dialog :open="maaserOpen">
       <article>
         <header>Add ma'aser</header>
-        <form>
-          <input v-model="newMaaser.description" placeholder="Description">
-          <input v-model.number="newMaaser.amount" placeholder="Amount">
+        <form @submit.prevent="handleSubmitMaaser">
+          <input v-model="newMaaser.description" placeholder="Description" :aria-invalid="invalidMaaserDescription">
+          <input v-model.number="newMaaser.amount" placeholder="Amount" :aria-invalid="invalidMaaserAmount">
           <label>
             <input type="checkbox" v-model="newMaaser.taxDeductible">
             Tax deductible
@@ -258,7 +292,7 @@
           </tr>
         </tfoot>
       </table>
-      <span>* Total tax deductible: {{ totalTaxDeductible.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</span>
+      <small>* Total tax deductible: {{ totalTaxDeductible.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</small>
     </article>
 
     <dialog :open="selectedIncome" v-if="selectedIncome">
