@@ -229,6 +229,10 @@
         <li><a @click="logout" >Logout</a></li>
       </ul>
     </nav>
+    <hgroup>
+        <h1 class="title">Track your ma'aser</h1>
+        <h3 class="title">Earn responsibly</h3>
+      </hgroup>
     <article>
       <div class="grid">
         <button @click="setIncomeOpen">Add income</button>
@@ -413,6 +417,17 @@
     font-size: 13px;
     display: flex;
     justify-content: center;
+  }
+
+  .title {
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (max-width: 767px) {
+    .title {
+      display: none;
+    }
   }
 
 </style>
