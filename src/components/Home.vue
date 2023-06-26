@@ -248,8 +248,8 @@
           <td>{{ totalIncome.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
         </tr>
         <tr>
-          <th>Total ma'aser *</th>
-          <td>{{ totalMaaser.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
+          <th>Total ma'aser</th>
+          <td>{{ totalMaaser.toLocaleString("en-US", { style: "currency", currency: "USD" }) }} *</td>
         </tr>
         <tfoot>
           <tr>
