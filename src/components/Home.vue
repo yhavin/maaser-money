@@ -394,6 +394,8 @@
           </tr>
         </table>
       </details>
+      <br />
+      <span class="gutter-text">Feedback and suggestions welcome by&nbsp;<a href="mailto:y.havin@gmail.com?subject=Ma%27aser%20app%20feedback">email</a></span>
     </article>
   </main>
 </template>
@@ -405,6 +407,12 @@
 
   .hover-underline:hover {
     text-decoration: underline;
+  }
+
+  .gutter-text {
+    font-size: 13px;
+    display: flex;
+    justify-content: center;
   }
 
 </style>

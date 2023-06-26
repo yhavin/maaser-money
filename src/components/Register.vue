@@ -36,3 +36,14 @@
     <button>Continue</button>
   </form>
 </template>
+
+<style scoped>
+  a {
+    cursor: pointer;
+  }
+
+  h3 {
+    display: flex;
+    justify-content: center;
+  }
+</style>
