@@ -334,7 +334,7 @@
         <a v-if="incomes.length" @click="exportIncomeToCsv">&#x2193 Export</a>
         <p></p>
         <table>
-          <tr v-for="income in incomes" :key="income.id" @click="openIncomeModal(income)">
+          <tr class="hover-underline" v-for="income in incomes" :key="income.id" @click="openIncomeModal(income)">
             <td>
               <strong>{{ income.description }}</strong><br />
               {{ income.date.toDate().toLocaleDateString() }} &nbsp; &nbsp; &nbsp; 
@@ -350,7 +350,7 @@
         <a v-if="maasers.length" @click="exportMaaserToCsv">&#x2193 Export</a>
         <p></p>
         <table>
-          <tr v-for="maaser in maasers" :key="maaser.id" @click="openMaaserModal(maaser)">
+          <tr class="hover-underline" v-for="maaser in maasers" :key="maaser.id" @click="openMaaserModal(maaser)">
             <td>
               <strong>{{ maaser.description }}</strong><br />
               {{ maaser.date.toDate().toLocaleDateString() }} &nbsp; &nbsp; &nbsp; 
@@ -367,6 +367,10 @@
 <style scoped>
   a, td {
     cursor: pointer;
+  }
+
+  .hover-underline:hover {
+    text-decoration: underline;
   }
 
 </style>
