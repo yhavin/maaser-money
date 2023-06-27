@@ -16,6 +16,9 @@ Jewish people are obligated to donate to charity 10% of their income (Deuteronom
 5. Export income and donations to CSV
 
 ## Stack
+![Vue.js](https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D)
+ ![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=orange)
+
 - Frontend: Vue.js
 - Backend: Firebase
 - Database: Firestore
