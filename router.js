@@ -1,7 +1,7 @@
 import { auth } from "./src/firebase.config.js"
 import { createRouter, createWebHistory } from "vue-router"
-import Splash from "./src/components/Splash.vue"
-import Home from "./src/components/Home.vue"
+import Splash from "./src/pages/Splash.vue"
+import Home from "./src/pages/Home.vue"
 
 
 const router = createRouter({

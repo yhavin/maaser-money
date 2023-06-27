@@ -5,13 +5,13 @@
   import { signOut } from "firebase/auth"
   import { useRouter } from "vue-router"
   import { Parser } from "@json2csv/plainjs"
-  import IncomeForm from "./IncomeForm.vue"
-  import MaaserForm from "./MaaserForm.vue"
-  import Balance from "./Balance.vue"
-  import TransactionsTable from "./TransactionsTable.vue"
-  import IncomeDetail from "./IncomeDetail.vue"
-  import MaaserDetail from "./MaaserDetail.vue"
-  import AddToHomeScreen from "./AddToHomeScreen.vue"
+  import IncomeForm from "../components/IncomeForm.vue"
+  import MaaserForm from "../components/MaaserForm.vue"
+  import Balance from "../components/Balance.vue"
+  import TransactionsTable from "../components/TransactionsTable.vue"
+  import IncomeDetail from "../components/IncomeDetail.vue"
+  import MaaserDetail from "../components/MaaserDetail.vue"
+  import AddToHomeScreen from "../components/AddToHomeScreen.vue"
 
 
   onMounted(() => {
