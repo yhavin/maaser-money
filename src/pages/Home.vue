@@ -1,7 +1,7 @@
 <script setup>
   import { ref, computed, onMounted } from "vue"
   import { db, auth } from "../firebase.config.js"
-  import { collection, addDoc, getDocs, query, where, doc, deleteDoc } from "firebase/firestore"
+  import { collection, addDoc, getDocs, query, where, orderBy, doc, deleteDoc } from "firebase/firestore"
   import { signOut } from "firebase/auth"
   import { useRouter } from "vue-router"
   import { Parser } from "@json2csv/plainjs"
@@ -59,7 +59,7 @@
 
   const fetchIncome = async () => {
     const querySnapshot = await getDocs(
-      query(incomeCollectionRef, where("uid", "==", userId))
+      query(incomeCollectionRef, where("uid", "==", userId), orderBy("date", "desc"))
     )
     const fetchedIncomes = []
     querySnapshot.forEach((doc) => {
@@ -97,7 +97,7 @@
 
   const fetchMaaser = async () => {
     const querySnapshot = await getDocs(
-      query(maaserCollectionRef, where("uid", "==", userId))
+      query(maaserCollectionRef, where("uid", "==", userId), orderBy("date", "desc"))
     )
     const fetchedMaasers = []
     querySnapshot.forEach((doc) => {
