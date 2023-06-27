@@ -64,6 +64,10 @@
 </template>
 
 <style scoped>
+  a, td {
+    cursor: pointer;
+  }
+  
   .hover-underline:hover {
     text-decoration: underline;
   }
