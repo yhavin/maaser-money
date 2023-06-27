@@ -5,7 +5,7 @@ An easy-to-use application for Jewish people to track how much ma'aser they owe.
 [Live application](https://maaser.money)
 
 ## Background
-Jewish people are obligated to donate to charity 10% of their income (Deuteronomy 14:22). The 10% portion is called "ma'aser" in Hebrew, which translates to "tithe". This application solves the problem of keeping track of how much ma'aser one has given and how much one owes.
+Jewish people are obligated to donate to charity 10% of their income ([Deuteronomy 14:22](https://www.sefaria.org/Deuteronomy.14.22?lang=en&with=all&lang2=en)). The 10% portion is called "ma'aser" in Hebrew, which translates to "tithe". This application solves the problem of keeping track of how much ma'aser one has given and how much one owes.
 
 ## Features
 1. Create an account and log in
