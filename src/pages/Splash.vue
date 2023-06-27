@@ -2,6 +2,7 @@
   import { ref } from "vue"
   import Login from '../components/Login.vue'
   import Register from '../components/Register.vue'
+  import FooterActions from "../components/FooterActions.vue";
   
   
   const showRegister = ref(false)
@@ -20,7 +21,7 @@
       <span><span v-if="!showRegister">Don't have an account? &nbsp;</span><a v-if="!showRegister" @click="toggleRegister">Sign up</a></span>
       <div v-if="showRegister"><Register /></div>
       <span><span v-if="showRegister">Already have an account? &nbsp;</span><a v-if="showRegister" @click="toggleRegister">Log in</a></span><br />
-      <span class="gutter-text">Feedback and suggestions welcome by&nbsp;<a href="mailto:y.havin@gmail.com?subject=Ma%27aser%20app%20feedback">email</a></span>
+      <FooterActions />
     </article>
   </main>
 </template>
@@ -33,11 +34,6 @@
   h1, h3, span, small {
     display: flex;
     justify-content: center;
-  }
-
-  small {
-    display: inline-block;
-    line-height: 1 !important;
   }
 
 </style>
