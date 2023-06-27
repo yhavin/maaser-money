@@ -5,6 +5,7 @@
   import { signOut } from "firebase/auth"
   import { useRouter } from "vue-router"
   import { Parser } from "@json2csv/plainjs"
+  import AddToHomeScreen from "./AddToHomeScreen.vue"
 
 
   onMounted(() => {
@@ -401,6 +402,7 @@
       <br />
       <span class="gutter-text">Feedback and suggestions welcome by&nbsp;<a href="mailto:y.havin@gmail.com?subject=Ma%27aser%20app%20feedback">email</a></span>
     </article>
+    <AddToHomeScreen />
   </main>
 </template>
 

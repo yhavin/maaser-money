@@ -35,7 +35,9 @@
     justify-content: center;
   }
 
-  .gutter-text {
-    font-size: 13px;
+  small {
+    display: inline-block;
+    line-height: 1 !important;
   }
+
 </style>

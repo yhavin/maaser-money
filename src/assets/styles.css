@@ -48,6 +48,26 @@ small {
   margin: 0 auto;
 }
 
+.gutter-text {
+  font-size: 13px;
+}
+
+.ios-instructions {
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .ios-instructions {
+    display: none;
+  }
+}
+
+.g-icon {
+  font-size: 15px;
+}
+
 @media (min-width: 768px) {
   .splash {
     width: 30%;
