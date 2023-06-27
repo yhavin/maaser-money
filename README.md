@@ -20,3 +20,6 @@ Jewish people are obligated to donate to charity 10% of their income (Deuteronom
 - Backend: Firebase
 - Database: Firestore
 - Styles and components: PicoCSS
+
+## Support the app
+[![Donate](https://img.shields.io/badge/Donate-Support_the_app-green)](https://donate.stripe.com/00g3g17T3ge58lG4gh)
