@@ -1,5 +1,15 @@
 <script setup>
-  const redirectToPaymentLink = () => {
+  import { ref, onMounted } from "vue"
+  import { timeZonesToCountries } from "../assets/timeZones.js"
+
+
+  onMounted(() => {
+    getPaymentLink()
+  })
+  
+  const paymentLink = ref()
+
+  const getPaymentLink = () => {
     let userCountry
 
     if (Intl) {
@@ -15,15 +25,14 @@
     }
 
     const country = paymentLinks.hasOwnProperty(userCountry) ? userCountry : "United States"
-    const paymentLink = paymentLinks[country]
-
-    window.open(paymentLink, "_blank")
+    paymentLink.value = paymentLinks[country]
+    // window.open(paymentLink, "_blank")
   }
 </script>
 
 <template>
   <span class="gutter-text">Feedback and suggestions welcome by&nbsp;<a href="mailto:y.havin@gmail.com?subject=Ma%27aser%20app%20feedback">email</a></span>
-  <span class="gutter-text"><a href="#" @click.prevent="redirectToPaymentLink">Donate to support this app <span>❤️</span></a></span>
+  <span class="gutter-text"><a :href="paymentLink" target="_blank">Donate to support this app <span>❤️</span></a></span>
 </template>
 
 <style scoped>

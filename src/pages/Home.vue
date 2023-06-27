@@ -5,7 +5,6 @@
   import { signOut } from "firebase/auth"
   import { useRouter } from "vue-router"
   import { Parser } from "@json2csv/plainjs"
-  import { timeZonesToCountries } from "../assets/timeZones.js"
   import IncomeForm from "../components/IncomeForm.vue"
   import MaaserForm from "../components/MaaserForm.vue"
   import Balance from "../components/Balance.vue"
