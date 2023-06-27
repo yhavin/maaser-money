@@ -1,5 +1,10 @@
 <script setup>
-  const props = defineProps(["newMaaser", "maaserOpen", "invalidMaaserDescription", "invalidMaaserAmount"])
+  const props = defineProps({
+    newMaaser: Object,
+    maaserOpen: Boolean,
+    invalidMaaserDescription: Boolean,
+    invalidMaaserAmount: Boolean
+  })
 
   const emits = defineEmits(["setMaaserClosed", "handleSubmitMaaser"])
 

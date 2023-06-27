@@ -1,5 +1,11 @@
 <script setup>
-  const props = defineProps(["newIncome", "incomeOpen", "invalidIncomeDescription", "invalidIncomeAmount", "invalidIncomePercent"])
+  const props = defineProps({
+    newIncome: Object,
+    incomeOpen: Boolean,
+    invalidIncomeDescription: Boolean,
+    invalidIncomeAmount: Boolean,
+    invalidIncomePercent: Boolean
+  })
 
   const emits = defineEmits(["setIncomeClosed", "handleSubmitIncome"])
 

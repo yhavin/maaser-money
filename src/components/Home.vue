@@ -7,6 +7,7 @@
   import { Parser } from "@json2csv/plainjs"
   import IncomeForm from "./IncomeForm.vue"
   import MaaserForm from "./MaaserForm.vue"
+  import Balance from "./Balance.vue"
   import AddToHomeScreen from "./AddToHomeScreen.vue"
 
 
@@ -269,26 +270,12 @@
       @handleSubmitMaaser="handleSubmitMaaser"
     />
 
-    <article>
-      <h3>Balance</h3>
-      <table>
-        <tr>
-          <th>Total income</th>
-          <td>{{ totalIncome.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
-        </tr>
-        <tr>
-          <th>Total ma'aser</th>
-          <td>{{ totalMaaser.toLocaleString("en-US", { style: "currency", currency: "USD" }) }} *</td>
-        </tr>
-        <tfoot>
-          <tr>
-            <th><strong>Ma'aser due</strong></th>
-            <td><strong>{{ maaserDue.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</strong></td>
-          </tr>
-        </tfoot>
-      </table>
-      <small>* Total tax deductible: {{ totalTaxDeductible.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</small>
-    </article>
+    <Balance
+      :totalIncome="totalIncome"
+      :totalMaaser="totalMaaser"
+      :maaserDue="maaserDue"
+      :totalTaxDeductible="totalTaxDeductible"
+    />
 
     <dialog :open="selectedIncome" v-if="selectedIncome">
       <article>
