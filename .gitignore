@@ -31,3 +31,4 @@ coverage
 # Illustrator files
 og-image.ai
 apple-touch-icon.ai
+/src/assets/timeZones.js
