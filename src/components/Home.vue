@@ -6,6 +6,7 @@
   import { useRouter } from "vue-router"
   import { Parser } from "@json2csv/plainjs"
   import IncomeForm from "./IncomeForm.vue"
+  import MaaserForm from "./MaaserForm.vue"
   import AddToHomeScreen from "./AddToHomeScreen.vue"
 
 
@@ -250,8 +251,6 @@
     </article>
 
     <IncomeForm 
-      :incomeCollectionRef="incomeCollectionRef" 
-      :userId="userId" 
       :newIncome="newIncome"
       :incomeOpen="incomeOpen"
       :invalidIncomeDescription="invalidIncomeDescription"
@@ -261,23 +260,14 @@
       @handleSubmitIncome="handleSubmitIncome"
     />
 
-    <dialog :open="maaserOpen">
-      <article>
-        <header>Add ma'aser</header>
-        <form @submit.prevent="handleSubmitMaaser">
-          <input v-model="newMaaser.description" placeholder="Description" :aria-invalid="invalidMaaserDescription">
-          <input v-model.number="newMaaser.amount" placeholder="Amount" :aria-invalid="invalidMaaserAmount">
-          <label>
-            <input type="checkbox" v-model="newMaaser.taxDeductible">
-            Tax deductible
-          </label>
-        </form>
-        <footer>
-            <a role="button" href="#" class="secondary" @click.prevent="setMaaserClosed">Cancel</a>
-            <a role="button" href="#" @click.prevent="handleSubmitMaaser">Add ma'aser</a>
-        </footer>
-      </article>
-    </dialog>
+    <MaaserForm
+      :newMaaser="newMaaser"
+      :maaserOpen="maaserOpen"
+      :invalidMaaserDescription="invalidMaaserDescription"
+      :invalidMaaserAmount="invalidMaaserAmount"
+      @setMaaserClosed="setMaaserClosed"
+      @handleSubmitMaaser="handleSubmitMaaser"
+    />
 
     <article>
       <h3>Balance</h3>

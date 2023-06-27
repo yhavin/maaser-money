@@ -1,5 +1,5 @@
 <script setup>
-  const props = defineProps(["incomeCollectionRef", "userId", "newIncome", "incomeOpen", "invalidIncomeDescription", "invalidIncomeAmount", "invalidIncomePercent"])
+  const props = defineProps(["newIncome", "incomeOpen", "invalidIncomeDescription", "invalidIncomeAmount", "invalidIncomePercent"])
 
   const emits = defineEmits(["setIncomeClosed", "handleSubmitIncome"])
 
