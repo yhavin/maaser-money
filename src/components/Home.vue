@@ -9,6 +9,7 @@
   import MaaserForm from "./MaaserForm.vue"
   import Balance from "./Balance.vue"
   import TransactionsTable from "./TransactionsTable.vue"
+  import IncomeDetail from "./IncomeDetail.vue"
   import AddToHomeScreen from "./AddToHomeScreen.vue"
 
 
@@ -278,40 +279,11 @@
       :totalTaxDeductible="totalTaxDeductible"
     />
 
-    <dialog :open="selectedIncome" v-if="selectedIncome">
-      <article>
-        <header>
-          <a href="#" class="close" @click.prevent="closeIncomeModal"></a>
-          Income
-        </header>
-        <table>
-          <tr>
-            <th>Description</th>
-            <td>{{ selectedIncome.description }}</td>
-          </tr>
-          <tr>
-            <th>Amount</th>
-            <td>{{ selectedIncome.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
-          </tr>
-          <tr>
-            <th>Date</th>
-            <td>{{ selectedIncome.date.toDate().toLocaleDateString() }}</td>
-          </tr>
-          <tr>
-            <th>Ma'aser percent</th>
-            <td>{{ ((selectedIncome.percent * 100).toFixed(0) + "%") }}</td>
-          </tr>
-          <tr>
-            <th>Ma'aser owing</th>
-            <td>{{ (selectedIncome.amount * selectedIncome.percent).toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
-          </tr>
-        </table>
-        <footer>
-          <a role="button" href="#" class="secondary" @click.prevent="handleDeleteIncome(selectedIncome.id)">Delete</a>
-          <a role="button" href="#" @click.prevent="closeIncomeModal">Exit</a>
-        </footer>
-      </article>
-    </dialog>
+    <IncomeDetail
+      :selectedIncome="selectedIncome"
+      @closeIncomeModal="closeIncomeModal"
+      @handleDeleteIncome="handleDeleteIncome"
+    />
 
     <dialog :open="selectedMaaser" v-if="selectedMaaser">
       <article>
