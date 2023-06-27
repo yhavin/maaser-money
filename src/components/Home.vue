@@ -5,6 +5,7 @@
   import { signOut } from "firebase/auth"
   import { useRouter } from "vue-router"
   import { Parser } from "@json2csv/plainjs"
+  import IncomeForm from "./IncomeForm.vue"
   import AddToHomeScreen from "./AddToHomeScreen.vue"
 
 
@@ -29,7 +30,11 @@
   const incomes = ref([])
 
   const incomeOpen = ref(false)
-  const setIncomeOpen = () => incomeOpen.value = true
+
+  const setIncomeOpen = () => {
+    incomeOpen.value = true
+  }
+
   const setIncomeClosed = () => {
     incomeOpen.value = false
     newIncome.value = { description: "", amount: null, date: null, percent: "10%", uid: null }
@@ -244,26 +249,17 @@
       </div>
     </article>
 
-    <dialog :open="incomeOpen">
-      <article>
-        <header>Add income</header>
-        <form>
-          <input v-model="newIncome.description" placeholder="Description" :aria-invalid="invalidIncomeDescription">
-          <input v-model.number="newIncome.amount" placeholder="Amount" :aria-invalid="invalidIncomeAmount">
-          <!-- <select v-model="newIncome.percent">
-            <option value="10%" selected>10%</option>
-            <option value="15%">15%</option>
-            <option value="20%">20%</option>
-            <option value="25%">25%</option>
-          </select> -->
-          <input v-model="newIncome.percent" placeholder="%" :aria-invalid="invalidIncomePercent">
-        </form>
-        <footer>
-            <a role="button" href="#" class="secondary" @click.prevent="setIncomeClosed">Cancel</a>
-            <a role="button" href="#" @click.prevent="handleSubmitIncome">Add income</a>
-        </footer>
-      </article>
-    </dialog>
+    <IncomeForm 
+      :incomeCollectionRef="incomeCollectionRef" 
+      :userId="userId" 
+      :newIncome="newIncome"
+      :incomeOpen="incomeOpen"
+      :invalidIncomeDescription="invalidIncomeDescription"
+      :invalidIncomeAmount="invalidIncomeAmount"
+      :invalidIncomePercent="invalidIncomePercent"
+      @setIncomeClosed="setIncomeClosed"
+      @handleSubmitIncome="handleSubmitIncome"
+    />
 
     <dialog :open="maaserOpen">
       <article>
@@ -406,7 +402,9 @@
       <br />
       <span class="gutter-text">Feedback and suggestions welcome by&nbsp;<a href="mailto:y.havin@gmail.com?subject=Ma%27aser%20app%20feedback">email</a></span>
     </article>
+
     <AddToHomeScreen />
+
   </main>
 </template>
 
