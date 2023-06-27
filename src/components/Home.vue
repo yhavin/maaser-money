@@ -204,9 +204,12 @@
 
   const invalidIncomeDescription = ref()
   const invalidIncomeAmount = ref()
+  const invalidIncomePercent = ref()
   const validateIncome = () => {
     invalidIncomeDescription.value = newIncome.value.description === null || newIncome.value.description.trim() === ""
     invalidIncomeAmount.value = newIncome.value.amount === null || typeof newIncome.value.amount !== "number"
+    const regex = /^[^\d]/
+    invalidIncomePercent.value = newIncome.value.percent === null || regex.test(newIncome.value.percent)
     return !invalidIncomeDescription.value && !invalidIncomeAmount.value
   }
 
@@ -247,12 +250,13 @@
         <form>
           <input v-model="newIncome.description" placeholder="Description" :aria-invalid="invalidIncomeDescription">
           <input v-model.number="newIncome.amount" placeholder="Amount" :aria-invalid="invalidIncomeAmount">
-          <select v-model="newIncome.percent">
+          <!-- <select v-model="newIncome.percent">
             <option value="10%" selected>10%</option>
             <option value="15%">15%</option>
             <option value="20%">20%</option>
             <option value="25%">25%</option>
-          </select>
+          </select> -->
+          <input v-model="newIncome.percent" placeholder="%" :aria-invalid="invalidIncomePercent">
         </form>
         <footer>
             <a role="button" href="#" class="secondary" @click.prevent="setIncomeClosed">Cancel</a>
