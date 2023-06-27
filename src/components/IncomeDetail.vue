@@ -9,7 +9,7 @@
     emits("closeIncomeModal")
   }
 
-  const handleDeleteIncome = (id) => {
+  const emitHandleDeleteIncome = (id) => {
     emits("handleDeleteIncome", id)
   }
 </script>
@@ -18,7 +18,7 @@
   <dialog :open="selectedIncome" v-if="selectedIncome">
     <article>
       <header>
-        <a href="#" class="close" @click.prevent="closeIncomeModal"></a>
+        <a href="#" class="close" @click.prevent="emitCloseIncomeModal"></a>
         Income
       </header>
       <table>
@@ -44,8 +44,8 @@
         </tr>
       </table>
       <footer>
-        <a role="button" href="#" class="secondary" @click.prevent="handleDeleteIncome(selectedIncome.id)">Delete</a>
-        <a role="button" href="#" @click.prevent="closeIncomeModal">Exit</a>
+        <a role="button" href="#" class="secondary" @click.prevent="emitHandleDeleteIncome(selectedIncome.id)">Delete</a>
+        <a role="button" href="#" @click.prevent="emitCloseIncomeModal">Exit</a>
       </footer>
     </article>
   </dialog>
