@@ -1,17 +1,17 @@
 # Ma'aser tracking
 
-An easy-to-use application for Jewish people to track how much ma'aser they owe.
+An easy-to-use application for people to track how much ma'aser / tithe they owe.
 
 [Live application](https://maaser.money)
 
 ## Background
-Jewish people are obligated to donate to charity 10% of their income ([Deuteronomy 14:22](https://www.sefaria.org/Deuteronomy.14.22?lang=en&with=all&lang2=en)). The 10% portion is called "ma'aser" in Hebrew, which translates to "tithe". This application solves the problem of keeping track of how much ma'aser one has given and how much one owes.
+There is a biblical obligation to donate 10% of one's income to charity ([Deuteronomy 14:22](https://www.sefaria.org/Deuteronomy.14.22?lang=en&with=all&lang2=en)). The 10% portion is called "ma'aser" in Hebrew, which translates to "tithe". This application solves the problem of keeping track of how much ma'aser one has given and how much one owes.
 
 ## Features
 1. Create an account and log in
 2. Enter income and donations as they occur
-3. View the ma'aser owing calculation
-4. Income and ma'aser are saved in the user's account
+3. View the amount of ma'aser / tithe owing
+4. Income and donations are saved in the user's account
 5. Tag donations as tax deductible
 5. Export income and donations to CSV
 
