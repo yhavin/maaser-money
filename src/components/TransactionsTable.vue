@@ -1,4 +1,5 @@
-<script setup>
+<script setup> 
+  import { ref, computed } from "vue"
   import FooterActions from './FooterActions.vue'
 
 
@@ -37,6 +38,20 @@
     emits("openMaaserModal", maaser)
   }
 
+  const incomeDescriptionQuery = ref("")
+  const incomeAmountQuery = ref("")
+
+  const filteredIncomes = computed(() => {
+    const description = incomeDescriptionQuery.value.toLowerCase().trim()
+    const amount = incomeAmountQuery.value.trim()
+
+    return props.incomes.filter((income) => {
+      const descriptionMatch = description === "" || income.description.toLowerCase().includes(description)
+      const amountMatch = amount === "" || income.amount === parseFloat(amount)
+      return descriptionMatch && amountMatch
+    })
+  })
+
 </script>
 
 <template>
@@ -46,8 +61,12 @@
       <summary>Income</summary>
       <a v-if="incomes.length" @click="emitExportIncomeToCsv">&#x2193 Export</a>
       <p></p>
+      <div class="grid">
+        <input type="search" placeholder="Description" v-model="incomeDescriptionQuery">
+        <input type="search" placeholder="Amount" v-model="incomeAmountQuery">
+      </div>
       <table>
-        <tr class="hover-underline" v-for="income in incomes" :key="income.id" @click="emitOpenIncomeModal(income)">
+        <tr class="hover-underline" v-for="income in filteredIncomes" :key="income.id" @click="emitOpenIncomeModal(income)">
           <td>
             <strong>{{ income.description }}</strong><br />
             {{ income.date.toDate().toLocaleDateString() }} &nbsp; &nbsp; &nbsp; 
