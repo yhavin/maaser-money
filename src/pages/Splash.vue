@@ -2,7 +2,7 @@
   import { ref } from "vue"
   import Login from '../components/Login.vue'
   import Register from '../components/Register.vue'
-  import FooterActions from "../components/FooterActions.vue";
+  import FooterActions from "../components/FooterActions.vue"
   
   
   const showRegister = ref(false)

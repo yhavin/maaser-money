@@ -1,5 +1,5 @@
 <script setup>
-  import FooterActions from './FooterActions.vue';
+  import FooterActions from './FooterActions.vue'
 
 
   const props = defineProps({

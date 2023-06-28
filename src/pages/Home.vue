@@ -243,6 +243,7 @@
   const invalidIncomeDescription = ref()
   const invalidIncomeAmount = ref()
   const invalidIncomePercent = ref()
+
   const validateIncome = () => {
     invalidIncomeDescription.value = newIncome.value.description === null || newIncome.value.description.trim() === ""
     invalidIncomeAmount.value = newIncome.value.amount === null || typeof newIncome.value.amount !== "number"
@@ -253,6 +254,7 @@
 
   const invalidMaaserDescription = ref()
   const invalidMaaserAmount = ref()
+  
   const validateMaaser = () => {
     invalidMaaserDescription.value = newMaaser.value.description === null || newMaaser.value.description.trim() === ""
     invalidMaaserAmount.value = newMaaser.value.amount === null || typeof newMaaser.value.amount !== "number"
