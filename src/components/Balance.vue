@@ -4,6 +4,7 @@
     userLanguage: String,
     userCurrency: String,
     totalIncome: Number,
+    totalDeductions: Number,
     totalMaaser: Number, 
     maaserDue: Number, 
     totalTaxDeductible: Number
@@ -17,6 +18,10 @@
       <tr>
         <th>Total income</th>
         <td>{{ totalIncome.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
+      </tr>
+      <tr>
+        <th>Total deductions</th>
+        <td>{{ totalDeductions.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
       </tr>
       <tr>
         <th>Total ma'aser</th>

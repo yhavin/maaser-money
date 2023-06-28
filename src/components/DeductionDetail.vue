@@ -1,0 +1,58 @@
+<script setup>
+  const props = defineProps({
+    userLanguage: String,
+    userCurrency: String,
+    selectedDeduction: Object
+  })
+
+  const emits = defineEmits(["closeDeductionModal", "handleDeleteDeduction"])
+
+  const emitCloseDeductionModal = () => {
+    emits("closeDeductionModal")
+  }
+
+  const emitHandleDeleteDeduction = (id) => {
+    emits("handleDeleteDeduction", id)
+  }
+</script>
+
+<template>
+  <dialog :open="selectedDeduction" v-if="selectedDeduction">
+    <article>
+      <header>
+        <a href="#" class="close" @click.prevent="emitCloseDeductionModal"></a>
+        Deduction
+      </header>
+      <table>
+        <tr>
+          <th>Description</th>
+          <td>{{ selectedDeduction.description }}</td>
+        </tr>
+        <tr>
+          <th>Amount</th>
+          <td>{{ selectedDeduction.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
+        </tr>
+        <tr>
+          <th>Date</th>
+          <td>{{ selectedDeduction.date.toDate().toLocaleDateString() }}</td>
+        </tr>
+        <tr>
+          <th>Ma'aser percent</th>
+          <td>{{ ((selectedDeduction.percent * 100).toFixed(0) + "%") }}</td>
+        </tr>
+        <tr>
+          <th>Ma'aser deducted</th>
+          <td>{{ (selectedDeduction.amount * selectedDeduction.percent).toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
+        </tr>
+      </table>
+      <footer>
+        <a role="button" href="#" class="secondary" @click.prevent="emitHandleDeleteDeduction(selectedDeduction.id)">Delete</a>
+        <a role="button" href="#" @click.prevent="emitCloseDeductionModal">Exit</a>
+      </footer>
+    </article>
+  </dialog>
+</template>
+
+<style scoped>
+
+</style>
