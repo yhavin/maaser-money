@@ -44,7 +44,7 @@
     <h3>Transactions</h3>
     <details>
       <summary>Income</summary>
-      <a class="export" v-if="incomes.length" @click="emitExportIncomeToCsv">&#x2193 Export</a>
+      <a v-if="incomes.length" @click="emitExportIncomeToCsv">&#x2193 Export</a>
       <p></p>
       <table>
         <tr class="hover-underline" v-for="income in incomes" :key="income.id" @click="emitOpenIncomeModal(income)">
@@ -60,7 +60,7 @@
 
     <details>
       <summary>Deductions</summary>
-      <a class="export" v-if="deductions.length" @click="emitExportDeductionsToCsv">&#x2193 Export</a>
+      <a v-if="deductions.length" @click="emitExportDeductionsToCsv">&#x2193 Export</a>
       <p></p>
       <table>
         <tr class="hover-underline" v-for="deduction in deductions" :key="deduction.id" @click="emitOpenDeductionModal(deduction)">
@@ -76,7 +76,7 @@
 
     <details>
       <summary>Ma'aser</summary>
-      <a class="export" v-if="maasers.length" @click="emitExportMaaserToCsv">&#x2193 Export</a>
+      <a v-if="maasers.length" @click="emitExportMaaserToCsv">&#x2193 Export</a>
       <p></p>
       <table>
         <tr class="hover-underline" v-for="maaser in maasers" :key="maaser.id" @click="emitOpenMaaserModal(maaser)">
@@ -103,8 +103,4 @@
     text-decoration: underline;
   }
 
-  .export {
-    display: flex;
-    justify-content: right;
-  }
 </style>
