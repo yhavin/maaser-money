@@ -1,5 +1,6 @@
 <script setup> 
   import { ref, computed } from "vue"
+  import { Parser } from "@json2csv/plainjs"
   import FooterActions from './FooterActions.vue'
 
 
@@ -12,26 +13,14 @@
     maasers: Array
   })
 
-  const emits = defineEmits(["exportIncomeToCsv", "openIncomeModal", "exportDeductionsToCsv", "openDeductionModal", "exportMaaserToCsv", "openMaaserModal"])
-
-  const emitExportIncomeToCsv = () => {
-    emits("exportIncomeToCsv")
-  }
+  const emits = defineEmits(["openIncomeModal", "openDeductionModal", "openMaaserModal"])
 
   const emitOpenIncomeModal = (income) => {
     emits("openIncomeModal", income)
   }
 
-  const emitExportDeductionsToCsv = () => {
-    emits("exportDeductionsToCsv")
-  }
-
   const emitOpenDeductionModal = (income) => {
     emits("openDeductionModal", income)
-  }
-
-  const emitExportMaaserToCsv = () => {
-    emits("exportMaaserToCsv")
   }
 
   const emitOpenMaaserModal = (maaser) => {
@@ -52,6 +41,21 @@
     })
   })
 
+  const exportIncomeToCsv = () => {
+    const parser = new Parser()
+    const incomesForExport = filteredIncomes.value.map((income) => {
+      return { ...income, date: income.date.toDate() }
+    })
+    const csv = parser.parse(incomesForExport)
+    console.log(csv)
+    const csvBlob = new Blob([csv], { type: "text/csv" })
+    const csvUrl = URL.createObjectURL(csvBlob)
+    const link = document.createElement("a")
+    link.href = csvUrl
+    link.download = "income.csv"
+    link.click()
+  }
+
   const deductionDescriptionQuery = ref("")
   const deductionAmountQuery = ref("")
 
@@ -65,6 +69,21 @@
       return descriptionMatch && amountMatch
     })
   })
+
+  const exportDeductionsToCsv = () => {
+    const parser = new Parser()
+    const deductionsForExport = filteredDeductions.value.map((deduction) => {
+      return { ...deduction, date: deduction.date.toDate() }
+    })
+    const csv = parser.parse(deductionsForExport)
+    console.log(csv)
+    const csvBlob = new Blob([csv], { type: "text/csv" })
+    const csvUrl = URL.createObjectURL(csvBlob)
+    const link = document.createElement("a")
+    link.href = csvUrl
+    link.download = "deductions.csv"
+    link.click()
+  }
 
   const maaserDescriptionQuery = ref("")
   const maaserAmountQuery = ref("")
@@ -80,6 +99,21 @@
     })
   })
 
+  const exportMaaserToCsv = () => {
+    const parser = new Parser()
+    const maasersForExport = filteredMaasers.value.map((maaser) => {
+      return { ...maaser, date: maaser.date.toDate() }
+    })
+    const csv = parser.parse(maasersForExport)
+    console.log(csv)
+    const csvBlob = new Blob([csv], { type: "text/csv" })
+    const csvUrl = URL.createObjectURL(csvBlob)
+    const link = document.createElement("a")
+    link.href = csvUrl
+    link.download = "maaser.csv"
+    link.click()
+  }
+
 </script>
 
 <template>
@@ -87,7 +121,7 @@
     <h3>Transactions</h3>
     <details>
       <summary>Income</summary>
-      <a v-if="incomes.length" @click="emitExportIncomeToCsv">&#x2193 Export</a>
+      <a v-if="incomes.length" @click="exportIncomeToCsv">&#x2193 Export</a>
       <p></p>
       <div class="grid">
         <input type="search" placeholder="Description" v-model="incomeDescriptionQuery">
@@ -110,7 +144,7 @@
 
     <details>
       <summary>Deductions</summary>
-      <a v-if="deductions.length" @click="emitExportDeductionsToCsv">&#x2193 Export</a>
+      <a v-if="deductions.length" @click="exportDeductionsToCsv">&#x2193 Export</a>
       <p></p>
       <div class="grid">
         <input type="search" placeholder="Description" v-model="deductionDescriptionQuery">
@@ -133,7 +167,7 @@
 
     <details>
       <summary>Ma'aser</summary>
-      <a v-if="maasers.length" @click="emitExportMaaserToCsv">&#x2193 Export</a>
+      <a v-if="maasers.length" @click="exportMaaserToCsv">&#x2193 Export</a>
       <p></p>
       <div class="grid">
         <input type="search" placeholder="Description" v-model="maaserDescriptionQuery">

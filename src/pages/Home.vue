@@ -4,7 +4,6 @@
   import { collection, addDoc, getDoc, getDocs, query, where, orderBy, doc, deleteDoc } from "firebase/firestore"
   import { signOut } from "firebase/auth"
   import { useRouter } from "vue-router"
-  import { Parser } from "@json2csv/plainjs"
   import IncomeForm from "../components/IncomeForm.vue"
   import DeductionForm from "../components/DeductionForm.vue"
   import MaaserForm from "../components/MaaserForm.vue"
@@ -131,21 +130,6 @@
     return incomes.value.reduce((sum, income) =>  sum + income.amount, 0)
   })
 
-  const exportIncomeToCsv = () => {
-    const parser = new Parser()
-    const incomesForExport = incomes.value.map((income) => {
-      return { ...income, date: income.date.toDate() }
-    })
-    const csv = parser.parse(incomesForExport)
-    console.log(csv)
-    const csvBlob = new Blob([csv], { type: "text/csv" })
-    const csvUrl = URL.createObjectURL(csvBlob)
-    const link = document.createElement("a")
-    link.href = csvUrl
-    link.download = "income.csv"
-    link.click()
-  }
-
   const selectedIncome = ref(null)
   const openIncomeModal = (income) => {
     selectedIncome.value = income
@@ -225,21 +209,6 @@
   const totalDeductions = computed(() => {
     return deductions.value.reduce((sum, deduction) =>  sum + deduction.amount, 0)
   })
-
-  const exportDeductionsToCsv = () => {
-    const parser = new Parser()
-    const deductionsForExport = deductions.value.map((deduction) => {
-      return { ...deduction, date: deduction.date.toDate() }
-    })
-    const csv = parser.parse(deductionsForExport)
-    console.log(csv)
-    const csvBlob = new Blob([csv], { type: "text/csv" })
-    const csvUrl = URL.createObjectURL(csvBlob)
-    const link = document.createElement("a")
-    link.href = csvUrl
-    link.download = "deductions.csv"
-    link.click()
-  }
 
   const selectedDeduction = ref(null)
   const openDeductionModal = (deduction) => {
@@ -334,21 +303,6 @@
     })
     return owing - owingDeducted - totalMaaser.value
   })
-
-  const exportMaaserToCsv = () => {
-    const parser = new Parser()
-    const maasersForExport = maasers.value.map((maaser) => {
-      return { ...maaser, date: maaser.date.toDate() }
-    })
-    const csv = parser.parse(maasersForExport)
-    console.log(csv)
-    const csvBlob = new Blob([csv], { type: "text/csv" })
-    const csvUrl = URL.createObjectURL(csvBlob)
-    const link = document.createElement("a")
-    link.href = csvUrl
-    link.download = "maaser.csv"
-    link.click()
-  }
 
   const selectedMaaser = ref(null)
   const openMaaserModal = (maaser) => {
@@ -462,11 +416,8 @@
       :incomes="incomes"
       :deductions="deductions"
       :maasers="maasers"
-      @exportIncomeToCsv="exportIncomeToCsv"
       @openIncomeModal="openIncomeModal"
-      @exportDeductionsToCsv="exportDeductionsToCsv"
       @openDeductionModal="openDeductionModal"
-      @exportMaaserToCsv="exportMaaserToCsv"
       @openMaaserModal="openMaaserModal"
     />
 
