@@ -1,5 +1,8 @@
 <script setup>
   const props = defineProps({
+    userInfo: Object,
+    userLanguage: String,
+    userCurrency: String,
     totalIncome: Number,
     totalMaaser: Number, 
     maaserDue: Number, 
@@ -8,24 +11,24 @@
 </script>
 
 <template>
-  <article>
+  <article v-if="!!userLanguage">
     <h3>Balance</h3>
     <table>
       <tr>
         <th>Total income</th>
-        <td>{{ totalIncome.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
+        <td>{{ totalIncome.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
       </tr>
       <tr>
         <th>Total ma'aser</th>
-        <td>{{ totalMaaser.toLocaleString("en-US", { style: "currency", currency: "USD" }) }} *</td>
+        <td>{{ totalMaaser.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }} *</td>
       </tr>
       <tfoot>
         <tr>
           <th><strong>Ma'aser due</strong></th>
-          <td><strong>{{ maaserDue.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</strong></td>
+          <td><strong>{{ maaserDue.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</strong></td>
         </tr>
       </tfoot>
     </table>
-    <small>* Total tax deductible: {{ totalTaxDeductible.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</small>
+    <small>* Total tax deductible: {{ totalTaxDeductible.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</small>
   </article>
 </template>

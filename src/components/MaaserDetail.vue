@@ -1,5 +1,7 @@
 <script setup>
   const props = defineProps({
+    userLanguage: String,
+    userCurrency: String,
     selectedMaaser: Object
   })
 
@@ -28,7 +30,7 @@
         </tr>
         <tr>
           <th>Amount</th>
-          <td>{{ selectedMaaser.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
+          <td>{{ selectedMaaser.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
         <tr>
           <th>Date</th>

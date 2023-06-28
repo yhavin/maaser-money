@@ -1,5 +1,7 @@
 <script setup>
   const props = defineProps({
+    userLanguage: String,
+    userCurrency: String,
     selectedIncome: Object
   })
 
@@ -28,7 +30,7 @@
         </tr>
         <tr>
           <th>Amount</th>
-          <td>{{ selectedIncome.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
+          <td>{{ selectedIncome.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
         <tr>
           <th>Date</th>
@@ -40,7 +42,7 @@
         </tr>
         <tr>
           <th>Ma'aser owing</th>
-          <td>{{ (selectedIncome.amount * selectedIncome.percent).toLocaleString("en-US", { style: "currency", currency: "USD" }) }}</td>
+          <td>{{ (selectedIncome.amount * selectedIncome.percent).toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
       </table>
       <footer>

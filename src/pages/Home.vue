@@ -1,7 +1,7 @@
 <script setup>
   import { ref, computed, onMounted } from "vue"
   import { db, auth } from "../firebase.config.js"
-  import { collection, addDoc, getDocs, query, where, orderBy, doc, deleteDoc } from "firebase/firestore"
+  import { collection, addDoc, getDoc, getDocs, query, where, orderBy, doc, deleteDoc } from "firebase/firestore"
   import { signOut } from "firebase/auth"
   import { useRouter } from "vue-router"
   import { Parser } from "@json2csv/plainjs"
@@ -15,6 +15,7 @@
 
 
   onMounted(() => {
+    fetchUserInfo()
     fetchIncome()
     fetchMaaser()
   })
@@ -28,10 +29,35 @@
   
   const incomeCollectionRef = collection(db, "income")
   const maaserCollectionRef = collection(db, "maaser")
+  const userCollectionRef = collection(db, "users")
 
-  const userId = auth.currentUser.uid 
+  const userId = auth.currentUser.uid
+  const userInfo = ref(null)
+  const userLanguage = ref()
+  const userCurrency = ref()
 
-  const newIncome = ref({ description: "", amount: null, date: null, percent: "10%", uid: null })
+  const fetchUserInfo = async () => {
+    const querySnapshot = await getDocs(
+      query(userCollectionRef, where("uid", "==", userId))
+    )
+    userInfo.value = querySnapshot.docs[0].data()
+    userLanguage.value = currencyLanguages[userInfo.value.currency]
+    userCurrency.value = userInfo.value.currency
+  }
+
+  const currencyLanguages = {
+    USD: "en-US",
+    AUD: "en-AU",
+    GBP: "en-GB",
+    NIS: "he-IL",
+    CAD: "en-CA",
+    EUR: "fr-FR", // France used as European proxy
+    MXN: "es-MX",
+    NZD: "en-NZ",
+    ZAR: "en-ZA"
+  }
+
+  const newIncome = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, uid: null })
   const incomes = ref([])
 
   const incomeOpen = ref(false)
@@ -42,7 +68,7 @@
 
   const setIncomeClosed = () => {
     incomeOpen.value = false
-    newIncome.value = { description: "", amount: null, date: null, percent: "10%", uid: null }
+    newIncome.value = { description: "", amount: null, date: null, percent: "10%", currency: null, uid: null }
     invalidIncomeDescription.value = null
     invalidIncomeAmount.value = null
   }
@@ -74,6 +100,7 @@
       amount: newIncome.value.amount,
       date: new Date(),
       percent: formatPercent(newIncome.value.percent),
+      currency: userInfo.value.currency,
       uid: userId
     }
     if (validateIncome()) {
@@ -81,11 +108,11 @@
       console.log("Income added with ID:", docRef.id)
       setIncomeClosed()
       fetchIncome()
-      newIncome.value = { description: "", amount: null, date: null, percent: "10%", uid: null }
+      newIncome.value = { description: "", amount: null, date: null, percent: "10%", currency: null, uid: null }
       invalidIncomeDescription.value = null
       invalidIncomeAmount.value = null
     } else {
-      newIncome.value = { ...newIncome.value, percent: "10%" }
+      newIncome.value = { ...newIncome.value }
     }
   }
 
@@ -106,14 +133,14 @@
     maasers.value = fetchedMaasers
   }
 
-  const newMaaser = ref({ description: "", amount: null, date: null, taxDeductible: false, uid: null })
+  const newMaaser = ref({ description: "", amount: null, date: null, taxDeductible: false, currency: null, uid: null })
   const maasers = ref([])
 
   const maaserOpen = ref(false)
   const setMaaserOpen = () => maaserOpen.value= true
   const setMaaserClosed = () => {
     maaserOpen.value = false
-    newMaaser.value = { description: "", amount: null, date: null, taxDeductible: false, uid: null }
+    newMaaser.value = { description: "", amount: null, date: null, taxDeductible: false, currency: null, uid: null }
     invalidMaaserDescription.value = null
     invalidMaaserAmount.value = null
   }
@@ -124,6 +151,7 @@
       amount: newMaaser.value.amount,
       date: new Date(),
       taxDeductible: newMaaser.value.taxDeductible,
+      currency: userInfo.value.currency,
       uid: userId
     }
     if (validateMaaser()) {
@@ -131,7 +159,7 @@
       console.log("Ma'aser added with ID:", docRef.id)
       setMaaserClosed()
       fetchMaaser()
-      newMaaser.value = { description: "", amount: null, date: null, taxDeductible: false, uid: null }
+      newMaaser.value = { description: "", amount: null, date: null, taxDeductible: false, currency: null, uid: null }
       invalidMaaserDescription.value = null
       invalidMaaserAmount.value = null
     } else {
@@ -274,6 +302,9 @@
     />
 
     <Balance
+      :userInfo="userInfo"
+      :userLanguage="userLanguage"
+      :userCurrency="userCurrency"
       :totalIncome="totalIncome"
       :totalMaaser="totalMaaser"
       :maaserDue="maaserDue"
@@ -281,18 +312,25 @@
     />
 
     <IncomeDetail
+      :userLanguage="userLanguage"
+      :userCurrency="userCurrency"
       :selectedIncome="selectedIncome"
       @closeIncomeModal="closeIncomeModal"
       @handleDeleteIncome="handleDeleteIncome"
     />
 
     <MaaserDetail
+      :userLanguage="userLanguage"
+      :userCurrency="userCurrency"
       :selectedMaaser="selectedMaaser"
       @closeMaaserModal="closeMaaserModal"
       @handleDeleteMaaser="handleDeleteMaaser"
     />
 
     <TransactionsTable
+      :userInfo="userInfo"
+      :userLanguage="userLanguage"
+      :userCurrency="userCurrency"
       :incomes="incomes"
       :maasers="maasers"
       @exportIncomeToCsv="exportIncomeToCsv"

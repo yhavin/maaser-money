@@ -8,14 +8,27 @@
   
   const firstName = ref("")
   const lastName = ref("")
+  const currency = ref("")
   const username = ref("")
   const password = ref("")
 
   const router = useRouter()
   const userCollectionRef = collection(db, "users")
 
+  const currencyOptions = [
+    "USD",
+    "AUD",
+    "GBP",
+    "NIS",
+    "CAD",
+    "EUR",
+    "MXN",
+    "NZD",
+    "ZAR"
+  ]
+
   const register = async () => {
-    try {
+      try {
       await setPersistence(auth, browserLocalPersistence)
       const { user } = await createUserWithEmailAndPassword(auth, username.value, password.value)
       await updateProfile(user, {
@@ -33,6 +46,7 @@
       uid: auth.currentUser.uid,
       firstName: firstName.value,
       lastName: lastName.value,
+      currency: currency.value,
       email: username.value,
       createdAt: new Date()
     }
@@ -49,10 +63,14 @@
 <template>
   <h3>Create your account</h3>
   <form @submit.prevent="register">
-    <input v-model="firstName" type="text" placeholder="First name" autocomplete="new-first-name">
-    <input v-model="lastName" type="text" placeholder="Last name" autocomplete="new-last-name">
-    <input v-model="username" type="text" placeholder="Email address" autocomplete="new-username">
-    <input v-model="password" type="password" placeholder="Password" autocomplete="new-password">
+    <input v-model="firstName" type="text" placeholder="First name" autocomplete="new-first-name" required>
+    <input v-model="lastName" type="text" placeholder="Last name" autocomplete="new-last-name" required>
+    <select v-model="currency" required>
+      <option disabled value="" selected>Currency</option>
+      <option v-for="(currency, index) in currencyOptions" :key=index>{{ currency }}</option>
+    </select>
+    <input v-model="username" type="text" placeholder="Email address" autocomplete="new-username" required>
+    <input v-model="password" type="password" placeholder="Password" autocomplete="new-password" required>
     <button>Continue</button>
   </form>
 </template>

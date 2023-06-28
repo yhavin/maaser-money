@@ -3,6 +3,9 @@
 
 
   const props = defineProps({
+    userInfo: Object,
+    userLanguage: String,
+    userCurrency: String,
     incomes: Array,
     maasers: Array
   })
@@ -28,7 +31,7 @@
 </script>
 
 <template>
-  <article>
+  <article v-if="!!userLanguage">
     <h3>Transactions</h3>
     <details open>
       <summary>Income</summary>
@@ -39,7 +42,7 @@
           <td>
             <strong>{{ income.description }}</strong><br />
             {{ income.date.toDate().toLocaleDateString() }} &nbsp; &nbsp; &nbsp; 
-            {{ income.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) }} &nbsp; &nbsp; &nbsp; 
+            {{ income.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }} &nbsp; &nbsp; &nbsp; 
             {{ (income.percent * 100).toFixed(0) + "%" }}
           </td>
         </tr>
@@ -55,7 +58,7 @@
           <td>
             <strong>{{ maaser.description }}</strong><br />
             {{ maaser.date.toDate().toLocaleDateString() }} &nbsp; &nbsp; &nbsp; 
-            {{ maaser.amount.toLocaleString("en-US", { style: "currency", currency: "USD" }) }} &nbsp; &nbsp; &nbsp; 
+            {{ maaser.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }} &nbsp; &nbsp; &nbsp; 
             {{ maaser.taxDeductible ? "#deductible" : null}}
           </td>
         </tr>
