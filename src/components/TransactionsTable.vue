@@ -52,6 +52,34 @@
     })
   })
 
+  const deductionDescriptionQuery = ref("")
+  const deductionAmountQuery = ref("")
+
+  const filteredDeductions = computed(() => {
+    const description = deductionDescriptionQuery.value.toLowerCase().trim()
+    const amount = deductionAmountQuery.value.trim()
+
+    return props.deductions.filter((deduction) => {
+      const descriptionMatch = description === "" || deduction.description.toLowerCase().includes(description)
+      const amountMatch = amount === "" || deduction.amount === parseFloat(amount)
+      return descriptionMatch && amountMatch
+    })
+  })
+
+  const maaserDescriptionQuery = ref("")
+  const maaserAmountQuery = ref("")
+
+  const filteredMaasers = computed(() => {
+    const description = maaserDescriptionQuery.value.toLowerCase().trim()
+    const amount = maaserAmountQuery.value.trim()
+
+    return props.maasers.filter((maaser) => {
+      const descriptionMatch = description === "" || maaser.description.toLowerCase().includes(description)
+      const amountMatch = amount === "" || maaser.amount === parseFloat(amount)
+      return descriptionMatch && amountMatch
+    })
+  })
+
 </script>
 
 <template>
@@ -66,13 +94,16 @@
         <input type="search" placeholder="Amount" v-model="incomeAmountQuery">
       </div>
       <table>
-        <tr class="hover-underline" v-for="income in filteredIncomes" :key="income.id" @click="emitOpenIncomeModal(income)">
+        <tr v-if="filteredIncomes.length > 0" class="hover-underline" v-for="income in filteredIncomes" :key="income.id" @click="emitOpenIncomeModal(income)">
           <td>
             <strong>{{ income.description }}</strong><br />
             {{ income.date.toDate().toLocaleDateString() }} &nbsp; &nbsp; &nbsp; 
             {{ income.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }} &nbsp; &nbsp; &nbsp; 
             {{ (income.percent * 100).toFixed(0) + "%" }}
           </td>
+        </tr>
+        <tr v-else>
+          <td>No matches found.</td>
         </tr>
       </table>
     </details>
@@ -81,14 +112,21 @@
       <summary>Deductions</summary>
       <a v-if="deductions.length" @click="emitExportDeductionsToCsv">&#x2193 Export</a>
       <p></p>
+      <div class="grid">
+        <input type="search" placeholder="Description" v-model="deductionDescriptionQuery">
+        <input type="search" placeholder="Amount" v-model="deductionAmountQuery">
+      </div>
       <table>
-        <tr class="hover-underline" v-for="deduction in deductions" :key="deduction.id" @click="emitOpenDeductionModal(deduction)">
+        <tr v-if="filteredDeductions.length > 0" class="hover-underline" v-for="deduction in filteredDeductions" :key="deduction.id" @click="emitOpenDeductionModal(deduction)">
           <td>
             <strong>{{ deduction.description }}</strong><br />
             {{ deduction.date.toDate().toLocaleDateString() }} &nbsp; &nbsp; &nbsp; 
             {{ deduction.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }} &nbsp; &nbsp; &nbsp; 
             {{ (deduction.percent * 100).toFixed(0) + "%" }}
           </td>
+        </tr>
+        <tr v-else>
+          <td>No matches found.</td>
         </tr>
       </table>
     </details>
@@ -97,14 +135,21 @@
       <summary>Ma'aser</summary>
       <a v-if="maasers.length" @click="emitExportMaaserToCsv">&#x2193 Export</a>
       <p></p>
+      <div class="grid">
+        <input type="search" placeholder="Description" v-model="maaserDescriptionQuery">
+        <input type="search" placeholder="Amount" v-model="maaserAmountQuery">
+      </div>
       <table>
-        <tr class="hover-underline" v-for="maaser in maasers" :key="maaser.id" @click="emitOpenMaaserModal(maaser)">
+        <tr v-if="filteredMaasers.length > 0" class="hover-underline" v-for="maaser in filteredMaasers" :key="maaser.id" @click="emitOpenMaaserModal(maaser)">
           <td>
             <strong>{{ maaser.description }}</strong><br />
             {{ maaser.date.toDate().toLocaleDateString() }} &nbsp; &nbsp; &nbsp; 
             {{ maaser.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }} &nbsp; &nbsp; &nbsp; 
             {{ maaser.taxDeductible ? "#deductible" : null}}
           </td>
+        </tr>
+        <tr v-else>
+          <td>No matches found.</td>
         </tr>
       </table>
     </details>
