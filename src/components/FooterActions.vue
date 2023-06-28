@@ -26,7 +26,6 @@
 
     const country = paymentLinks.hasOwnProperty(userCountry) ? userCountry : "United States"
     paymentLink.value = paymentLinks[country]
-    // window.open(paymentLink, "_blank")
   }
 </script>
 

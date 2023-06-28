@@ -1,7 +1,8 @@
 <script setup>
   import { ref } from "vue"
   import { createUserWithEmailAndPassword, updateProfile, setPersistence, browserLocalPersistence } from "firebase/auth"
-  import { auth } from "../firebase.config.js"
+  import { collection, addDoc } from "firebase/firestore"
+  import { db, auth } from "../firebase.config.js"
   import { useRouter } from "vue-router"
 
   
@@ -9,7 +10,9 @@
   const lastName = ref("")
   const username = ref("")
   const password = ref("")
+
   const router = useRouter()
+  const userCollectionRef = collection(db, "users")
 
   const register = async () => {
     try {
@@ -19,6 +22,23 @@
         displayName: `${firstName.value} ${lastName.value}`
       })
       router.push("/")
+      addUser()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const addUser = async () => {
+    const user = {
+      uid: auth.currentUser.uid,
+      firstName: firstName.value,
+      lastName: lastName.value,
+      email: username.value,
+      createdAt: new Date()
+    }
+    try {
+      const docRef = await addDoc(userCollectionRef, user)
+      console.log("User created with ID:", docRef.id)
     } catch (error) {
       console.error(error)
     }
