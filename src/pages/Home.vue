@@ -270,7 +270,7 @@
         <li>Logged in as {{ auth.currentUser.email }}</li>
       </ul>
       <ul>
-        <li><a @click="logout" >Logout</a></li>
+        <li><a @click="logout">Logout</a></li>
       </ul>
     </nav>
     <hgroup>
