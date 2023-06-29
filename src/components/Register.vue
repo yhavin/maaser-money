@@ -71,6 +71,7 @@
     </select>
     <input v-model="username" type="text" placeholder="Email address" autocomplete="new-username" required>
     <input v-model="password" type="password" placeholder="Password" autocomplete="new-password" required>
+    <small>Password must be at least six characters</small>
     <button>Continue</button>
   </form>
 </template>
