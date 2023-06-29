@@ -22,11 +22,12 @@
 <template>
   <dialog :open="incomeOpen">
     <article>
-      <header>Add income</header>
+      <header>{{ newIncome.description || "Add income" }}</header>
       <form>
         <input v-model="newIncome.description" placeholder="Description" :aria-invalid="invalidIncomeDescription">
         <input v-model.number="newIncome.amount" placeholder="Amount" :aria-invalid="invalidIncomeAmount">
         <input v-model="newIncome.percent" placeholder="%" :aria-invalid="invalidIncomePercent">
+        <small>How much ma'aser do you want to contribute for this income?</small>
       </form>
       <footer>
           <a role="button" href="#" class="secondary" @click.prevent="emitSetIncomeClosed">Cancel</a>

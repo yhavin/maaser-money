@@ -339,9 +339,9 @@
       </hgroup>
     <article>
       <div class="grid">
-        <button @click="setIncomeOpen">Add income</button>
-        <button @click="setDeductionOpen">Add deduction</button>
-        <button @click="setMaaserOpen">Add ma'aser</button>
+        <button @click="setIncomeOpen">New income</button>
+        <button @click="setDeductionOpen">New deduction</button>
+        <button @click="setMaaserOpen">New ma'aser</button>
       </div>
     </article>
 

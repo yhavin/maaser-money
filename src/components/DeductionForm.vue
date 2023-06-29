@@ -22,11 +22,13 @@
 <template>
   <dialog :open="deductionOpen">
     <article>
-      <header>Add deduction</header>
+      <header>{{ newDeduction.description || "Add deduction" }}</header>
       <form>
         <input v-model="newDeduction.description" placeholder="Description" :aria-invalid="invalidDeductionDescription">
+        <small>Deductions are things like business expenses that lower how much income you need to pay ma'aser on</small>
         <input v-model.number="newDeduction.amount" placeholder="Amount" :aria-invalid="invalidDeductionAmount">
         <input v-model="newDeduction.percent" placeholder="%" :aria-invalid="invalidDeductionPercent">
+        <small>How much ma'aser do you want to remove for this deduction?</small>
       </form>
       <footer>
           <a role="button" href="#" class="secondary" @click.prevent="emitSetDeductionClosed">Cancel</a>

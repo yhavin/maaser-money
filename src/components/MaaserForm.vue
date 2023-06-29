@@ -20,7 +20,7 @@
 <template>
   <dialog :open="maaserOpen">
     <article>
-      <header>Add ma'aser</header>
+      <header>{{ newMaaser.description || "Add ma'aser" }}</header>
       <form>
         <input v-model="newMaaser.description" placeholder="Description" :aria-invalid="invalidMaaserDescription">
         <input v-model.number="newMaaser.amount" placeholder="Amount" :aria-invalid="invalidMaaserAmount">
