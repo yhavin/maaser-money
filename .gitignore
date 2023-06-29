@@ -32,3 +32,7 @@ coverage
 og-image.ai
 apple-touch-icon.ai
 /src/assets/timeZones.js
+
+
+# Firebase caching folder
+.firebase
