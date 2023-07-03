@@ -13,7 +13,7 @@
   <main class="container splash">
     <article>
       <hgroup>
-        <h1>Track your ma'aser</h1>
+        <h1>Ma'aser Money</h1>
         <h3>Earn responsibly</h3>
       </hgroup>
       <div v-if="!showRegister"><Login /></div>

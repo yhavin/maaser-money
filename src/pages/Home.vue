@@ -60,7 +60,7 @@
     ZAR: "en-ZA"
   }
 
-  const formatPercent = (number=10) => {
+  const formatPercent = (number) => {
     let value = null
     if (number.endsWith("%")) {
       value = parseFloat(number.replace("%", ""))
@@ -70,8 +70,21 @@
     return value / 100
   }
 
+  const convertCurrency = async (amount, baseCurrency, convertCurrency) => {
+    const host = "https://api.frankfurter.app"
+    try {
+      const response = await fetch(`${host}/latest?amount=${amount}&from=${baseCurrency}&to=${convertCurrency}`)
+      const data = await response.json()
+      const convertedAmount = data.rates[convertCurrency]
+      return Number(convertedAmount.toFixed(2))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   // Income
-  const newIncome = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, uid: null })
+  const defaultIncome = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: null, baseCurrency: null, baseAmount: null, uid: null }
+  const newIncome = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, conversion: null, baseCurrency: null, baseAmount: null, uid: null })
   const incomes = ref([])
 
   const incomeOpen = ref(false)
@@ -82,7 +95,7 @@
 
   const setIncomeClosed = () => {
     incomeOpen.value = false
-    newIncome.value = { description: "", amount: null, date: null, percent: "10%", currency: null, uid: null }
+    newIncome.value = { ... defaultIncome }
     invalidIncomeDescription.value = null
     invalidIncomeAmount.value = null
   }
@@ -99,24 +112,34 @@
   }
 
   const handleSubmitIncome = async () => {
+    let amount
+    if (newIncome.value.conversion) {
+      amount = await convertCurrency(newIncome.value.amount, newIncome.value.baseCurrency, userCurrency.value)
+    } else {
+      amount = newIncome.value.amount
+    }
     newIncome.value = { 
       description: newIncome.value.description, 
-      amount: newIncome.value.amount,
+      amount: amount,
       date: new Date(),
       percent: formatPercent(newIncome.value.percent),
       currency: userInfo.value.currency,
+      conversion: newIncome.value.conversion,
+      baseCurrency: newIncome.value.conversion ? newIncome.value.baseCurrency : userCurrency.value,
+      baseAmount: newIncome.value.amount,
       uid: userId
     }
+    console.log(newIncome.value)
     if (validateIncome()) {
       const docRef = await addDoc(incomeCollectionRef, newIncome.value)
       console.log("Income added with ID:", docRef.id)
       setIncomeClosed()
       fetchIncome()
-      newIncome.value = { description: "", amount: null, date: null, percent: "10%", currency: null, uid: null }
+      newIncome.value = { ...defaultIncome }
       invalidIncomeDescription.value = null
       invalidIncomeAmount.value = null
     } else {
-      newIncome.value = { ...newIncome.value }
+      newIncome.value = { ...defaultIncome }
     }
   }
 
@@ -334,7 +357,7 @@
       </ul>
     </nav>
     <hgroup>
-        <h1 class="title">Track your ma'aser</h1>
+        <h1 class="title">Ma'aser Money</h1>
         <h3 class="title">Earn responsibly</h3>
       </hgroup>
     <article>

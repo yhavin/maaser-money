@@ -4,6 +4,7 @@
   import { collection, addDoc } from "firebase/firestore"
   import { db, auth } from "../firebase.config.js"
   import { useRouter } from "vue-router"
+  import { currencyOptions } from "../assets/currencyOptions.js"
 
   
   const firstName = ref("")
@@ -14,18 +15,6 @@
 
   const router = useRouter()
   const userCollectionRef = collection(db, "users")
-
-  const currencyOptions = [
-    "USD",
-    "AUD",
-    "GBP",
-    "NIS",
-    "CAD",
-    "EUR",
-    "MXN",
-    "NZD",
-    "ZAR"
-  ]
 
   const register = async () => {
       try {
