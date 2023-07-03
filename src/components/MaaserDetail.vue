@@ -41,6 +41,7 @@
           <td><input type="checkbox" :checked="selectedMaaser.taxDeductible" disabled></td>
         </tr>
       </table>
+      <small v-if=selectedMaaser.conversion>Converted from {{ selectedMaaser.baseAmount }} {{ selectedMaaser.baseCurrency }}</small>
       <footer>
         <a role="button" href="#" class="secondary" @click.prevent="emitHandleDeleteMaaser(selectedMaaser.id)">Delete</a>
         <a role="button" href="#" @click.prevent="emitCloseMaaserModal">Exit</a>

@@ -178,8 +178,8 @@
           <td>
             <strong>{{ maaser.description }}</strong><br />
             {{ maaser.date.toDate().toLocaleDateString() }} &nbsp; &nbsp; &nbsp; 
-            {{ maaser.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }} &nbsp; &nbsp; &nbsp; 
-            {{ maaser.taxDeductible ? "#deductible" : null}}
+            {{ maaser.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }} 
+            {{ maaser.taxDeductible ? "&nbsp; &nbsp; &nbsp;#deductible" : null}}
           </td>
         </tr>
         <tr v-else>

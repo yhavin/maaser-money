@@ -1,4 +1,7 @@
 <script setup>
+  import { currencyOptions } from '../assets/currencyOptions';
+
+
   const props = defineProps({
     newMaaser: Object,
     maaserOpen: Boolean,
@@ -24,6 +27,14 @@
       <form>
         <input v-model="newMaaser.description" placeholder="Description" :aria-invalid="invalidMaaserDescription">
         <input v-model.number="newMaaser.amount" placeholder="Amount" :aria-invalid="invalidMaaserAmount">
+        <label>
+          <input type="checkbox" v-model="newMaaser.conversion">
+          Convert currency
+        </label>
+        <select v-if="newMaaser.conversion" v-model="newMaaser.baseCurrency" required>
+          <option disabled value="" selected>Base currency</option>
+          <option v-for="(currency, index) in currencyOptions" :key=index>{{ currency }}</option>
+        </select>
         <label>
           <input type="checkbox" v-model="newMaaser.taxDeductible">
           Tax deductible

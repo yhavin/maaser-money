@@ -138,6 +138,7 @@
       newIncome.value = { ...defaultIncome }
       invalidIncomeDescription.value = null
       invalidIncomeAmount.value = null
+      invalidIncomePercent.value = null
     } else {
       newIncome.value = { ...defaultIncome }
     }
@@ -174,7 +175,8 @@
   }
 
   // Deductions
-  const newDeduction = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, uid: null })
+  const defaultDeduction = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: null, baseCurrency: null, baseAmount: null, uid: null }
+  const newDeduction = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, conversion: null, baseCurrency: null, baseAmount: null, uid: null })
   const deductions = ref([])
   
   const deductionOpen = ref(false)
@@ -185,7 +187,7 @@
 
   const setDeductionClosed = () => {
     deductionOpen.value = false
-    newDeduction.value = { description: "", amount: null, date: null, percent: "10%", currency: null, uid: null }
+    newDeduction.value = { ...defaultDeduction }
     invalidDeductionDescription.value = null
     invalidDeductionAmount.value = null
   }
@@ -202,12 +204,21 @@
   }
 
   const handleSubmitDeduction = async () => {
+    let amount
+    if (newDeduction.value.conversion) {
+      amount = await convertCurrency(newDeduction.value.amount, newDeduction.value.baseCurrency, userCurrency.value)
+    } else {
+      amount = newDeduction.value.amount
+    }
     newDeduction.value = { 
       description: newDeduction.value.description, 
-      amount: newDeduction.value.amount,
+      amount: amount,
       date: new Date(),
       percent: formatPercent(newDeduction.value.percent),
       currency: userInfo.value.currency,
+      conversion: newDeduction.value.conversion,
+      baseCurrency: newDeduction.value.conversion ? newDeduction.value.baseCurrency : userCurrency.value,
+      baseAmount: newDeduction.value.amount,
       uid: userId
     }
     if (validateDeduction()) {
@@ -215,11 +226,12 @@
       console.log("Deduction added with ID:", docRef.id)
       setDeductionClosed()
       fetchDeductions()
-      newDeduction.value = { description: "", amount: null, date: null, percent: "10%", currency: null, uid: null }
+      newDeduction.value = { ...defaultDeduction }
       invalidDeductionDescription.value = null
       invalidDeductionAmount.value = null
+      invalidDeductionPercent.value = null
     } else {
-      newDeduction.value = { ...newDeduction.value }
+      newDeduction.value = { ...defaultDeduction }
     }
   }
 
@@ -254,7 +266,8 @@
   }
 
   // Ma'aser
-  const newMaaser = ref({ description: "", amount: null, date: null, taxDeductible: false, currency: null, uid: null })
+  const defaultMaaser = { description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: null, baseCurrency: null, baseAmount: null, uid: null }
+  const newMaaser = ref({ description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: null, baseCurrency: null, baseAmount: null, uid: null })
   const maasers = ref([])
   
   const fetchMaaser = async () => {
@@ -272,18 +285,27 @@
   const setMaaserOpen = () => maaserOpen.value= true
   const setMaaserClosed = () => {
     maaserOpen.value = false
-    newMaaser.value = { description: "", amount: null, date: null, taxDeductible: false, currency: null, uid: null }
+    newMaaser.value = { ...defaultMaaser }
     invalidMaaserDescription.value = null
     invalidMaaserAmount.value = null
   }
 
   const handleSubmitMaaser = async () => {
+    let amount
+    if (newMaaser.value.conversion) {
+      amount = await convertCurrency(newMaaser.value.amount, newMaaser.value.baseCurrency, userCurrency.value)
+    } else {
+      amount = newMaaser.value.amount
+    }
     newMaaser.value = { 
       description: newMaaser.value.description, 
-      amount: newMaaser.value.amount,
+      amount: amount,
       date: new Date(),
       taxDeductible: newMaaser.value.taxDeductible,
       currency: userInfo.value.currency,
+      conversion: newMaaser.value.conversion,
+      baseCurrency: newMaaser.value.conversion ? newMaaser.value.baseCurrency : userCurrency.value,
+      baseAmount: newMaaser.value.amount,
       uid: userId
     }
     if (validateMaaser()) {
@@ -291,11 +313,11 @@
       console.log("Ma'aser added with ID:", docRef.id)
       setMaaserClosed()
       fetchMaaser()
-      newMaaser.value = { description: "", amount: null, date: null, taxDeductible: false, currency: null, uid: null }
+      newMaaser.value = { ...defaultMaaser }
       invalidMaaserDescription.value = null
       invalidMaaserAmount.value = null
     } else {
-      newMaaser.value = { ...newMaaser.value }
+      newMaaser.value = { ...defaultMaaser }
     }
   }
 
