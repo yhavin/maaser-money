@@ -83,8 +83,8 @@
   }
 
   // Income
-  const defaultIncome = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: null, baseCurrency: null, baseAmount: null, uid: null }
-  const newIncome = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, conversion: null, baseCurrency: null, baseAmount: null, uid: null })
+  const defaultIncome = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
+  const newIncome = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
   const incomes = ref([])
 
   const incomeOpen = ref(false)
