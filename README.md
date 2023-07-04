@@ -4,20 +4,21 @@
 
 # Ma'aser Money
 
-An easy-to-use application for people to track how much ma'aser / tithe they owe.
+Ma'aser Money is used by hundreds of people in the Jewish and Christian communities to track how much ma'aser / tithe donations they owe.
 
 [Live application](https://maaser.money)
 
 ## Background
-There is a biblical obligation to donate 10% of one's income to charity ([Deuteronomy 14:22](https://www.sefaria.org/Deuteronomy.14.22?lang=en&with=all&lang2=en)). The 10% portion is called "ma'aser" in Hebrew, which translates to "tithe". This application solves the problem of keeping track of how much ma'aser one has given and how much one owes.
+There is a biblical obligation to donate 10% of one's income to charity ([Deuteronomy 14:22](https://www.sefaria.org/Deuteronomy.14.22?lang=en&with=all&lang2=en)). The 10% portion is called "ma'aser" in Hebrew, which translates to "tithe". Ma'aser Money solves the problem of keeping track of how much ma'aser you have given and how much you owe.
 
-## Features
-1. Create an account and log in
-2. Enter income and donations as they occur
-3. View the amount of ma'aser / tithe owing
-4. Income and donations are saved in the user's account
-5. Tag donations as tax deductible
-5. Export income and donations to CSV
+## Usage
+- Create an account and log in
+- Enter income and donations as they occur
+- Add deductions for things like business expenses, or taxes if you are self-employed
+- View the amount of ma'aser / tithe owing
+- Tag donations as tax deductible
+- View all transactions and search by description or amount
+- Export transactions to CSV for further analysis if desired
 
 ## Stack
 ![Vue.js](https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D)
