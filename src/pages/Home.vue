@@ -1,7 +1,7 @@
 <script setup>
   import { ref, computed, onMounted } from "vue"
   import { db, auth } from "../firebase.config.js"
-  import { collection, addDoc, getDoc, getDocs, query, where, orderBy, doc, deleteDoc } from "firebase/firestore"
+  import { collection, addDoc, getDocs, query, where, orderBy, doc, deleteDoc } from "firebase/firestore"
   import { signOut } from "firebase/auth"
   import { useRouter } from "vue-router"
   import IncomeForm from "../components/IncomeForm.vue"
