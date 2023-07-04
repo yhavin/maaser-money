@@ -1,7 +1,6 @@
 <p align="center">
     <img src="https://github.com/yhavin/maaser-money/blob/main/config/og-image%20white.png?raw=true" width="300" />
 </p>
-<br />
 
 # Ma'aser Money
 
