@@ -37,3 +37,6 @@ og-image white.ai
 
 # Firebase caching folder
 .firebase
+.env
+env.production
+env.js

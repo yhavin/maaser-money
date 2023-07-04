@@ -10,6 +10,7 @@
   "dependencies": {
     "@json2csv/plainjs": "^7.0.1",
     "@picocss/pico": "^1.5.10",
+    "dotenv": "^16.3.1",
     "firebase": "^9.23.0",
     "json2csv": "^6.0.0-alpha.2",
     "vue": "^3.3.4",

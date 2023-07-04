@@ -1,11 +1,12 @@
 import { initializeApp } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
 import { getAuth } from "firebase/auth"
-import { getAnalytics, logEvent } from "firebase/analytics"
+import { getAnalytics } from "firebase/analytics"
+import { API_KEY } from "./env.js"
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD8tfr1ZQN-3NLutP0rVHLd-FQscotK9oY",
+  apiKey: API_KEY,
   authDomain: "ma-aser.firebaseapp.com",
   projectId: "ma-aser",
   storageBucket: "ma-aser.appspot.com",
