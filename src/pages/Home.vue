@@ -175,8 +175,8 @@
   }
 
   // Deductions
-  const defaultDeduction = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: null, baseCurrency: null, baseAmount: null, uid: null }
-  const newDeduction = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, conversion: null, baseCurrency: null, baseAmount: null, uid: null })
+  const defaultDeduction = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
+  const newDeduction = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
   const deductions = ref([])
   
   const deductionOpen = ref(false)
@@ -266,8 +266,8 @@
   }
 
   // Ma'aser
-  const defaultMaaser = { description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: null, baseCurrency: null, baseAmount: null, uid: null }
-  const newMaaser = ref({ description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: null, baseCurrency: null, baseAmount: null, uid: null })
+  const defaultMaaser = { description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
+  const newMaaser = ref({ description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
   const maasers = ref([])
   
   const fetchMaaser = async () => {

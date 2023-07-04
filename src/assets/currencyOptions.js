@@ -2,7 +2,7 @@ export const currencyOptions = [
   "USD",
   "AUD",
   "GBP",
-  "NIS",
+  "ILS",
   "CAD",
   "EUR",
   "MXN",
