@@ -1,4 +1,4 @@
-# Ma'aser tracking
+# Ma'aser Money
 
 An easy-to-use application for people to track how much ma'aser / tithe they owe.
 
