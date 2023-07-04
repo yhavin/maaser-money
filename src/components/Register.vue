@@ -21,7 +21,7 @@
       await setPersistence(auth, browserLocalPersistence)
       const { user } = await createUserWithEmailAndPassword(auth, username.value, password.value)
       await updateProfile(user, {
-        displayName: `${firstName.value} ${lastName.value}`
+        displayName: `${firstName.value.trim()} ${lastName.value.trim()}`
       })
       router.push("/")
       addUser()
@@ -33,8 +33,8 @@
   const addUser = async () => {
     const user = {
       uid: auth.currentUser.uid,
-      firstName: firstName.value,
-      lastName: lastName.value,
+      firstName: firstName.value.trim(),
+      lastName: lastName.value.trim(),
       currency: currency.value,
       email: username.value,
       createdAt: new Date()
