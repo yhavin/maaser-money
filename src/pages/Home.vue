@@ -466,7 +466,7 @@
       @openMaaserModal="openMaaserModal"
     />
 
-    <AddToHomeScreen />
+    <!-- <AddToHomeScreen /> -->
     
   </main>
 </template>

@@ -1,0 +1,19 @@
+{
+  "name": "Ma'aser Money",
+  "short_name": "Ma'aser Money",
+  "description": "Earn responsibly. Track your income and ma'aser.",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "../img/icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "../img/icons/android-chrome.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
