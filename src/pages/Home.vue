@@ -15,11 +15,19 @@
   import AddToHomeScreen from "../components/AddToHomeScreen.vue"
 
   
+  const isIOS = ref(false)
+  const isSafari = ref(false)
+  const isPWAInstalled = ref(false)
+  
   onMounted(() => {
     fetchUserInfo()
     fetchIncome()
     fetchDeductions()
     fetchMaaser()
+    isIOS.value = /iPad|iPhone|iPod/.test(navigator.userAgent)
+    isSafari.value = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+    const mediaQuery = window.matchMedia('(display-mode: standalone)')
+    isPWAInstalled.value = mediaQuery.matches
   })
   
   const router = useRouter()
@@ -466,7 +474,9 @@
       @openMaaserModal="openMaaserModal"
     />
 
-    <!-- <AddToHomeScreen /> -->
+    <div v-if="!isPWAInstalled && isIOS && isSafari">
+      <AddToHomeScreen />
+    </div>
     
   </main>
 </template>
