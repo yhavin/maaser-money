@@ -14,7 +14,7 @@
   import MaaserDetail from "../components/MaaserDetail.vue"
   import AddToHomeScreen from "../components/AddToHomeScreen.vue"
 
-
+  
   onMounted(() => {
     fetchUserInfo()
     fetchIncome()
