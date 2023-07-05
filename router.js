@@ -2,6 +2,7 @@ import { auth } from "./src/firebase.config.js"
 import { createRouter, createWebHistory } from "vue-router"
 import Splash from "./src/pages/Splash.vue"
 import Home from "./src/pages/Home.vue"
+import NotFound from "./src/pages/NotFound.vue"
 
 
 const router = createRouter({
@@ -18,6 +19,12 @@ const router = createRouter({
         name: "Home",
         component: Home,
         meta: { requiresAuth: true }
+      },
+      {
+        path: "/:pathMatch(.*)*",
+        name: "404",
+        component: NotFound,
+        meta: { requiresAuth: false }
       }
   ]
 })

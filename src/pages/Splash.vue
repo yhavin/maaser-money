@@ -64,4 +64,19 @@
     justify-content: center;
   }
 
+  .splash {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+@media (min-width: 768px) {
+  .splash {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 </style>

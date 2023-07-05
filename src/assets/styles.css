@@ -43,10 +43,6 @@ small {
   --font-size: 13px
 }
 
-.splash {
-  width: 100%;
-  margin: 0 auto;
-}
 
 .gutter-text {
   font-size: 13px;
@@ -66,12 +62,6 @@ small {
 
 .g-icon {
   font-size: 15px;
-}
-
-@media (min-width: 768px) {
-  .splash {
-    width: 40%;
-  }
 }
 
 /* Teal Light scheme (Default) */
