@@ -91,8 +91,8 @@
   }
 
   // Income
-  const defaultIncome = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
-  const newIncome = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
+  const defaultIncome = { description: "", amount: null, date: new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "2-digit", day: "2-digit" }), percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
+  const newIncome = ref({ description: "", amount: null, date: new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "2-digit", day: "2-digit" }), percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
   const incomes = ref([])
 
   const incomeOpen = ref(false)
@@ -129,7 +129,7 @@
     newIncome.value = { 
       description: newIncome.value.description, 
       amount: amount,
-      date: new Date(),
+      date: new Date(newIncome.value.date || new Date()),
       percent: formatPercent(newIncome.value.percent),
       currency: userInfo.value.currency,
       conversion: newIncome.value.conversion,
@@ -137,7 +137,6 @@
       baseAmount: newIncome.value.amount,
       uid: userId
     }
-    console.log(newIncome.value)
     if (validateIncome()) {
       const docRef = await addDoc(incomeCollectionRef, newIncome.value)
       console.log("Income added with ID:", docRef.id)
