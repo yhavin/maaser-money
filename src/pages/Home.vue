@@ -273,8 +273,8 @@
   }
 
   // Ma'aser
-  const defaultMaaser = { description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
-  const newMaaser = ref({ description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
+  const defaultMaaser = { description: "", amount: null, date: new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "2-digit", day: "2-digit" }), taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
+  const newMaaser = ref({ description: "", amount: null, date: new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "2-digit", day: "2-digit" }), taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
   const maasers = ref([])
   
   const fetchMaaser = async () => {
@@ -307,7 +307,7 @@
     newMaaser.value = { 
       description: newMaaser.value.description, 
       amount: amount,
-      date: new Date(),
+      date: new Date(newMaaser.value.date || new Date()),
       taxDeductible: newMaaser.value.taxDeductible,
       currency: userInfo.value.currency,
       conversion: newMaaser.value.conversion,
