@@ -182,8 +182,8 @@
   }
 
   // Deductions
-  const defaultDeduction = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
-  const newDeduction = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
+  const defaultDeduction = { description: "", amount: null, date: new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "2-digit", day: "2-digit" }), percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
+  const newDeduction = ref({ description: "", amount: null, date: new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "2-digit", day: "2-digit" }), percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
   const deductions = ref([])
   
   const deductionOpen = ref(false)
@@ -220,7 +220,7 @@
     newDeduction.value = { 
       description: newDeduction.value.description, 
       amount: amount,
-      date: new Date(),
+      date: new Date(newDeduction.value.date || new Date()),
       percent: formatPercent(newDeduction.value.percent),
       currency: userInfo.value.currency,
       conversion: newDeduction.value.conversion,
