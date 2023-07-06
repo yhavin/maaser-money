@@ -26,8 +26,7 @@
       <header>{{ newMaaser.description || "Add ma'aser" }}</header>
       <form>
         <input v-model="newMaaser.description" placeholder="Description" :aria-invalid="invalidMaaserDescription">
-        <input v-model="newMaaser.date" type="date">
-        <input v-model.number="newMaaser.amount" placeholder="Amount" :aria-invalid="invalidMaaserAmount">
+        <input v-model.number="newMaaser.amount" type="number" placeholder="Amount" :aria-invalid="invalidMaaserAmount">
         <label>
           <input type="checkbox" v-model="newMaaser.conversion">
           Convert currency

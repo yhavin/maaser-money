@@ -91,8 +91,8 @@
   }
 
   // Income
-  const defaultIncome = { description: "", amount: null, date: new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "2-digit", day: "2-digit" }), percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
-  const newIncome = ref({ description: "", amount: null, date: new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "2-digit", day: "2-digit" }), percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
+  const defaultIncome = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
+  const newIncome = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
   const incomes = ref([])
 
   const incomeOpen = ref(false)
@@ -129,7 +129,7 @@
     newIncome.value = { 
       description: newIncome.value.description, 
       amount: amount,
-      date: new Date(newIncome.value.date || new Date()),
+      date: new Date(),
       percent: formatPercent(newIncome.value.percent),
       currency: userInfo.value.currency,
       conversion: newIncome.value.conversion,
@@ -137,6 +137,7 @@
       baseAmount: newIncome.value.amount,
       uid: userId
     }
+    console.log(newIncome.value)
     if (validateIncome()) {
       const docRef = await addDoc(incomeCollectionRef, newIncome.value)
       console.log("Income added with ID:", docRef.id)
@@ -182,8 +183,8 @@
   }
 
   // Deductions
-  const defaultDeduction = { description: "", amount: null, date: new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "2-digit", day: "2-digit" }), percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
-  const newDeduction = ref({ description: "", amount: null, date: new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "2-digit", day: "2-digit" }), percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
+  const defaultDeduction = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
+  const newDeduction = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
   const deductions = ref([])
   
   const deductionOpen = ref(false)
@@ -220,7 +221,7 @@
     newDeduction.value = { 
       description: newDeduction.value.description, 
       amount: amount,
-      date: new Date(newDeduction.value.date || new Date()),
+      date: new Date(),
       percent: formatPercent(newDeduction.value.percent),
       currency: userInfo.value.currency,
       conversion: newDeduction.value.conversion,
@@ -273,8 +274,8 @@
   }
 
   // Ma'aser
-  const defaultMaaser = { description: "", amount: null, date: new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "2-digit", day: "2-digit" }), taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
-  const newMaaser = ref({ description: "", amount: null, date: new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "2-digit", day: "2-digit" }), taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
+  const defaultMaaser = { description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
+  const newMaaser = ref({ description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
   const maasers = ref([])
   
   const fetchMaaser = async () => {
@@ -307,7 +308,7 @@
     newMaaser.value = { 
       description: newMaaser.value.description, 
       amount: amount,
-      date: new Date(newMaaser.value.date || new Date()),
+      date: new Date(),
       taxDeductible: newMaaser.value.taxDeductible,
       currency: userInfo.value.currency,
       conversion: newMaaser.value.conversion,

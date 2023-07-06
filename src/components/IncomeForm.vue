@@ -28,8 +28,7 @@
       <header>{{ newIncome.description || "Add income" }}</header>
       <form>
         <input v-model="newIncome.description" placeholder="Description" :aria-invalid="invalidIncomeDescription">
-        <input v-model="newIncome.date" type="date">
-        <input v-model.number="newIncome.amount" placeholder="Amount" :aria-invalid="invalidIncomeAmount">
+        <input v-model.number="newIncome.amount" type="number" placeholder="Amount" :aria-invalid="invalidIncomeAmount">
         <label>
           <input type="checkbox" v-model="newIncome.conversion">
           Convert currency
