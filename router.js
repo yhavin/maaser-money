@@ -30,14 +30,16 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some((record) => {record.meta.requiresAuth})
-  const isAuthenticated = auth.currentUser !== null
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
 
-  if (requiresAuth && !isAuthenticated) {
-    next("/auth")
-  } else {
-    next()
-  }
+  const unsubscribe = auth.onAuthStateChanged((user) => {
+    if (requiresAuth && !user) {
+      next("/auth")
+    } else {
+      next()
+    }
+    unsubscribe()
+  })
 })
 
 export default router

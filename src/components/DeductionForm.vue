@@ -29,7 +29,7 @@
       <form>
         <input v-model="newDeduction.description" placeholder="Description" :aria-invalid="invalidDeductionDescription">
         <small>Deductions are things like business expenses that lower how much income you need to pay ma'aser on</small>
-        <input v-model.number="newDeduction.amount" type="number" placeholder="Amount" :aria-invalid="invalidDeductionAmount">
+        <input v-model.number="newDeduction.amount" placeholder="Amount" :aria-invalid="invalidDeductionAmount">
         <label>
           <input type="checkbox" v-model="newDeduction.conversion">
           Convert currency
