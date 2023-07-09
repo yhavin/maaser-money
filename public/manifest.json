@@ -4,6 +4,8 @@
   "description": "Earn responsibly. Track your income and ma'aser.",
   "start_url": "/",
   "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#00897b",
   "icons": [
     {
       "src": "../img/icons/apple-touch-icon.png",
