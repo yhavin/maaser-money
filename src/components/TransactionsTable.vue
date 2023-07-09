@@ -166,7 +166,7 @@
     </details>
 
     <details>
-      <summary>Ma'aser</summary>
+      <summary>Donations</summary>
       <a v-if="maasers.length" @click="exportMaaserToCsv">&#x2193 Export</a>
       <p></p>
       <div class="grid">
