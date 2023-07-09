@@ -197,8 +197,18 @@
     cursor: pointer;
   }
   
-  .hover-underline:hover {
-    text-decoration: underline;
+  @media (prefers-color-scheme:dark) {
+    .hover-underline:hover, .hover-underline:active {
+    /* text-decoration: underline; */
+    background-color: #1f2f3c;
+  }
+  }
+
+  @media (prefers-color-scheme:light) {
+    .hover-underline:hover {
+    /* text-decoration: underline; */
+    background-color: #f2f9f8;
+  }
   }
 
 </style>

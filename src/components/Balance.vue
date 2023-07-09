@@ -16,15 +16,15 @@
     <h3>Balance</h3>
     <table>
       <tr>
-        <th>Total income</th>
+        <th>Income</th>
         <td>{{ totalIncome.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
       </tr>
       <tr>
-        <th>Total deductions</th>
+        <th>Deductions</th>
         <td>{{ totalDeductions.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
       </tr>
       <tr>
-        <th>Total ma'aser</th>
+        <th>Donations</th>
         <td>{{ totalMaaser.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }} *</td>
       </tr>
       <tfoot>

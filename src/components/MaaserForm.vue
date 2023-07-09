@@ -23,7 +23,7 @@
 <template>
   <dialog :open="maaserOpen">
     <article>
-      <header>{{ newMaaser.description || "Add ma'aser" }}</header>
+      <header>{{ newMaaser.description || "Donation" }}</header>
       <form>
         <input v-model="newMaaser.description" placeholder="Description" :aria-invalid="invalidMaaserDescription">
         <input v-model.number="newMaaser.amount" placeholder="Amount" :aria-invalid="invalidMaaserAmount">
@@ -42,7 +42,7 @@
       </form>
       <footer>
           <a role="button" href="#" class="secondary" @click.prevent="emitSetMaaserClosed">Cancel</a>
-          <a role="button" href="#" @click.prevent="emitHandleSubmitMaaser">Add ma'aser</a>
+          <a role="button" href="#" @click.prevent="emitHandleSubmitMaaser">Save</a>
       </footer>
     </article>
   </dialog>

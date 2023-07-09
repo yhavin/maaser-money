@@ -25,7 +25,7 @@
 <template>
   <dialog :open="incomeOpen">
     <article>
-      <header>{{ newIncome.description || "Add income" }}</header>
+      <header>{{ newIncome.description || "Income" }}</header>
       <form>
         <input v-model="newIncome.description" placeholder="Description" :aria-invalid="invalidIncomeDescription">
         <input v-model.number="newIncome.amount" placeholder="Amount" :aria-invalid="invalidIncomeAmount">
@@ -42,7 +42,7 @@
       </form>
       <footer>
           <a role="button" href="#" class="secondary" @click.prevent="emitSetIncomeClosed">Cancel</a>
-          <a role="button" href="#" @click.prevent="emitHandleSubmitIncome">Add income</a>
+          <a role="button" href="#" @click.prevent="emitHandleSubmitIncome">Save</a>
       </footer>
     </article>
   </dialog>

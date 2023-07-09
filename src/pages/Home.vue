@@ -383,7 +383,7 @@
         <li>Logged in as {{ auth.currentUser.email }}</li>
       </ul>
       <ul>
-        <li><a @click="logout">Logout</a></li>
+        <li><a href="#" role="button" class="outline" @click="logout">&#8594; Logout</a></li>
       </ul>
     </nav>
     <hgroup>
@@ -392,9 +392,9 @@
       </hgroup>
     <article>
       <div class="grid">
-        <button @click="setIncomeOpen">New income</button>
-        <button @click="setDeductionOpen">New deduction</button>
-        <button @click="setMaaserOpen">New ma'aser</button>
+        <button @click="setIncomeOpen">&#65291; Add income</button>
+        <button @click="setDeductionOpen">&#65291; Add deduction</button>
+        <button @click="setMaaserOpen">&#65291; Add donation</button>
       </div>
     </article>
 

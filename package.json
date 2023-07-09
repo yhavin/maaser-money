@@ -14,7 +14,6 @@
     "firebase": "^9.23.0",
     "json2csv": "^6.0.0-alpha.2",
     "vue": "^3.3.4",
-    "vue-icons": "^2.0.0",
     "vue-router": "^4.2.2"
   },
   "devDependencies": {
