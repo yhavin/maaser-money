@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/yhavin/maaser-money/blob/main/config/og-image%20white.png?raw=true" width="300" />
+  <img src="./img/og-image-2-transparent.png" width="300" />
 </p>
 
 # Ma'aser Money

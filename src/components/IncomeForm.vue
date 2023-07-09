@@ -1,7 +1,7 @@
 <script setup>
-  import { currencyOptions } from '../assets/currencyOptions';
+  import { currencyOptions } from '../assets/currencyOptions'
 
-
+  
   const props = defineProps({
     newIncome: Object,
     incomeOpen: Boolean,
