@@ -404,7 +404,7 @@
   <main class="container">
     <nav>
       <ul>
-        <li class="nav-logo">
+        <li class="nav-logo-desktop">
           <img href="#" src="/img/icons/logo-circle.png">
         </li>
         <li>
@@ -516,7 +516,7 @@
     <div v-if="!isPWAInstalled && isIOS && isSafari">
       <AddToHomeScreen />
     </div>
-    
+    <img href="#" src="/img/icons/logo-circle.png" class="footer-logo">
   </main>
 </template>
 
@@ -556,13 +556,34 @@
     }
   }
 
-  .nav-logo {
-    width: 15%;
+  .nav-logo-desktop {
+    width: 20%;
     height: auto;
     display: block;
     margin-left: 3%;
     margin-right: 2%;
     padding-left: 0px;
   }
+
+@media (max-width: 767px) {
+  .nav-logo-desktop {
+    display: none;
+  }
+}
+
+.footer-logo {
+  display: block;
+  width: 7%;
+  height: auto;
+  margin-bottom: 5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 767px) {
+  .footer-logo {
+    width: 20%;
+  }
+}
 
 </style>
