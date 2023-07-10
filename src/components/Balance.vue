@@ -25,7 +25,7 @@
       </tr>
       <tr>
         <th>Donations</th>
-        <td>{{ totalMaaser.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }} *</td>
+        <td>{{ totalMaaser.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
       </tr>
       <tfoot>
         <tr>
@@ -34,12 +34,16 @@
         </tr>
       </tfoot>
     </table>
-    <small>* Total tax deductible: {{ totalTaxDeductible.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</small>
+    <small>Tax deductible donations: {{ totalTaxDeductible.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</small>
   </article>
 </template>
 
 <style scoped>
   article {
     margin-top: 0px;
+  }
+
+  td {
+    text-align: right;
   }
 </style>
