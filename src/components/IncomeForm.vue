@@ -41,7 +41,7 @@
         <small>How much ma'aser do you want to contribute for this income?</small>
       </form>
       <footer>
-          <a role="button" href="#" class="secondary" @click.prevent="emitSetIncomeClosed">Cancel</a>
+          <a role="button" href="#" class="secondary outline" @click.prevent="emitSetIncomeClosed">Cancel</a>
           <a role="button" href="#" @click.prevent="emitHandleSubmitIncome">Save</a>
       </footer>
     </article>

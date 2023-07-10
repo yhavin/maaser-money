@@ -42,7 +42,7 @@
         <small>How much ma'aser do you want to remove for this deduction?</small>
       </form>
       <footer>
-          <a role="button" href="#" class="secondary" @click.prevent="emitSetDeductionClosed">Cancel</a>
+          <a role="button" href="#" class="secondary outline" @click.prevent="emitSetDeductionClosed">Cancel</a>
           <a role="button" href="#" @click.prevent="emitHandleSubmitDeduction">Save</a>
       </footer>
     </article>

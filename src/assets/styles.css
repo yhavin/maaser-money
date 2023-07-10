@@ -69,6 +69,15 @@ small {
   color: #e6443a;
 }
 
+.outline:hover {
+  background-color: #f1f0f0;
+}
+
+.delete:hover {
+  background-color: #e6443a;
+  color: white;
+}
+
 /* Teal Light scheme (Default) */
 /* Can be forced with data-theme="light" */
 [data-theme="light"],

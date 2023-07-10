@@ -41,7 +41,7 @@
         </label>
       </form>
       <footer>
-          <a role="button" href="#" class="secondary" @click.prevent="emitSetMaaserClosed">Cancel</a>
+          <a role="button" href="#" class="secondary outline" @click.prevent="emitSetMaaserClosed">Cancel</a>
           <a role="button" href="#" @click.prevent="emitHandleSubmitMaaser">Save</a>
       </footer>
     </article>
