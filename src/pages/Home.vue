@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, computed, onMounted } from "vue"
+  import { ref, computed, onMounted, watch } from "vue"
   import { db, auth } from "../firebase.config.js"
   import { collection, addDoc, getDocs, query, where, orderBy, doc, deleteDoc } from "firebase/firestore"
   import { signOut } from "firebase/auth"
@@ -92,6 +92,19 @@
 
   const isDropdownOpen = ref(false)
 
+  const isLoadingButton = ref(false)
+
+  watch(isLoadingButton, (newValue, oldValue) => {
+    // Loading time get overriden by closing of form modal
+    // The aria-busy loading wheel still shows for a small amount of time
+    const loadingTime = 400
+    if (newValue) {
+      setTimeout(() => {
+        isLoadingButton.value = false
+      }, loadingTime)
+    }
+  })
+
   // Income
   const defaultIncome = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
   const newIncome = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
@@ -141,6 +154,7 @@
       uid: userId
     }
     if (validateIncome()) {
+      isLoadingButton.value = true
       const docRef = await addDoc(incomeCollectionRef, newIncome.value)
       console.log("Income added with ID:", docRef.id)
       setIncomeClosed()
@@ -233,6 +247,7 @@
       uid: userId
     }
     if (validateDeduction()) {
+      isLoadingButton.value = true
       const docRef = await addDoc(deductionCollectionRef, newDeduction.value)
       console.log("Deduction added with ID:", docRef.id)
       setDeductionClosed()
@@ -325,6 +340,7 @@
       uid: userId
     }
     if (validateMaaser()) {
+      isLoadingButton.value = true
       const docRef = await addDoc(maaserCollectionRef, newMaaser.value)
       console.log("Ma'aser added with ID:", docRef.id)
       setMaaserClosed()
@@ -388,6 +404,9 @@
   <main class="container">
     <nav>
       <ul>
+        <li class="nav-logo">
+          <img href="#" src="/img/icons/logo-circle.png">
+        </li>
         <li>
           <details role="list">
             <summary aria-haspopup="listbox" role="link">{{ auth.currentUser.email }}</summary>
@@ -410,10 +429,10 @@
         </li>
       </ul>
     </nav>
-    <hgroup class="title-group">
+    <!-- <hgroup class="title-group">
       <h1 class="title">Ma'aser Money</h1>
       <h3 class="title">Earn responsibly</h3>
-    </hgroup>
+    </hgroup> -->
 
     <IncomeForm 
       :newIncome="newIncome"
@@ -421,6 +440,7 @@
       :invalidIncomeDescription="invalidIncomeDescription"
       :invalidIncomeAmount="invalidIncomeAmount"
       :invalidIncomePercent="invalidIncomePercent"
+      :isLoadingButton="isLoadingButton"
       @setIncomeClosed="setIncomeClosed"
       @handleSubmitIncome="handleSubmitIncome"
     />
@@ -431,6 +451,7 @@
       :invalidDeductionDescription="invalidDeductionDescription"
       :invalidDeductionAmount="invalidDeductionAmount"
       :invalidDeductionPercent="invalidDeductionPercent"
+      :isLoadingButton="isLoadingButton"
       @setDeductionClosed="setDeductionClosed"
       @handleSubmitDeduction="handleSubmitDeduction"
     />
@@ -440,6 +461,7 @@
       :maaserOpen="maaserOpen"
       :invalidMaaserDescription="invalidMaaserDescription"
       :invalidMaaserAmount="invalidMaaserAmount"
+      :isLoadingButton="isLoadingButton"
       @setMaaserClosed="setMaaserClosed"
       @handleSubmitMaaser="handleSubmitMaaser"
     />
@@ -532,6 +554,16 @@
       background-color: #2a3e4e;
       color: white;
     }
+  }
+
+  .nav-logo {
+    width: 15%;
+    height: auto;
+    display: block;
+    margin: 0px;
+    margin-right: 2%;
+    padding: 0px;
+
   }
 
 </style>

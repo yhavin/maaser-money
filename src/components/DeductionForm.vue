@@ -7,7 +7,8 @@
     deductionOpen: Boolean,
     invalidDeductionDescription: Boolean,
     invalidDeductionAmount: Boolean,
-    invalidDeductionPercent: Boolean
+    invalidDeductionPercent: Boolean,
+    isLoadingButton: Boolean
   })
 
   const emits = defineEmits(["setDeductionClosed", "handleSubmitDeduction"])
@@ -43,7 +44,7 @@
       </form>
       <footer>
           <a role="button" href="#" class="secondary outline" @click.prevent="emitSetDeductionClosed">Cancel</a>
-          <a role="button" href="#" @click.prevent="emitHandleSubmitDeduction">Save</a>
+          <a role="button" href="#" @click.prevent="emitHandleSubmitDeduction" :aria-busy="isLoadingButton">Save</a>
       </footer>
     </article>
   </dialog>

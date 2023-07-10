@@ -119,7 +119,7 @@
 <template>
   <article v-if="!!userLanguage">
     <h3>Transactions</h3>
-    <details>
+    <details open>
       <summary>Income</summary>
       <a v-if="incomes.length" @click="exportIncomeToCsv">&#x2193 Export</a>
       <p></p>
@@ -142,7 +142,7 @@
       </table>
     </details>
 
-    <details>
+    <details open>
       <summary>Deductions</summary>
       <a v-if="deductions.length" @click="exportDeductionsToCsv">&#x2193 Export</a>
       <p></p>
@@ -165,7 +165,7 @@
       </table>
     </details>
 
-    <details>
+    <details open>
       <summary>Donations</summary>
       <a v-if="maasers.length" @click="exportMaaserToCsv">&#x2193 Export</a>
       <p></p>

@@ -7,7 +7,8 @@
     incomeOpen: Boolean,
     invalidIncomeDescription: Boolean,
     invalidIncomeAmount: Boolean,
-    invalidIncomePercent: Boolean
+    invalidIncomePercent: Boolean,
+    isLoadingButton: Boolean
   })
 
   const emits = defineEmits(["setIncomeClosed", "handleSubmitIncome"])
@@ -42,7 +43,7 @@
       </form>
       <footer>
           <a role="button" href="#" class="secondary outline" @click.prevent="emitSetIncomeClosed">Cancel</a>
-          <a role="button" href="#" @click.prevent="emitHandleSubmitIncome">Save</a>
+          <a role="button" href="#" @click.prevent="emitHandleSubmitIncome" :aria-busy="isLoadingButton">Save</a>
       </footer>
     </article>
   </dialog>

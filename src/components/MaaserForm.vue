@@ -6,7 +6,8 @@
     newMaaser: Object,
     maaserOpen: Boolean,
     invalidMaaserDescription: Boolean,
-    invalidMaaserAmount: Boolean
+    invalidMaaserAmount: Boolean,
+    isLoadingButton: Boolean
   })
 
   const emits = defineEmits(["setMaaserClosed", "handleSubmitMaaser"])
@@ -42,7 +43,7 @@
       </form>
       <footer>
           <a role="button" href="#" class="secondary outline" @click.prevent="emitSetMaaserClosed">Cancel</a>
-          <a role="button" href="#" @click.prevent="emitHandleSubmitMaaser">Save</a>
+          <a role="button" href="#" @click.prevent="emitHandleSubmitMaaser" :aria-busy="isLoadingButton">Save</a>
       </footer>
     </article>
   </dialog>

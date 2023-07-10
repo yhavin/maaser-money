@@ -39,10 +39,11 @@
 <template>
   <main class="container splash">
     <article>
-      <hgroup>
+      <img src="/img/icons/logo-circle.png" class="logo">
+      <!-- <hgroup>
         <h1>Ma'aser Money</h1>
         <h3>Earn responsibly</h3>
-      </hgroup>
+      </hgroup> -->
       <div v-if="showLogin"><Login /></div>
       <span><span v-if="showLogin">Don't have an account? &nbsp;</span><a v-if="showLogin" @click="toggleRegister">Sign up</a></span>
       <span><a v-if="showLogin" @click="toggleReset">Forgot password?</a></span>
@@ -77,6 +78,15 @@
     align-items: center;
     justify-content: center;
   }
+}
+
+.logo {
+  width: 15%;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 5%;
 }
 
 </style>
