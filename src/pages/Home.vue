@@ -169,6 +169,7 @@
   }
 
   const handleDeleteIncome = async (id) => {
+    isLoadingButton.value = true
     await deleteDoc(doc(incomeCollectionRef, id))
     fetchIncome()
     closeIncomeModal()
@@ -262,6 +263,7 @@
   }
 
   const handleDeleteDeduction = async (id) => {
+    isLoadingButton.value = true
     await deleteDoc(doc(deductionCollectionRef, id))
     fetchDeductions()
     closeDeductionModal()
@@ -354,6 +356,7 @@
   }
 
   const handleDeleteMaaser = async (id) => {
+    isLoadingButton.value = true
     await deleteDoc(doc(maaserCollectionRef, id))
     fetchMaaser()
     closeMaaserModal()
@@ -484,6 +487,7 @@
       :userLanguage="userLanguage"
       :userCurrency="userCurrency"
       :selectedIncome="selectedIncome"
+      :isLoadingButton="isLoadingButton"
       @closeIncomeModal="closeIncomeModal"
       @handleDeleteIncome="handleDeleteIncome"
     />
@@ -492,6 +496,7 @@
       :userLanguage="userLanguage"
       :userCurrency="userCurrency"
       :selectedDeduction="selectedDeduction"
+      :isLoadingButton="isLoadingButton"
       @closeDeductionModal="closeDeductionModal"
       @handleDeleteDeduction="handleDeleteDeduction"
     />
@@ -500,6 +505,7 @@
       :userLanguage="userLanguage"
       :userCurrency="userCurrency"
       :selectedMaaser="selectedMaaser"
+      :isLoadingButton="isLoadingButton"
       @closeMaaserModal="closeMaaserModal"
       @handleDeleteMaaser="handleDeleteMaaser"
     />

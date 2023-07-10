@@ -2,7 +2,8 @@
   const props = defineProps({
     userLanguage: String,
     userCurrency: String,
-    selectedDeduction: Object
+    selectedDeduction: Object,
+    isLoadingButton: Boolean
   })
 
   const emits = defineEmits(["closeDeductionModal", "handleDeleteDeduction"])
@@ -47,7 +48,7 @@
       </table>
       <small v-if=selectedDeduction.conversion>Converted from {{ selectedDeduction.baseAmount }} {{ selectedDeduction.baseCurrency }}</small>
       <footer>
-        <a role="button" href="#" class="delete outline" @click.prevent="emitHandleDeleteDeduction(selectedDeduction.id)">Delete</a>
+        <a role="button" href="#" class="delete outline" @click.prevent="emitHandleDeleteDeduction(selectedDeduction.id)" :aria-busy="isLoadingButton">Delete</a>
         <a role="button" href="#" class="secondary outline" @click.prevent="emitCloseDeductionModal">Exit</a>
       </footer>
     </article>

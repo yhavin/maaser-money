@@ -2,7 +2,8 @@
   const props = defineProps({
     userLanguage: String,
     userCurrency: String,
-    selectedMaaser: Object
+    selectedMaaser: Object,
+    isLoadingButton: Boolean
   })
 
   const emits = defineEmits(["closeMaaserModal", "handleDeleteMaaser"])
@@ -43,7 +44,7 @@
       </table>
       <small v-if=selectedMaaser.conversion>Converted from {{ selectedMaaser.baseAmount }} {{ selectedMaaser.baseCurrency }}</small>
       <footer>
-        <a role="button" href="#" class="delete outline" @click.prevent="emitHandleDeleteMaaser(selectedMaaser.id)">Delete</a>
+        <a role="button" href="#" class="delete outline" @click.prevent="emitHandleDeleteMaaser(selectedMaaser.id)" :aria-busy="isLoadingButton">Delete</a>
         <a role="button" href="#" class="secondary outline" @click.prevent="emitCloseMaaserModal">Exit</a>
       </footer>
     </article>
