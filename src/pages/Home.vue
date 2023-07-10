@@ -298,7 +298,7 @@
     maaserOpen.value = true
     isDropdownOpen.value = false
   }
-  
+
   const setMaaserClosed = () => {
     maaserOpen.value = false
     newMaaser.value = { ...defaultMaaser }
@@ -387,9 +387,6 @@
 <template>
   <main class="container">
     <nav>
-      <!-- <ul>
-        <li><strong>{{ auth.currentUser.email }}</strong></li>
-      </ul> -->
       <ul>
         <li>
           <details role="list">
@@ -417,13 +414,6 @@
       <h1 class="title">Ma'aser Money</h1>
       <h3 class="title">Earn responsibly</h3>
     </hgroup>
-    <!-- <article>
-      <div class="grid">
-        <button @click="setIncomeOpen">&#65291; Add income</button>
-        <button @click="setDeductionOpen">&#65291; Add deduction</button>
-        <button @click="setMaaserOpen">&#65291; Add donation</button>
-      </div>
-    </article> -->
 
     <IncomeForm 
       :newIncome="newIncome"
@@ -543,4 +533,5 @@
       color: white;
     }
   }
+
 </style>
