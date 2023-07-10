@@ -5,6 +5,7 @@
   const props = defineProps({
     newIncome: Object,
     incomeOpen: Boolean,
+    userCurrency: String,
     invalidIncomeDescription: Boolean,
     invalidIncomeAmount: Boolean,
     invalidIncomePercent: Boolean,
@@ -36,7 +37,7 @@
         </label>
         <select v-if="newIncome.conversion" v-model="newIncome.baseCurrency" required>
           <option disabled value="" selected>Base currency</option>
-          <option v-for="(currency, index) in currencyOptions" :key=index>{{ currency }}</option>
+          <option v-for="(currency, index) in currencyOptions" :key=index :disabled="currency === userCurrency">{{ currency }}</option>
         </select>
         <input v-model="newIncome.percent" placeholder="%" :aria-invalid="invalidIncomePercent">
         <small>How much ma'aser do you want to contribute for this income?</small>

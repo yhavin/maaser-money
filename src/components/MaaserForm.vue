@@ -5,6 +5,7 @@
   const props = defineProps({
     newMaaser: Object,
     maaserOpen: Boolean,
+    userCurrency: String,
     invalidMaaserDescription: Boolean,
     invalidMaaserAmount: Boolean,
     isLoadingButton: Boolean
@@ -34,7 +35,7 @@
         </label>
         <select v-if="newMaaser.conversion" v-model="newMaaser.baseCurrency" required>
           <option disabled value="" selected>Base currency</option>
-          <option v-for="(currency, index) in currencyOptions" :key=index>{{ currency }}</option>
+          <option v-for="(currency, index) in currencyOptions" :key=index :disabled="currency === userCurrency">{{ currency }}</option>
         </select>
         <label>
           <input type="checkbox" v-model="newMaaser.taxDeductible">

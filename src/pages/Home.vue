@@ -437,6 +437,7 @@
     <IncomeForm 
       :newIncome="newIncome"
       :incomeOpen="incomeOpen"
+      :userCurrency="userCurrency"
       :invalidIncomeDescription="invalidIncomeDescription"
       :invalidIncomeAmount="invalidIncomeAmount"
       :invalidIncomePercent="invalidIncomePercent"
@@ -448,6 +449,7 @@
     <DeductionForm
       :newDeduction="newDeduction"
       :deductionOpen="deductionOpen"
+      :userCurrency="userCurrency"
       :invalidDeductionDescription="invalidDeductionDescription"
       :invalidDeductionAmount="invalidDeductionAmount"
       :invalidDeductionPercent="invalidDeductionPercent"
@@ -459,6 +461,7 @@
     <MaaserForm
       :newMaaser="newMaaser"
       :maaserOpen="maaserOpen"
+      :userCurrency="userCurrency"
       :invalidMaaserDescription="invalidMaaserDescription"
       :invalidMaaserAmount="invalidMaaserAmount"
       :isLoadingButton="isLoadingButton"

@@ -5,6 +5,7 @@
   const props = defineProps({
     newDeduction: Object,
     deductionOpen: Boolean,
+    userCurrency: String,
     invalidDeductionDescription: Boolean,
     invalidDeductionAmount: Boolean,
     invalidDeductionPercent: Boolean,
@@ -37,7 +38,7 @@
         </label>
         <select v-if="newDeduction.conversion" v-model="newDeduction.baseCurrency" required>
           <option disabled value="" selected>Base currency</option>
-          <option v-for="(currency, index) in currencyOptions" :key=index>{{ currency }}</option>
+          <option v-for="(currency, index) in currencyOptions" :key=index :disabled="currency === userCurrency">{{ currency }}</option>
         </select>
         <input v-model="newDeduction.percent" placeholder="%" :aria-invalid="invalidDeductionPercent">
         <small>How much ma'aser do you want to remove for this deduction?</small>
