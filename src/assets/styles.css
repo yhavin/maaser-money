@@ -64,6 +64,11 @@ small {
   font-size: 15px;
 }
 
+.delete {
+  border-color: #e6443a;
+  color: #e6443a;
+}
+
 /* Teal Light scheme (Default) */
 /* Can be forced with data-theme="light" */
 [data-theme="light"],

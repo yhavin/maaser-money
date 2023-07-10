@@ -49,13 +49,9 @@
       </table>
       <small v-if=selectedIncome.conversion>Converted from {{ selectedIncome.baseAmount }} {{ selectedIncome.baseCurrency }}</small>
       <footer>
-        <a role="button" href="#" class="secondary" @click.prevent="emitHandleDeleteIncome(selectedIncome.id)">Delete</a>
-        <a role="button" href="#" @click.prevent="emitCloseIncomeModal">Exit</a>
+        <a role="button" href="#" class="delete outline" @click.prevent="emitHandleDeleteIncome(selectedIncome.id)">Delete</a>
+        <a role="button" href="#" class="secondary outline" @click.prevent="emitCloseIncomeModal">Exit</a>
       </footer>
     </article>
   </dialog>
 </template>
-
-<style scoped>
-
-</style>

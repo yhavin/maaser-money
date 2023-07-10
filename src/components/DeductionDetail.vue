@@ -47,13 +47,9 @@
       </table>
       <small v-if=selectedDeduction.conversion>Converted from {{ selectedDeduction.baseAmount }} {{ selectedDeduction.baseCurrency }}</small>
       <footer>
-        <a role="button" href="#" class="secondary" @click.prevent="emitHandleDeleteDeduction(selectedDeduction.id)">Delete</a>
-        <a role="button" href="#" @click.prevent="emitCloseDeductionModal">Exit</a>
+        <a role="button" href="#" class="delete outline" @click.prevent="emitHandleDeleteDeduction(selectedDeduction.id)">Delete</a>
+        <a role="button" href="#" class="secondary outline" @click.prevent="emitCloseDeductionModal">Exit</a>
       </footer>
     </article>
   </dialog>
 </template>
-
-<style scoped>
-
-</style>

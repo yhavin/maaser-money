@@ -43,8 +43,8 @@
       </table>
       <small v-if=selectedMaaser.conversion>Converted from {{ selectedMaaser.baseAmount }} {{ selectedMaaser.baseCurrency }}</small>
       <footer>
-        <a role="button" href="#" class="secondary" @click.prevent="emitHandleDeleteMaaser(selectedMaaser.id)">Delete</a>
-        <a role="button" href="#" @click.prevent="emitCloseMaaserModal">Exit</a>
+        <a role="button" href="#" class="delete outline" @click.prevent="emitHandleDeleteMaaser(selectedMaaser.id)">Delete</a>
+        <a role="button" href="#" class="secondary outline" @click.prevent="emitCloseMaaserModal">Exit</a>
       </footer>
     </article>
   </dialog>
