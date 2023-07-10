@@ -560,10 +560,9 @@
     width: 15%;
     height: auto;
     display: block;
-    margin: 0px;
+    margin-left: 3%;
     margin-right: 2%;
-    padding: 0px;
-
+    padding-left: 0px;
   }
 
 </style>
