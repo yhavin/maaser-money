@@ -37,3 +37,9 @@
     <small>* Total tax deductible: {{ totalTaxDeductible.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</small>
   </article>
 </template>
+
+<style scoped>
+  article {
+    margin-top: 0px;
+  }
+</style>

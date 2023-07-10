@@ -90,6 +90,8 @@
     }
   }
 
+  const isDropdownOpen = ref(false)
+
   // Income
   const defaultIncome = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
   const newIncome = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
@@ -99,6 +101,7 @@
 
   const setIncomeOpen = () => {
     incomeOpen.value = true
+    isDropdownOpen.value = false
   }
 
   const setIncomeClosed = () => {
@@ -137,7 +140,6 @@
       baseAmount: newIncome.value.amount,
       uid: userId
     }
-    console.log(newIncome.value)
     if (validateIncome()) {
       const docRef = await addDoc(incomeCollectionRef, newIncome.value)
       console.log("Income added with ID:", docRef.id)
@@ -191,6 +193,7 @@
 
   const setDeductionOpen = () => {
     deductionOpen.value = true
+    isDropdownOpen.value = false
   }
 
   const setDeductionClosed = () => {
@@ -290,7 +293,12 @@
   }
 
   const maaserOpen = ref(false)
-  const setMaaserOpen = () => maaserOpen.value= true
+
+  const setMaaserOpen = () => {
+    maaserOpen.value = true
+    isDropdownOpen.value = false
+  }
+  
   const setMaaserClosed = () => {
     maaserOpen.value = false
     newMaaser.value = { ...defaultMaaser }
@@ -379,24 +387,43 @@
 <template>
   <main class="container">
     <nav>
+      <!-- <ul>
+        <li><strong>{{ auth.currentUser.email }}</strong></li>
+      </ul> -->
       <ul>
-        <li>Logged in as {{ auth.currentUser.email }}</li>
+        <li>
+          <details role="list">
+            <summary aria-haspopup="listbox" role="link">{{ auth.currentUser.email }}</summary>
+            <ul role="listbox">
+              <li><button class="secondary outline list" @click="logout">&#8594; Log out</button></li>
+            </ul>
+          </details>
+        </li>
       </ul>
       <ul>
-        <li><a href="#" role="button" class="outline" @click="logout">&#8594; Logout</a></li>
+        <li dir="rtl">
+          <details role="list">
+            <summary aria-haspopup="listbox" role="button" @click="isDropdownOpen = true">&#65291;</summary>
+            <ul role="listbox" v-show="isDropdownOpen">
+              <li><button class="secondary outline list" @click="setIncomeOpen"> Income &#65291;</button></li>
+              <li><button class="secondary outline list" @click="setDeductionOpen">Deduction &#65291;</button></li>
+              <li><button class="secondary outline list" @click="setMaaserOpen">Donation &#65291;</button></li>
+            </ul>
+          </details>
+        </li>
       </ul>
     </nav>
-    <hgroup>
-        <h1 class="title">Ma'aser Money</h1>
-        <h3 class="title">Earn responsibly</h3>
-      </hgroup>
-    <article>
+    <hgroup class="title-group">
+      <h1 class="title">Ma'aser Money</h1>
+      <h3 class="title">Earn responsibly</h3>
+    </hgroup>
+    <!-- <article>
       <div class="grid">
         <button @click="setIncomeOpen">&#65291; Add income</button>
         <button @click="setDeductionOpen">&#65291; Add deduction</button>
         <button @click="setMaaserOpen">&#65291; Add donation</button>
       </div>
-    </article>
+    </article> -->
 
     <IncomeForm 
       :newIncome="newIncome"
@@ -492,9 +519,28 @@
   }
 
   @media (max-width: 767px) {
-    .title {
+    .title-group {
       display: none;
     }
   }
 
+  .list {
+    border: none;
+    text-align: left;
+  }
+
+  details {
+    margin: 0px!important
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .secondary {
+      color: white;
+    }
+
+    .secondary:hover {
+      background-color: #2a3e4e;
+      color: white;
+    }
+  }
 </style>
