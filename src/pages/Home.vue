@@ -5,7 +5,6 @@
   import { signOut } from "firebase/auth"
   import { useRouter } from "vue-router"
   import { currencyLanguages } from "../utils/constants"
-  import { recurringFrequencies } from "../utils/constants"
   import { formatPercent, convertCurrency } from "../utils/functions.js"
   import { useCreateSchedule } from "../composables/recurring/useCreateSchedule.js"
   import { useRunRecurring } from "../composables/recurring/useRunRecurring.js"
@@ -24,9 +23,10 @@
   const isSafari = ref(false)
   const isPWAInstalled = ref(false)
   
-  onMounted(() => {
+  onMounted(async () => {
     fetchUserInfo()
-    useRunRecurring(userId, scheduleCollectionRef)
+    // Only gets first new recurring item until refresh
+    await useRunRecurring(userId, scheduleCollectionRef)
     fetchIncome()
     fetchDeductions()
     fetchMaaser()

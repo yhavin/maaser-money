@@ -15,12 +15,6 @@ export const useRunRecurring = async (userId, scheduleCollectionRef) => {
 
   fetchedSchedules.forEach(async (schedule) => {
     console.log("Schedule ID:", schedule.id)
-    const itemsCreated = await createRecurringItems(schedule)
-    if (itemsCreated) {
-      const collectionToFetch = schedule.type.charAt(0).toUpperCase() + schedule.type.slice(1)
-      console.log("Collection:", collectionToFetch)
-      eval(`fetch${collectionToFetch}()`)
-      console.log("Fetched", schedule.type)
-    }
+    await useCreateRecurringItems(schedule)
   })
 }
