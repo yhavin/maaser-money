@@ -1,4 +1,7 @@
 <script setup>
+  import { recurringFrequencies } from '../utils/constants'
+  
+  
   const props = defineProps({
     userInfo: Object,
     userLanguage: String,
@@ -23,12 +26,14 @@
         <tr>
           <th>Name</th>
           <th>Type</th>
+          <th class="frequency">Frequency</th>
           <th class="number-align">Amount</th>
         </tr>
       </thead>
       <tr class="hover-underline" v-for="schedule in schedules" :key="schedule.id" @click="emitOpenScheduleModal(schedule)">
         <td>{{ schedule.name || "No name" }}</td>
         <td>{{ schedule.type.charAt(0).toUpperCase() + schedule.type.slice(1) }}</td>
+        <td class="frequency">{{ recurringFrequencies.find((obj) => obj.name === schedule.frequency).label }}</td>
         <td class="number-align">{{ schedule.prototype.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
       </tr>
     </table>
@@ -56,5 +61,11 @@
 
   .number-align {
     text-align: right;
+  }
+
+  @media (max-width: 767px) {
+    .frequency {
+      display: none;
+    }
   }
 </style>
