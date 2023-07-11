@@ -404,34 +404,34 @@
 </script>
 
 <template>
+  <nav class="container">
+    <ul>
+      <li class="nav-logo-desktop">
+        <img href="#" src="/img/icons/logo-circle.png">
+      </li>
+      <li>
+        <details role="list">
+          <summary aria-haspopup="listbox" role="link">{{ auth.currentUser.email }}</summary>
+          <ul role="listbox">
+            <li><button class="secondary outline list" @click="logout">&#8594; Log out</button></li>
+          </ul>
+        </details>
+      </li>
+    </ul>
+    <ul>
+      <li dir="rtl">
+        <details role="list">
+          <summary aria-haspopup="listbox" role="button" @click="isDropdownOpen = true">&#65291;</summary>
+          <ul role="listbox" v-show="isDropdownOpen">
+            <li><button class="secondary outline list" @click="setIncomeOpen"> Income &#65291;</button></li>
+            <li><button class="secondary outline list" @click="setDeductionOpen">Deduction &#65291;</button></li>
+            <li><button class="secondary outline list" @click="setMaaserOpen">Donation &#65291;</button></li>
+          </ul>
+        </details>
+      </li>
+    </ul>
+  </nav>
   <main class="container">
-    <nav>
-      <ul>
-        <li class="nav-logo-desktop">
-          <img href="#" src="/img/icons/logo-circle.png">
-        </li>
-        <li>
-          <details role="list">
-            <summary aria-haspopup="listbox" role="link">{{ auth.currentUser.email }}</summary>
-            <ul role="listbox">
-              <li><button class="secondary outline list" @click="logout">&#8594; Log out</button></li>
-            </ul>
-          </details>
-        </li>
-      </ul>
-      <ul>
-        <li dir="rtl">
-          <details role="list">
-            <summary aria-haspopup="listbox" role="button" @click="isDropdownOpen = true">&#65291;</summary>
-            <ul role="listbox" v-show="isDropdownOpen">
-              <li><button class="secondary outline list" @click="setIncomeOpen"> Income &#65291;</button></li>
-              <li><button class="secondary outline list" @click="setDeductionOpen">Deduction &#65291;</button></li>
-              <li><button class="secondary outline list" @click="setMaaserOpen">Donation &#65291;</button></li>
-            </ul>
-          </details>
-        </li>
-      </ul>
-    </nav>
     <!-- <hgroup class="title-group">
       <h1 class="title">Ma'aser Money</h1>
       <h3 class="title">Earn responsibly</h3>
