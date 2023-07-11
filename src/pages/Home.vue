@@ -1,9 +1,14 @@
 <script setup>
   import { ref, computed, onMounted, watch } from "vue"
   import { db, auth } from "../firebase.config.js"
-  import { collection, addDoc, getDocs, query, where, orderBy, doc, deleteDoc } from "firebase/firestore"
+  import { collection, addDoc, getDocs, query, where, orderBy, doc, deleteDoc, updateDoc, arrayUnion } from "firebase/firestore"
   import { signOut } from "firebase/auth"
   import { useRouter } from "vue-router"
+  import { currencyLanguages } from "../utils/constants"
+  import { recurringFrequencies } from "../utils/constants"
+  import { formatPercent, convertCurrency } from "../utils/functions.js"
+  import { useCreateSchedule } from "../composables/recurring/useCreateSchedule.js"
+  import { useRunRecurring } from "../composables/recurring/useRunRecurring.js"
   import IncomeForm from "../components/IncomeForm.vue"
   import DeductionForm from "../components/DeductionForm.vue"
   import MaaserForm from "../components/MaaserForm.vue"
@@ -21,6 +26,7 @@
   
   onMounted(() => {
     fetchUserInfo()
+    useRunRecurring(userId, scheduleCollectionRef)
     fetchIncome()
     fetchDeductions()
     fetchMaaser()
@@ -40,6 +46,7 @@
   const incomeCollectionRef = collection(db, "income")
   const deductionCollectionRef = collection(db, "deductions")
   const maaserCollectionRef = collection(db, "maaser")
+  const scheduleCollectionRef = collection(db, "schedules")
   const userCollectionRef = collection(db, "users")
 
   const userId = auth.currentUser.uid
@@ -54,40 +61,6 @@
     userInfo.value = querySnapshot.docs[0].data()
     userLanguage.value = currencyLanguages[userInfo.value.currency]
     userCurrency.value = userInfo.value.currency
-  }
-
-  const currencyLanguages = {
-    USD: "en-US",
-    AUD: "en-AU",
-    GBP: "en-GB",
-    NIS: "he-IL",
-    CAD: "en-CA",
-    EUR: "fr-FR", // France used as European proxy
-    MXN: "es-MX",
-    NZD: "en-NZ",
-    ZAR: "en-ZA"
-  }
-
-  const formatPercent = (number) => {
-    let value = null
-    if (number.endsWith("%")) {
-      value = parseFloat(number.replace("%", ""))
-    } else {
-      value = parseFloat(number)
-    }
-    return value / 100
-  }
-
-  const convertCurrency = async (amount, baseCurrency, convertCurrency) => {
-    const host = "https://api.frankfurter.app"
-    try {
-      const response = await fetch(`${host}/latest?amount=${amount}&from=${baseCurrency}&to=${convertCurrency}`)
-      const data = await response.json()
-      const convertedAmount = data.rates[convertCurrency]
-      return Number(convertedAmount.toFixed(2))
-    } catch (error) {
-      console.error(error)
-    }
   }
 
   const isDropdownOpen = ref(false)
@@ -105,9 +78,13 @@
     }
   })
 
+  // Recurring
+  const defaultSchedule = ({ endDate: null, frequency: null })
+  const newSchedule = ref({ endDate: null, frequency: null })
+
   // Income
-  const defaultIncome = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
-  const newIncome = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
+  const defaultIncome = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, recurring: false, scheduleId: null, uid: null }
+  const newIncome = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, recurring: false, scheduleId: null, uid: null })
   const incomes = ref([])
 
   const incomeOpen = ref(false)
@@ -120,6 +97,7 @@
   const setIncomeClosed = () => {
     incomeOpen.value = false
     newIncome.value = { ... defaultIncome }
+    newSchedule.value = { ...defaultSchedule }
     invalidIncomeDescription.value = null
     invalidIncomeAmount.value = null
   }
@@ -151,12 +129,17 @@
       conversion: newIncome.value.conversion,
       baseCurrency: newIncome.value.conversion ? newIncome.value.baseCurrency : userCurrency.value,
       baseAmount: newIncome.value.amount,
+      recurring: newIncome.value.recurring,
+      scheduleId: null,
       uid: userId
     }
     if (validateIncome()) {
       isLoadingButton.value = true
       const docRef = await addDoc(incomeCollectionRef, newIncome.value)
       console.log("Income added with ID:", docRef.id)
+      if (newIncome.value.recurring) {
+        useCreateSchedule("income", newIncome, docRef, userId, defaultSchedule, newSchedule, scheduleCollectionRef)
+      }
       setIncomeClosed()
       fetchIncome()
       newIncome.value = { ...defaultIncome }
@@ -439,6 +422,7 @@
 
     <IncomeForm 
       :newIncome="newIncome"
+      :newSchedule="newSchedule"
       :incomeOpen="incomeOpen"
       :userCurrency="userCurrency"
       :invalidIncomeDescription="invalidIncomeDescription"

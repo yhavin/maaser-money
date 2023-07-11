@@ -1,5 +1,5 @@
 <script setup>
-  import { currencyOptions } from '../assets/currencyOptions';
+  import { currencyOptions } from '../utils/constants'
 
 
   const props = defineProps({

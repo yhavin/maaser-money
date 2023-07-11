@@ -4,7 +4,7 @@
   import { collection, addDoc } from "firebase/firestore"
   import { db, auth } from "../firebase.config.js"
   import { useRouter } from "vue-router"
-  import { currencyOptions } from "../assets/currencyOptions.js"
+  import { currencyOptions } from '../utils/constants'
 
   
   const router = useRouter()
