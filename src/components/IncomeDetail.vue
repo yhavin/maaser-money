@@ -35,7 +35,7 @@
         </tr>
         <tr>
           <th>Date</th>
-          <td>{{ selectedIncome.date.toDate().toLocaleDateString() }}</td>
+          <td>{{ selectedIncome.date.toDate().toLocaleDateString("default", { day: "2-digit", month: "short", year: "numeric" }) }}</td>
         </tr>
         <tr>
           <th>Ma'aser percent</th>

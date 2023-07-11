@@ -35,7 +35,7 @@
         </tr>
         <tr>
           <th>Date</th>
-          <td>{{ selectedMaaser.date.toDate().toLocaleDateString() }}</td>
+          <td>{{ selectedMaaser.date.toDate().toLocaleDateString("default", { day: "2-digit", month: "short", year: "numeric" }) }}</td>
         </tr>
         <tr>
           <th>Tax deductible</th>
