@@ -89,7 +89,7 @@
 
   const fetchSchedules = async () => {
     const querySnapshot = await getDocs(
-      query(scheduleCollectionRef, where("uid", "==", userId), orderBy("startDate", "desc"))
+      query(scheduleCollectionRef, where("uid", "==", userId), where("active", "==", true), orderBy("startDate", "desc"))
     )
     const fetchedSchedules = []
     querySnapshot.forEach((doc) => {
@@ -100,7 +100,7 @@
 
   const handleDeleteSchedule = async (schedule) => {
     isLoadingButton.value = true
-    await deleteDoc(doc(scheduleCollectionRef, schedule.id))
+    await updateDoc(doc(scheduleCollectionRef, schedule.id), { active: false })
     fetchSchedules()
     closeScheduleModal()
   }
