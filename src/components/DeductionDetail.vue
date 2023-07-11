@@ -48,7 +48,7 @@
       </table>
       <small v-if=selectedDeduction.conversion>Converted from {{ selectedDeduction.baseAmount }} {{ selectedDeduction.baseCurrency }}</small>
       <footer>
-        <a role="button" href="#" class="delete outline" @click.prevent="emitHandleDeleteDeduction(selectedDeduction.id)" :aria-busy="isLoadingButton">Delete</a>
+        <a role="button" href="#" class="delete outline" @click.prevent="emitHandleDeleteDeduction(selectedDeduction)" :aria-busy="isLoadingButton">Delete</a>
         <a role="button" href="#" class="secondary outline" @click.prevent="emitCloseDeductionModal">Exit</a>
       </footer>
     </article>

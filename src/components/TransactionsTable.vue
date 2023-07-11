@@ -1,7 +1,6 @@
 <script setup> 
   import { ref, computed } from "vue"
   import { Parser } from "@json2csv/plainjs"
-  import FooterActions from './FooterActions.vue'
 
 
   const props = defineProps({
@@ -119,7 +118,7 @@
 <template>
   <article v-if="!!userLanguage">
     <h3>Transactions</h3>
-    <details open>
+    <details>
       <summary>Income</summary>
       <a v-if="incomes.length" @click="exportIncomeToCsv">&#x2193 Export</a>
       <p></p>
@@ -139,7 +138,7 @@
       </table>
     </details>
 
-    <details open>
+    <details>
       <summary>Deductions</summary>
       <a v-if="deductions.length" @click="exportDeductionsToCsv">&#x2193 Export</a>
       <p></p>
@@ -158,7 +157,7 @@
       </table>
     </details>
 
-    <details open>
+    <details>
       <summary>Donations</summary>
       <a v-if="maasers.length" @click="exportMaaserToCsv">&#x2193 Export</a>
       <p></p>
@@ -176,8 +175,6 @@
         </tr>
       </table>
     </details>
-    <br />
-    <FooterActions />
   </article>
 </template>
 
@@ -190,14 +187,14 @@
     .hover-underline:hover, .hover-underline:active {
     /* text-decoration: underline; */
     background-color: #1f2f3c;
-  }
+    }
   }
 
   @media (prefers-color-scheme:light) {
     .hover-underline:hover {
     /* text-decoration: underline; */
     background-color: #f2f9f8;
-  }
+    }
   }
 
   .number-align {

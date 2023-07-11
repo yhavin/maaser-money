@@ -1,7 +1,7 @@
 <script setup>
   import { ref, computed, onMounted, watch } from "vue"
   import { db, auth } from "../firebase.config.js"
-  import { collection, addDoc, getDocs, query, where, orderBy, doc, deleteDoc, updateDoc, arrayUnion } from "firebase/firestore"
+  import { collection, addDoc, getDocs, query, where, orderBy, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore"
   import { signOut } from "firebase/auth"
   import { useRouter } from "vue-router"
   import { currencyLanguages } from "../utils/constants"
@@ -16,7 +16,10 @@
   import IncomeDetail from "../components/IncomeDetail.vue"
   import DeductionDetail from "../components/DeductionDetail.vue"
   import MaaserDetail from "../components/MaaserDetail.vue"
+  import SchedulesTable from "../components/SchedulesTable.vue"
+  import ScheduleDetail from "../components/ScheduleDetail.vue"
   import AddToHomeScreen from "../components/AddToHomeScreen.vue"
+  import FooterActions from "../components/FooterActions.vue"
 
   
   const isIOS = ref(false)
@@ -27,6 +30,7 @@
     fetchUserInfo()
     // Only gets first new recurring item until refresh
     await useRunRecurring(userId, scheduleCollectionRef)
+    fetchSchedules()
     fetchIncome()
     fetchDeductions()
     fetchMaaser()
@@ -81,6 +85,33 @@
   // Recurring
   const defaultSchedule = ({ endDate: null, frequency: null })
   const newSchedule = ref({ endDate: null, frequency: null })
+  const schedules = ref()
+
+  const fetchSchedules = async () => {
+    const querySnapshot = await getDocs(
+      query(scheduleCollectionRef, where("uid", "==", userId), orderBy("startDate", "desc"))
+    )
+    const fetchedSchedules = []
+    querySnapshot.forEach((doc) => {
+      fetchedSchedules.push({ id: doc.id, ...doc.data() })
+    })
+    schedules.value = fetchedSchedules
+  }
+
+  const handleDeleteSchedule = async (schedule) => {
+    isLoadingButton.value = true
+    await deleteDoc(doc(scheduleCollectionRef, schedule.id))
+    fetchSchedules()
+    closeScheduleModal()
+  }
+
+  const selectedSchedule = ref(null)
+  const openScheduleModal = (schedule) => {
+    selectedSchedule.value = schedule
+  }
+  const closeScheduleModal = () => {
+    selectedSchedule.value = null
+  }
 
   // Income
   const defaultIncome = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, recurring: false, scheduleId: null, uid: null }
@@ -144,6 +175,7 @@
       }
       setIncomeClosed()
       await fetchIncome()
+      await fetchSchedules()
       newIncome.value = { ...defaultIncome }
       invalidIncomeDescription.value = null
       invalidIncomeAmount.value = null
@@ -153,9 +185,13 @@
     }
   }
 
-  const handleDeleteIncome = async (id) => {
+  const handleDeleteIncome = async (income) => {
     isLoadingButton.value = true
-    await deleteDoc(doc(incomeCollectionRef, id))
+    const scheduleRef = doc(db, income.scheduleId) || null
+    await deleteDoc(doc(incomeCollectionRef, income.id))
+    if (scheduleRef) {
+      await updateDoc(scheduleRef, { itemIds: arrayRemove(income.id) })
+    }
     fetchIncome()
     closeIncomeModal()
   }
@@ -247,9 +283,9 @@
     }
   }
 
-  const handleDeleteDeduction = async (id) => {
+  const handleDeleteDeduction = async (deduction) => {
     isLoadingButton.value = true
-    await deleteDoc(doc(deductionCollectionRef, id))
+    await deleteDoc(doc(deductionCollectionRef, deduction.id))
     fetchDeductions()
     closeDeductionModal()
   }
@@ -340,9 +376,9 @@
     }
   }
 
-  const handleDeleteMaaser = async (id) => {
+  const handleDeleteMaaser = async (maaser) => {
     isLoadingButton.value = true
-    await deleteDoc(doc(maaserCollectionRef, id))
+    await deleteDoc(doc(maaserCollectionRef, maaser.id))
     fetchMaaser()
     closeMaaserModal()
   }
@@ -469,6 +505,18 @@
       :totalTaxDeductible="totalTaxDeductible"
     />
 
+    <TransactionsTable
+      :userInfo="userInfo"
+      :userLanguage="userLanguage"
+      :userCurrency="userCurrency"
+      :incomes="incomes"
+      :deductions="deductions"
+      :maasers="maasers"
+      @openIncomeModal="openIncomeModal"
+      @openDeductionModal="openDeductionModal"
+      @openMaaserModal="openMaaserModal"
+    />
+
     <IncomeDetail
       :userLanguage="userLanguage"
       :userCurrency="userCurrency"
@@ -496,21 +544,31 @@
       @handleDeleteMaaser="handleDeleteMaaser"
     />
 
-    <TransactionsTable
-      :userInfo="userInfo"
+    <div v-if="schedules?.length > 0">
+      <SchedulesTable
+        :userInfo="userInfo"
+        :userLanguage="userLanguage"
+        :userCurrency="userCurrency"
+        :schedules="schedules"
+        @openScheduleModal="openScheduleModal"
+      />
+    </div>
+
+    <ScheduleDetail
       :userLanguage="userLanguage"
       :userCurrency="userCurrency"
-      :incomes="incomes"
-      :deductions="deductions"
-      :maasers="maasers"
-      @openIncomeModal="openIncomeModal"
-      @openDeductionModal="openDeductionModal"
-      @openMaaserModal="openMaaserModal"
+      :selectedSchedule="selectedSchedule"
+      :isLoadingButton="isLoadingButton"
+      @closeScheduleModal="closeScheduleModal"
+      @handleDeleteSchedule="handleDeleteSchedule"
     />
 
     <div v-if="!isPWAInstalled && isIOS && isSafari">
       <AddToHomeScreen />
     </div>
+
+    <FooterActions />
+    <br />
     <img href="#" src="/img/icons/logo-circle.png" class="footer-logo">
   </main>
 </template>

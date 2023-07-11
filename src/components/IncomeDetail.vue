@@ -1,7 +1,4 @@
 <script setup>
-  import { recurringFrequencies } from '../utils/constants'
-
-
   const props = defineProps({
     userLanguage: String,
     userCurrency: String,
@@ -55,7 +52,7 @@
       </table>
       <small v-if=selectedIncome.conversion>Converted from {{ selectedIncome.baseAmount }} {{ selectedIncome.baseCurrency }}</small>
       <footer>
-        <a role="button" href="#" class="delete outline" @click.prevent="emitHandleDeleteIncome(selectedIncome.id)" :aria-busy="isLoadingButton">Delete</a>
+        <a role="button" href="#" class="delete outline" @click.prevent="emitHandleDeleteIncome(selectedIncome)" :aria-busy="isLoadingButton">Delete</a>
         <a role="button" href="#" class="secondary outline" @click.prevent="emitCloseIncomeModal">Exit</a>
       </footer>
     </article>
