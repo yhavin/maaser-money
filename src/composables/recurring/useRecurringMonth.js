@@ -1,9 +1,10 @@
 import { db, auth } from "../../firebase.config.js"
 import { collection, addDoc, getDocs, query, where, orderBy, doc, deleteDoc, updateDoc, arrayUnion } from "firebase/firestore"
 import { recurringFrequencies } from "../../utils/constants.js"
+import { calculateElapsedMonths } from "../../utils/functions.js"
 
 
-export const useRecurringDay = async (schedule) => {
+export const useRecurringMonth = async (schedule) => {
   const collectionRef = collection(db, schedule.type)
   const scheduleRef = doc(db, "schedules", schedule.id)
   const lastRepeatedDateMs = schedule.lastRepeatedDate.toMillis()
@@ -13,16 +14,16 @@ export const useRecurringDay = async (schedule) => {
   const checkDateMs = schedule.endDate ? Math.min(endDateMs, currentDateMs) : currentDateMs
   console.log("Check until:", checkDateMs)
 
-  const elapsedMs = checkDateMs - lastRepeatedDateMs
-  const frequencyMs = recurringFrequencies.find((obj) => obj.name === schedule.frequency).ms
-  console.log("Elapsed:", elapsedMs)
-  console.log("Frequency:", frequencyMs)
+  const itemsToCreate = Math.max(calculateElapsedMonths(lastRepeatedDateMs, checkDateMs), 0)
+  console.log("Months:", itemsToCreate)
 
-  const itemsToCreate = Math.max((elapsedMs / frequencyMs) - 1, 0)
-  console.log("Items:", itemsToCreate)
+  let lastRepeatedDateValue = new Date(lastRepeatedDateMs)
+  const monthIndex = lastRepeatedDateValue.getMonth()
 
   for (let i = 1; i <= itemsToCreate; i++) {
-    const itemDate = new Date(lastRepeatedDateMs + (i * frequencyMs))
+    lastRepeatedDateValue.setMonth(monthIndex + i)
+    let itemDate = new Date(lastRepeatedDateValue)
+    itemDate.setDate(schedule.dayOfMonth)
     console.log("Item date:", itemDate)
 
     schedule.prototype.date = itemDate

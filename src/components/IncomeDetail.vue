@@ -1,4 +1,7 @@
 <script setup>
+  import { recurringFrequencies } from '../utils/constants'
+
+
   const props = defineProps({
     userLanguage: String,
     userCurrency: String,
@@ -45,7 +48,9 @@
           <th>Ma'aser owing</th>
           <td>{{ (selectedIncome.amount * selectedIncome.percent).toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
-        <tr>
+        <tr v-if="selectedIncome.recurring">
+          <th>Repeat</th>
+          <td>{{ recurringFrequencies.find((obj) => obj.name === selectedIncome.frequency).label }}</td>
         </tr>
       </table>
       <small v-if=selectedIncome.conversion>Converted from {{ selectedIncome.baseAmount }} {{ selectedIncome.baseCurrency }}</small>

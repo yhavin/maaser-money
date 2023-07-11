@@ -136,6 +136,7 @@
             {{ (income.percent * 100).toFixed(0) + "%" }}
           </td> -->
           <td><strong>{{ income.description }}</strong></td>
+          <td>{{ income.recurring ? "&#8635;" : null }}</td>
           <td class="number-align">{{ income.date.toDate().toLocaleDateString("default", { day: "2-digit", month: "short", year: "numeric" }) }}</td>
           <td class="number-align">{{ income.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>

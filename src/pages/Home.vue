@@ -130,18 +130,20 @@
       baseCurrency: newIncome.value.conversion ? newIncome.value.baseCurrency : userCurrency.value,
       baseAmount: newIncome.value.amount,
       recurring: newIncome.value.recurring,
+      frequency: null,
       scheduleId: null,
       uid: userId
     }
     if (validateIncome()) {
       isLoadingButton.value = true
-      const docRef = await addDoc(incomeCollectionRef, newIncome.value)
-      console.log("Income added with ID:", docRef.id)
       if (newIncome.value.recurring) {
-        useCreateSchedule("income", newIncome, docRef, userId, defaultSchedule, newSchedule, scheduleCollectionRef)
+        await useCreateSchedule("income", newIncome, userId, defaultSchedule, newSchedule, scheduleCollectionRef)
+      } else {
+        const docRef = await addDoc(incomeCollectionRef, newIncome.value)
+        console.log("Income added with ID:", docRef.id)
       }
       setIncomeClosed()
-      fetchIncome()
+      await fetchIncome()
       newIncome.value = { ...defaultIncome }
       invalidIncomeDescription.value = null
       invalidIncomeAmount.value = null
