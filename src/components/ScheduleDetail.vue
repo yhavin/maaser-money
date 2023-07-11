@@ -1,6 +1,7 @@
 <script setup>
   import { recurringFrequencies } from '../utils/constants'
   import { weekDays } from "../utils/constants"
+  import { monthDays } from "../utils/constants"
 
 
   const props = defineProps({
@@ -48,6 +49,10 @@ const emitHandleDeleteSchedule = (id) => {
         <tr v-if="selectedSchedule.frequency === 'week' || selectedSchedule.frequency === 'twoWeeks'">
           <th>Day</th>
           <td>{{ weekDays[selectedSchedule.dayOfWeek - 1] }}</td>
+        </tr>
+        <tr v-if="selectedSchedule.frequency === 'month'">
+          <th>Day</th>
+          <td>{{ monthDays[selectedSchedule.dayOfMonth - 1] }}</td>
         </tr>
         <tr>
           <th>Ends</th>
