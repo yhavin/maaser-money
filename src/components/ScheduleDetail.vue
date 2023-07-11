@@ -55,6 +55,10 @@ const emitHandleDeleteSchedule = (id) => {
         </tr>
       </table>
       <small v-if=selectedSchedule.prototype.conversion>Converted from {{ selectedSchedule.prototype.baseAmount }} {{ selectedSchedule.prototype.baseCurrency }}</small>
+      <footer>
+        <a role="button" href="#" class="delete outline" @click.prevent="emitHandleDeleteSchedule(selectedSchedule)" :aria-busy="isLoadingButton">Delete</a>
+        <a role="button" href="#" class="secondary outline" @click.prevent="emitCloseScheduleModal">Exit</a>
+      </footer>
     </article>
   </dialog>
 </template>
