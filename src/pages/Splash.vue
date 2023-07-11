@@ -81,7 +81,7 @@
 }
 
 .logo {
-  width: 15%;
+  width: 20%;
   height: auto;
   display: block;
   margin-left: auto;
