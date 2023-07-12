@@ -100,7 +100,7 @@
 
   const handleDeleteSchedule = async (schedule) => {
     isLoadingButton.value = true
-    const scheduleRef = collection(db, schedule.id)
+    const scheduleRef = doc(scheduleCollectionRef, schedule.id)
     await updateDoc(scheduleRef, { active: false })
     fetchSchedules()
     closeScheduleModal()
