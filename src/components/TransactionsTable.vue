@@ -118,7 +118,7 @@
 <template>
   <article v-if="!!userLanguage">
     <h3>Transactions</h3>
-    <details>
+    <details open>
       <summary>Income</summary>
       <a v-if="incomes.length" @click="exportIncomeToCsv">&#x2193 Export</a>
       <p></p>
