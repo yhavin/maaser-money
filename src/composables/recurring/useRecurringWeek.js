@@ -2,6 +2,7 @@ import { db, auth } from "../../firebase.config.js"
 import { collection, addDoc, getDocs, query, where, orderBy, doc, deleteDoc, updateDoc, arrayUnion } from "firebase/firestore"
 import { calculateElapsedWeeks } from "../../utils/functions.js"
 import { calculateElapsedTwoWeeks } from "../../utils/functions.js"
+import { convertCurrency } from "../../utils/functions.js"
 
 
 export const useRecurringWeek = async (schedule, numWeeks) => {
@@ -23,6 +24,10 @@ export const useRecurringWeek = async (schedule, numWeeks) => {
     const itemDate = new Date(lastRepeatedDateMs + (i * frequencyMs))
     console.log("Item date:", itemDate)
     schedule.prototype.date = itemDate
+
+    schedule.prototype.amount = schedule.prototype.conversion
+    ? await convertCurrency(schedule.prototype.baseAmount, schedule.prototype.baseCurrency, schedule.prototype.currency, itemDate)
+    : schedule.prototype.amount
 
     const docRef = await addDoc(collectionRef, schedule.prototype)
     console.log("Recurring item created in collection", schedule.type, "with ID:", docRef.id)

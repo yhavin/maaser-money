@@ -1,5 +1,6 @@
 import { db, auth } from "../../firebase.config.js"
 import { collection, addDoc, getDocs, query, where, orderBy, doc, deleteDoc, updateDoc, arrayUnion } from "firebase/firestore"
+import { convertCurrency } from "../../utils/functions.js"
 
 
 export const useRecurringDay = async (schedule) => {
@@ -25,6 +26,10 @@ export const useRecurringDay = async (schedule) => {
     console.log("Item date:", itemDate)
     schedule.prototype.date = itemDate
 
+    schedule.prototype.amount = schedule.prototype.conversion
+      ? await convertCurrency(schedule.prototype.baseAmount, schedule.prototype.baseCurrency, schedule.prototype.currency, itemDate)
+      : schedule.prototype.amount
+    
     const docRef = await addDoc(collectionRef, schedule.prototype)
     console.log("Recurring item created in collection", schedule.type, "with ID:", docRef.id)
     await updateDoc(docRef, { scheduleName: schedule.name})

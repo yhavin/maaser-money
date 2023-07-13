@@ -46,7 +46,7 @@
           <td>{{ (selectedDeduction.amount * selectedDeduction.percent).toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
       </table>
-      <small v-if=selectedDeduction.conversion>Converted from {{ selectedDeduction.baseAmount }} {{ selectedDeduction.baseCurrency }}</small>
+      <small v-if=selectedDeduction.conversion>Converted from {{ selectedDeduction.baseAmount.toLocaleString(userLanguage, { style: "currency", currency: selectedDeduction.baseCurrency}) }}</small>
       <footer>
         <a role="button" href="#" class="delete outline" @click.prevent="emitHandleDeleteDeduction(selectedDeduction)" :aria-busy="isLoadingButton">Delete</a>
         <a role="button" href="#" class="secondary outline" @click.prevent="emitCloseDeductionModal">Exit</a>

@@ -26,7 +26,7 @@ const emitHandleDeleteSchedule = (id) => {
 const convertEstimate = ref(0)
 
 onUpdated(async () => {
-  props.selectedSchedule ? convertEstimate.value = await convertCurrency(props.selectedSchedule.prototype.baseAmount, props.selectedSchedule.prototype.baseCurrency, props.userCurrency) : null
+  props.selectedSchedule ? convertEstimate.value = await convertCurrency(props.selectedSchedule.prototype.baseAmount, props.selectedSchedule.prototype.baseCurrency, props.selectedSchedule.prototype.currency) : null
 })
 </script>
 
@@ -68,7 +68,7 @@ onUpdated(async () => {
           <td>{{ selectedSchedule.endDate?.toDate().toLocaleDateString("default", { day: "2-digit", month: "short", year: "numeric" }) || "Never" }}</td>
         </tr>
       </table>
-      <small v-if=selectedSchedule.prototype.conversion>Estimated conversion from {{ selectedSchedule.prototype.baseAmount }} {{ selectedSchedule.prototype.baseCurrency }} as of {{ new Date().toLocaleDateString("default", { day: "2-digit", month: "short", year: "numeric" }) }}</small>
+      <small v-if=selectedSchedule.prototype.conversion>Estimated conversion from {{ selectedSchedule.prototype.baseAmount.toLocaleString(userLanguage, { style: "currency", currency: selectedSchedule.prototype.baseCurrency}) }} as of {{ new Date().toLocaleDateString("default", { day: "2-digit", month: "short", year: "numeric" }) }}</small>
       <footer>
         <a role="button" href="#" class="delete outline" @click.prevent="emitHandleDeleteSchedule(selectedSchedule)" :aria-busy="isLoadingButton">Delete</a>
         <a role="button" href="#" class="secondary outline" @click.prevent="emitCloseScheduleModal">Exit</a>

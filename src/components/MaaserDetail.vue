@@ -42,7 +42,7 @@
           <td><input type="checkbox" :checked="selectedMaaser.taxDeductible" disabled></td>
         </tr>
       </table>
-      <small v-if=selectedMaaser.conversion>Converted from {{ selectedMaaser.baseAmount }} {{ selectedMaaser.baseCurrency }}</small>
+      <small v-if=selectedMaaser.conversion>Converted from {{ selectedMaaser.baseAmount.toLocaleString(userLanguage, { style: "currency", currency: selectedMaaser.baseCurrency}) }}</small>
       <footer>
         <a role="button" href="#" class="delete outline" @click.prevent="emitHandleDeleteMaaser(selectedMaaser)" :aria-busy="isLoadingButton">Delete</a>
         <a role="button" href="#" class="secondary outline" @click.prevent="emitCloseMaaserModal">Exit</a>

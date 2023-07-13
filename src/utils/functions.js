@@ -9,6 +9,11 @@ export const formatPercent = (number) => {
 }
 
 export const convertCurrency = async (amount, baseCurrency, convertCurrency, date="latest") => {
+  // Convert provided date to required YYYY-MM-DD format for API call
+  if (date !== "latest") {
+    date = date.toLocaleDateString("en-CA")
+  } 
+
   const host = "https://api.frankfurter.app"
   try {
     const response = await fetch(`${host}/${date}?amount=${amount}&from=${baseCurrency}&to=${convertCurrency}`)
