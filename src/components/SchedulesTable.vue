@@ -25,15 +25,15 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Type</th>
-          <th class="frequency">Frequency</th>
+          <th class="recurring-type">Type</th>
+          <th>Frequency</th>
           <th class="number-align">Amount</th>
         </tr>
       </thead>
       <tr class="hover-underline" v-for="schedule in schedules" :key="schedule.id" @click="emitOpenScheduleModal(schedule)">
         <td>{{ schedule.name || "No name" }}</td>
-        <td>{{ schedule.type.charAt(0).toUpperCase() + schedule.type.slice(1) }}</td>
-        <td class="frequency">{{ recurringFrequencies.find((obj) => obj.name === schedule.frequency).label }}</td>
+        <td class="recurring-type">{{ schedule.type.charAt(0).toUpperCase() + schedule.type.slice(1) }}</td>
+        <td>{{ recurringFrequencies.find((obj) => obj.name === schedule.frequency).label }}</td>
         <td class="number-align">{{ schedule.prototype.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
       </tr>
     </table>
@@ -64,7 +64,7 @@
   }
 
   @media (max-width: 767px) {
-    .frequency {
+    .recurring-type {
       display: none;
     }
   }

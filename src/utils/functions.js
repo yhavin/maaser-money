@@ -8,10 +8,10 @@ export const formatPercent = (number) => {
   return value / 100
 }
 
-export const convertCurrency = async (amount, baseCurrency, convertCurrency) => {
+export const convertCurrency = async (amount, baseCurrency, convertCurrency, date="latest") => {
   const host = "https://api.frankfurter.app"
   try {
-    const response = await fetch(`${host}/latest?amount=${amount}&from=${baseCurrency}&to=${convertCurrency}`)
+    const response = await fetch(`${host}/${date}?amount=${amount}&from=${baseCurrency}&to=${convertCurrency}`)
     const data = await response.json()
     const convertedAmount = data.rates[convertCurrency]
     return Number(convertedAmount.toFixed(2))
