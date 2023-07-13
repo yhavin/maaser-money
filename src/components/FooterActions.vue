@@ -1,6 +1,6 @@
 <script setup>
   import { ref, onMounted } from "vue"
-  import { timeZonesToCountries } from "../assets/timeZones.js"
+  import { timeZonesToCountries } from "../utils/timeZones.js"
 
 
   onMounted(() => {

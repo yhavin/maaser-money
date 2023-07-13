@@ -423,6 +423,11 @@
     return !invalidMaaserDescription.value && !invalidMaaserAmount.value
   }
 
+  // const scrollToHere = ref()
+  // const scrollToTarget = () => {
+  //   scrollToHere.value.scrollIntoView({ behavior: "smooth" })
+  // }
+
 </script>
 
 <template>
@@ -454,10 +459,7 @@
     </ul>
   </nav>
   <main class="container">
-    <!-- <hgroup class="title-group">
-      <h1 class="title">Ma'aser Money</h1>
-      <h3 class="title">Earn responsibly</h3>
-    </hgroup> -->
+    <!-- <small><a @click="scrollToTarget">Where should I donate?</a></small> -->
 
     <IncomeForm 
       :newIncome="newIncome"
@@ -545,7 +547,8 @@
       @handleDeleteMaaser="handleDeleteMaaser"
     />
 
-    <div v-if="schedules?.length > 0">
+    <!-- <div v-if="schedules?.length > 0" ref="scrollToHere"> -->
+      <div v-if="schedules?.length > 0">
       <SchedulesTable
         :userInfo="userInfo"
         :userLanguage="userLanguage"
