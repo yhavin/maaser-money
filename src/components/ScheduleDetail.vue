@@ -1,5 +1,7 @@
 <script setup>
+  import { ref, onUpdated } from "vue"
   import { recurringFrequencies } from '../utils/constants'
+  import { convertCurrency } from '../utils/functions'
   import { weekDays } from "../utils/constants"
   import { monthDays } from "../utils/constants"
 
@@ -20,6 +22,12 @@ const emitCloseScheduleModal = () => {
 const emitHandleDeleteSchedule = (id) => {
   emits("handleDeleteSchedule", id)
 }
+
+const convertEstimate = ref(0)
+
+onUpdated(async () => {
+  props.selectedSchedule ? convertEstimate.value = await convertCurrency(props.selectedSchedule.prototype.baseAmount, props.selectedSchedule.prototype.baseCurrency, props.userCurrency) : null
+})
 </script>
 
 <template>
@@ -40,7 +48,8 @@ const emitHandleDeleteSchedule = (id) => {
         </tr>
         <tr>
           <th>Amount</th>
-          <td>{{ selectedSchedule.prototype.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
+          <!-- <td>{{ selectedSchedule.prototype.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td> -->
+          <td>{{ convertEstimate.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
         <tr>
           <th>Frequency</th>
@@ -59,7 +68,7 @@ const emitHandleDeleteSchedule = (id) => {
           <td>{{ selectedSchedule.endDate?.toDate().toLocaleDateString("default", { day: "2-digit", month: "short", year: "numeric" }) || "Never" }}</td>
         </tr>
       </table>
-      <small v-if=selectedSchedule.prototype.conversion>Converted from {{ selectedSchedule.prototype.baseAmount }} {{ selectedSchedule.prototype.baseCurrency }}</small>
+      <small v-if=selectedSchedule.prototype.conversion>Estimated conversion from {{ selectedSchedule.prototype.baseAmount }} {{ selectedSchedule.prototype.baseCurrency }} as of {{ new Date().toLocaleDateString("default", { day: "2-digit", month: "short", year: "numeric" }) }}</small>
       <footer>
         <a role="button" href="#" class="delete outline" @click.prevent="emitHandleDeleteSchedule(selectedSchedule)" :aria-busy="isLoadingButton">Delete</a>
         <a role="button" href="#" class="secondary outline" @click.prevent="emitCloseScheduleModal">Exit</a>

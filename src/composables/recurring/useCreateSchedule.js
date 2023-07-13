@@ -1,10 +1,7 @@
-import { db, auth } from "../../firebase.config.js"
 import { collection, addDoc, getDocs, query, where, orderBy, doc, deleteDoc, updateDoc, arrayUnion } from "firebase/firestore"
 
 
 export const useCreateSchedule = async (collectionName, prototype, userId, defaultSchedule, newSchedule, scheduleCollectionRef) => {
-  const frequency = newSchedule.value.frequency
-
   newSchedule.value = {
     type: collectionName,
     name: newSchedule.value.name,

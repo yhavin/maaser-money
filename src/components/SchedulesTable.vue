@@ -34,7 +34,7 @@
         <td>{{ schedule.name || "No name" }}</td>
         <td class="recurring-type">{{ schedule.type.charAt(0).toUpperCase() + schedule.type.slice(1) }}</td>
         <td>{{ recurringFrequencies.find((obj) => obj.name === schedule.frequency).label }}</td>
-        <td class="number-align">{{ schedule.prototype.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
+        <td class="number-align">{{ schedule.prototype.baseAmount.toLocaleString(userLanguage, { style: "currency", currency: schedule.prototype.baseCurrency }) }}</td>
       </tr>
     </table>
   </article>
