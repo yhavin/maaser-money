@@ -188,7 +188,7 @@
 
   const handleDeleteIncome = async (income) => {
     isLoadingButton.value = true
-    const scheduleRef = doc(scheduleCollectionRef, income.scheduleId) || null
+    const scheduleRef = income.scheduleId ? doc(scheduleCollectionRef, income.scheduleId) : null
     await deleteDoc(doc(incomeCollectionRef, income.id))
     if (scheduleRef) {
       await updateDoc(scheduleRef, { itemIds: arrayRemove(income.id) })
