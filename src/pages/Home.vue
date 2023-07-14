@@ -459,7 +459,7 @@
     </ul>
   </nav>
   <main class="container">
-    <small><a @click="scrollToTarget">Where should I donate?</a></small>
+    <!-- <small><a @click="scrollToTarget">Where should I donate?</a></small> -->
 
     <IncomeForm 
       :newIncome="newIncome"
