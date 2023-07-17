@@ -423,10 +423,10 @@
     return !invalidMaaserDescription.value && !invalidMaaserAmount.value
   }
 
-  // const scrollToHere = ref()
-  // const scrollToTarget = () => {
-  //   scrollToHere.value.scrollIntoView({ behavior: "smooth" })
-  // }
+  const scrollToHere = ref()
+  const scrollToTarget = () => {
+    scrollToHere.value.scrollIntoView({ behavior: "smooth" })
+  }
 
 </script>
 
@@ -567,6 +567,22 @@
       @handleDeleteSchedule="handleDeleteSchedule"
     />
 
+    <!-- <div ref="scrollToHere">
+      <article>
+        <h3>Partners</h3>
+        <article>
+          <header class="partner-header">
+            <img src="/img/swarthmore-chabad.png" width="315">
+          </header>
+          <h5 class="partner-card">Swarthmore Chabad</h5>
+          <small>We've recently moved on Shlichus to Swarthmore College, a liberal arts school in the suburbs of Philadelphia...</small>
+          <footer class="partner-footer">
+            <a role="button" href="https://charidy.com/swarthmorechabad?utm_source=maaser.money" target="_blank">Donate</a>
+          </footer>
+        </article>
+      </article>
+    </div> -->
+
     <div v-if="!isPWAInstalled && isIOS && isSafari">
       <AddToHomeScreen />
     </div>
@@ -641,6 +657,24 @@
   .footer-logo {
     width: 20%;
   }
+}
+
+
+.partner-header {
+  margin-bottom: 12px;
+}
+
+@media (max-width: 767px) {
+  .partner-header {
+    padding: 0px;
+  }
+}
+.partner-card {
+  margin-bottom: 0px;
+}
+
+.partner-footer {
+  margin-top: 12px;
 }
 
 </style>
