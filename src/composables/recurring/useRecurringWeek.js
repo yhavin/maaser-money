@@ -19,9 +19,11 @@ export const useRecurringWeek = async (schedule, numWeeks) => {
   // A week hasn't passed but need first item
   // If list of repeated Item IDs is empty, then no first item yet
   // Today's day of week equals chosen day of week
+  // Applies to biweekly as well -- will start two weeks from next chosen day of week
+  // No current support for choosing which week to start biweekly
 
   console.log("Item IDs:", schedule.itemIds.length, "Day:", new Date().getDay() === schedule.dayOfWeek - 1)
-  if (numWeeks === 1 && schedule.itemIds.length === 0 && new Date().getDay() === schedule.dayOfWeek - 1) {
+  if (schedule.itemIds.length === 0 && new Date().getDay() === schedule.dayOfWeek - 1) {
     console.log("Creating first item...")
     const firstItemDate = new Date(new Date().setHours(0, 0, 0))
     schedule.prototype.date = firstItemDate
