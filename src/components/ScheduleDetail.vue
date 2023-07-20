@@ -26,7 +26,7 @@ const emitHandleDeleteSchedule = (id) => {
 const convertEstimate = ref(0)
 
 onUpdated(async () => {
-  props.selectedSchedule ? convertEstimate.value = await convertCurrency(props.selectedSchedule.prototype.baseAmount, props.selectedSchedule.prototype.baseCurrency, props.selectedSchedule.prototype.currency) : null
+  props.selectedSchedule ? convertEstimate.value = await convertCurrency(props.selectedSchedule.prototype.baseAmount, props.selectedSchedule.prototype.baseCurrency, props.selectedSchedule.prototype.currency) || props.selectedSchedule.prototype.baseAmount : null
 })
 </script>
 
