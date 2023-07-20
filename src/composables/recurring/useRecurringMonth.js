@@ -14,10 +14,9 @@ export const useRecurringMonth = async (schedule) => {
   const checkDateMs = schedule.endDate ? Math.min(endDateMs, currentDateMs) : currentDateMs
   console.log("Check until:", checkDateMs)
 
-  // TODO: Logic for creating first item (e.g., monthly schedule created on 13th to repeat on the 15th)
-  // A month hasn't passed yet but need that first item
+  // Logic for creating first item (e.g., monthly schedule created on 13th, starts 15th)
+  // A month hasn't passed yet but need first item
   // If list of repeated Item IDs is empty, then no first item yet
-  // How to tell if first item is needed?
   // Today's day of month equals chosen day of month
 
   console.log("Item IDs:", schedule.itemIds.length, "Date:", new Date().getDate() === schedule.dayOfMonth)
