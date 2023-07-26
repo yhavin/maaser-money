@@ -577,7 +577,7 @@
           <small>
             <strong>Kickstarter Campaign</strong>
             <br />
-            Fostering a creative and engaging space at Swarthmore College for tomorrow's leaders.
+            Fostering a creative and engaging Jewish space at Swarthmore College for tomorrow's leaders.
           </small>
           <footer class="partner-footer">
             <a role="button" href="https://charidy.com/swarthmorechabad?utm_source=maaser.money" target="_blank">Donate</a>
