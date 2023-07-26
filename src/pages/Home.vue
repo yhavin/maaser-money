@@ -568,13 +568,17 @@
 
     <div ref="scrollToHere">
       <article>
-        <h3>Partners</h3>
+        <h3>Partners <sup><small>(Beta)</small></sup></h3>
         <article>
           <header class="partner-header">
             <img src="/img/swarthmore-chabad.png" width="315">
           </header>
           <h5 class="partner-card">Swarthmore Chabad</h5>
-          <small>We've recently moved on Shlichus to Swarthmore College, a liberal arts school in the suburbs of Philadelphia...</small>
+          <small>
+            <strong>Kickstarter Campaign</strong>
+            <br />
+            Fostering a creative and engaging space at Swarthmore College for tomorrow's leaders.
+          </small>
           <footer class="partner-footer">
             <a role="button" href="https://charidy.com/swarthmorechabad?utm_source=maaser.money" target="_blank">Donate</a>
           </footer>
@@ -657,7 +661,6 @@
     width: 20%;
   }
 }
-
 
 .partner-header {
   margin-bottom: 12px;
