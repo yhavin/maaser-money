@@ -9,6 +9,12 @@
     maaserDue: Number, 
     totalTaxDeductible: Number
   })
+
+  const emits = defineEmits(["scrollToTarget"])
+
+  const emitScrollToTarget = () => {
+    emits("scrollToTarget")
+  }
 </script>
 
 <template>
@@ -34,7 +40,8 @@
         </tr>
       </tfoot>
     </table>
-    <small>Tax deductible donations: {{ totalTaxDeductible.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</small>
+    <a @click="emitScrollToTarget">Where should I donate?</a>
+    <!-- <small>Tax deductible donations: {{ totalTaxDeductible.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</small> -->
   </article>
 </template>
 
@@ -45,5 +52,9 @@
 
   td {
     text-align: right;
+  }
+
+  a {
+    cursor: pointer;
   }
 </style>

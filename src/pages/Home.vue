@@ -459,7 +459,6 @@
     </ul>
   </nav>
   <main class="container">
-    <!-- <small><a @click="scrollToTarget">Where should I donate?</a></small> -->
 
     <IncomeForm 
       :newIncome="newIncome"
@@ -506,6 +505,7 @@
       :totalMaaser="totalMaaser"
       :maaserDue="maaserDue"
       :totalTaxDeductible="totalTaxDeductible"
+      @scrollToTarget="scrollToTarget"
     />
 
     <TransactionsTable
@@ -547,8 +547,7 @@
       @handleDeleteMaaser="handleDeleteMaaser"
     />
 
-    <!-- <div v-if="schedules?.length > 0" ref="scrollToHere"> -->
-      <div v-if="schedules?.length > 0">
+    <div v-if="schedules?.length > 0">
       <SchedulesTable
         :userInfo="userInfo"
         :userLanguage="userLanguage"
@@ -567,7 +566,7 @@
       @handleDeleteSchedule="handleDeleteSchedule"
     />
 
-    <!-- <div ref="scrollToHere">
+    <div ref="scrollToHere">
       <article>
         <h3>Partners</h3>
         <article>
@@ -581,7 +580,7 @@
           </footer>
         </article>
       </article>
-    </div> -->
+    </div>
 
     <div v-if="!isPWAInstalled && isIOS && isSafari">
       <AddToHomeScreen />
