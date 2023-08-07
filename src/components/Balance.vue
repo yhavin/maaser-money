@@ -40,7 +40,7 @@
         </tr>
       </tfoot>
     </table>
-    <a @click="emitScrollToTarget">Where should I donate?</a>
+    <!-- <a @click="emitScrollToTarget">Where should I donate?</a> -->
     <!-- <small>Tax deductible donations: {{ totalTaxDeductible.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</small> -->
   </article>
 </template>

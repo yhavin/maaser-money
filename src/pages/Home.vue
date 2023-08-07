@@ -566,7 +566,7 @@
       @handleDeleteSchedule="handleDeleteSchedule"
     />
 
-    <div ref="scrollToHere">
+    <!-- <div ref="scrollToHere">
       <article>
         <h3>Partners <sup><small>(Beta)</small></sup></h3>
         <article>
@@ -584,7 +584,7 @@
           </footer>
         </article>
       </article>
-    </div>
+    </div> -->
 
     <div v-if="!isPWAInstalled && isIOS && isSafari">
       <AddToHomeScreen />
