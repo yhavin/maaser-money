@@ -25,11 +25,11 @@ export const useRecurringMonth = async (schedule) => {
     let itemDate = new Date(lastRepeatedDateValue)
     itemDate.setDate(schedule.dayOfMonth)
     console.log("Item date:", itemDate)
-
     schedule.prototype.date = itemDate
+    
     const docRef = await addDoc(collectionRef, schedule.prototype)
     console.log("Recurring item created in collection", schedule.type, "with ID:", docRef.id)
-    await updateDoc(docRef, { frequency: schedule.frequency})
+    await updateDoc(docRef, { scheduleName: schedule.name})
 
     await updateDoc(scheduleRef, { itemIds: arrayUnion(docRef.id) })
     await updateDoc(scheduleRef, { lastRepeatedDate: itemDate })

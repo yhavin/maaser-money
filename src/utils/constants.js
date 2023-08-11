@@ -29,6 +29,16 @@ export const recurringFrequencies = [
   { name: "month", label: "Every month" },
 ]
 
+export const weekDays = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+]
+
 export const monthDays = [
   "1st",
   "2nd",

@@ -1,5 +1,6 @@
 import { useRecurringDay } from "./useRecurringDay.js"
 import { useRecurringMonth } from "./useRecurringMonth.js"
+import { useRecurringWeek } from "./useRecurringWeek.js"
 
 
 export const useCreateRecurringItems = async (schedule) => {

@@ -125,18 +125,11 @@
       <p></p>
       <div class="grid">
         <input type="search" placeholder="Description" v-model="incomeDescriptionQuery">
-        <!-- <input type="search" placeholder="Amount" v-model="incomeAmountQuery"> -->
       </div>
       <table>
         <tr v-if="filteredIncomes.length > 0" class="hover-underline" v-for="income in filteredIncomes" :key="income.id" @click="emitOpenIncomeModal(income)">
-          <!-- <td>
-            <strong>{{ income.description }}</strong><br />
-            {{ income.date.toDate().toLocaleDateString() }} &nbsp; &nbsp; &nbsp; 
-            {{ income.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }} &nbsp; &nbsp; &nbsp; 
-            {{ (income.percent * 100).toFixed(0) + "%" }}
-          </td> -->
-          <td><strong>{{ income.description }}</strong></td>
-          <td>{{ income.recurring ? "&#8635;" : null }}</td>
+          <td>{{ income.description }}</td>
+          <td class="recurring-symbol">{{ income.recurring ? "&#128257;" : null }}</td>
           <td class="number-align">{{ income.date.toDate().toLocaleDateString("default", { day: "2-digit", month: "short", year: "numeric" }) }}</td>
           <td class="number-align">{{ income.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
@@ -152,17 +145,10 @@
       <p></p>
       <div class="grid">
         <input type="search" placeholder="Description" v-model="deductionDescriptionQuery">
-        <!-- <input type="search" placeholder="Amount" v-model="deductionAmountQuery"> -->
       </div>
       <table>
         <tr v-if="filteredDeductions.length > 0" class="hover-underline" v-for="deduction in filteredDeductions" :key="deduction.id" @click="emitOpenDeductionModal(deduction)">
-          <!-- <td>
-            <strong>{{ deduction.description }}</strong><br />
-            {{ deduction.date.toDate().toLocaleDateString() }} &nbsp; &nbsp; &nbsp; 
-            {{ deduction.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }} &nbsp; &nbsp; &nbsp; 
-            {{ (deduction.percent * 100).toFixed(0) + "%" }}
-          </td> -->
-          <td><strong>{{ deduction.description }}</strong></td>
+          <td>{{ deduction.description }}</td>
           <td class="number-align">{{ deduction.date.toDate().toLocaleDateString("default", { day: "2-digit", month: "short", year: "numeric" }) }}</td>
           <td class="number-align">{{ deduction.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
@@ -178,17 +164,10 @@
       <p></p>
       <div class="grid">
         <input type="search" placeholder="Description" v-model="maaserDescriptionQuery">
-        <!-- <input type="search" placeholder="Amount" v-model="maaserAmountQuery"> -->
       </div>
       <table>
         <tr v-if="filteredMaasers.length > 0" class="hover-underline" v-for="maaser in filteredMaasers" :key="maaser.id" @click="emitOpenMaaserModal(maaser)">
-          <!-- <td>
-            <strong>{{ maaser.description }}</strong><br />
-            {{ maaser.date.toDate().toLocaleDateString() }} &nbsp; &nbsp; &nbsp; 
-            {{ maaser.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }} 
-            {{ maaser.taxDeductible ? "&nbsp; &nbsp; &nbsp;#deductible" : null}}
-          </td> -->
-          <td><strong>{{ maaser.description }}</strong></td>
+          <td>{{ maaser.description }}</td>
           <td class="number-align">{{ maaser.date.toDate().toLocaleDateString("default", { day: "2-digit", month: "short", year: "numeric" }) }}</td>
           <td class="number-align">{{ maaser.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
@@ -223,6 +202,12 @@
 
   .number-align {
     text-align: right;
+  }
+
+  @media (max-width: 767px) {
+    .recurring-symbol {
+      display: none;
+    }
   }
 
 </style>

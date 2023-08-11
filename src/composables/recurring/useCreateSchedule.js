@@ -7,10 +7,12 @@ export const useCreateSchedule = async (collectionName, prototype, userId, defau
 
   newSchedule.value = {
     type: collectionName,
+    name: newSchedule.value.name,
     startDate: prototype.value.date,
     endDate: newSchedule.value.endDate ? new Date(`${newSchedule.value.endDate}, 00:00:00`) : null,
     frequency: newSchedule.value.frequency, 
     dayOfMonth: newSchedule.value.dayOfMonth || null,
+    dayOfWeek: newSchedule.value.dayOfWeek || null,
     lastRepeatedDate: new Date(prototype.value.date.setHours(0, 0, 0, 0)),
     prototype: prototype.value,
     itemIds: [],

@@ -49,8 +49,8 @@
           <td>{{ (selectedIncome.amount * selectedIncome.percent).toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
         <tr v-if="selectedIncome.recurring">
-          <th>Repeat</th>
-          <td>{{ recurringFrequencies.find((obj) => obj.name === selectedIncome.frequency).label }}</td>
+          <th>Schedule &nbsp; &#128257;</th>
+          <td>{{ selectedIncome.scheduleName || "No name" }}</td>
         </tr>
       </table>
       <small v-if=selectedIncome.conversion>Converted from {{ selectedIncome.baseAmount }} {{ selectedIncome.baseCurrency }}</small>

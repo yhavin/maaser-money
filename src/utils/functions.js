@@ -20,6 +20,14 @@ export const convertCurrency = async (amount, baseCurrency, convertCurrency) => 
   }
 }
 
+export const calculateElapsedWeeks = (startDateMs, endDateMs) => {
+  const weekMs = 7 * 24 * 60 * 60 * 1000
+  const elapsedMs = endDateMs - startDateMs
+  const elapsedWeeks = Math.floor(elapsedMs / weekMs)
+
+  return [weekMs, elapsedWeeks]
+}
+
 export const calculateElapsedMonths = (startDateMs, endDateMs) => {
   const startDate = new Date(startDateMs)
   const endDate = new Date(endDateMs)
