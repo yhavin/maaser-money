@@ -9,10 +9,10 @@ export const useCreateRecurringItems = async (schedule) => {
       await useRecurringDay(schedule)
       break
     case "week":
-      await useRecurringWeek(schedule)
+      await useRecurringWeek(schedule, 1)
       break
     case "twoWeeks":
-      await useRecurringTwoWeeks(schedule)
+      await useRecurringWeek(schedule, 2)
       break
     case "month":
       await useRecurringMonth(schedule)

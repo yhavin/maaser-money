@@ -1,10 +1,10 @@
 import { db, auth } from "../../firebase.config.js"
 import { collection, addDoc, getDocs, query, where, orderBy, doc, deleteDoc, updateDoc, arrayUnion } from "firebase/firestore"
-import { recurringFrequencies } from "../../utils/constants.js"
 import { calculateElapsedWeeks } from "../../utils/functions.js"
+import { calculateElapsedTwoWeeks } from "../../utils/functions.js"
 
 
-export const useRecurringWeek = async (schedule) => {
+export const useRecurringWeek = async (schedule, numWeeks) => {
   const collectionRef = collection(db, schedule.type)
   const scheduleRef = doc(db, "schedules", schedule.id)
   const lastRepeatedDateMs = schedule.lastRepeatedDate.toMillis()
@@ -15,9 +15,9 @@ export const useRecurringWeek = async (schedule) => {
   console.log("Check until:", checkDateMs)
 
   
-  let [frequencyMs, itemsToCreate] = calculateElapsedWeeks(lastRepeatedDateMs, checkDateMs)
+  let [frequencyMs, itemsToCreate] = numWeeks === 1 ? calculateElapsedWeeks(lastRepeatedDateMs, checkDateMs) : calculateElapsedTwoWeeks(lastRepeatedDateMs, checkDateMs)
   itemsToCreate = Math.max(itemsToCreate, 0)
-  console.log("Weeks:", itemsToCreate)
+  console.log("Items:", itemsToCreate)
 
   for (let i = 1; i <= itemsToCreate; i++) {
     const itemDate = new Date(lastRepeatedDateMs + (i * frequencyMs))

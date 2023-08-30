@@ -23,9 +23,9 @@ export const currencyLanguages = {
 }
 
 export const recurringFrequencies = [
-  { name: "day", ms: 1 * 24 * 60 * 60 * 1000, label: "Every day" },
-  { name: "week", ms: 7 * 24 * 60 * 60 * 1000, label: "Every week" },
-  { name: "twoWeeks", ms: 14 * 24 * 60 * 60 * 1000, label: "Every two weeks" },
+  { name: "day", label: "Every day" },
+  { name: "week", label: "Every week" },
+  { name: "twoWeeks", label: "Every two weeks" },
   { name: "month", label: "Every month" },
 ]
 

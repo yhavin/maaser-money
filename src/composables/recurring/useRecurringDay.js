@@ -14,7 +14,7 @@ export const useRecurringDay = async (schedule) => {
   console.log("Check until:", checkDateMs)
 
   const elapsedMs = checkDateMs - lastRepeatedDateMs
-  const frequencyMs = recurringFrequencies.find((obj) => obj.name === schedule.frequency).ms
+  const frequencyMs = 1 * 24 * 60 * 60 * 1000
   console.log("Elapsed:", elapsedMs)
   console.log("Frequency:", frequencyMs)
 
@@ -25,7 +25,7 @@ export const useRecurringDay = async (schedule) => {
     const itemDate = new Date(lastRepeatedDateMs + (i * frequencyMs))
     console.log("Item date:", itemDate)
     schedule.prototype.date = itemDate
-    
+
     const docRef = await addDoc(collectionRef, schedule.prototype)
     console.log("Recurring item created in collection", schedule.type, "with ID:", docRef.id)
     await updateDoc(docRef, { scheduleName: schedule.name})

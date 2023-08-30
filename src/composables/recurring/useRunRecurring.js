@@ -13,6 +13,10 @@ export const useRunRecurring = async (userId, scheduleCollectionRef) => {
     fetchedSchedules.push({ id: doc.id, ...doc.data() })
   })
 
+  if (!fetchedSchedules.length) {
+    console.log("No recurring")
+  }
+  
   fetchedSchedules.forEach(async (schedule) => {
     console.log("Schedule ID:", schedule.id)
     await useCreateRecurringItems(schedule)

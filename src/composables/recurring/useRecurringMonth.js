@@ -15,7 +15,7 @@ export const useRecurringMonth = async (schedule) => {
   console.log("Check until:", checkDateMs)
 
   const itemsToCreate = Math.max(calculateElapsedMonths(lastRepeatedDateMs, checkDateMs), 0)
-  console.log("Months:", itemsToCreate)
+  console.log("Items:", itemsToCreate)
 
   let lastRepeatedDateValue = new Date(lastRepeatedDateMs)
   const monthIndex = lastRepeatedDateValue.getMonth()
@@ -26,7 +26,7 @@ export const useRecurringMonth = async (schedule) => {
     itemDate.setDate(schedule.dayOfMonth)
     console.log("Item date:", itemDate)
     schedule.prototype.date = itemDate
-    
+
     const docRef = await addDoc(collectionRef, schedule.prototype)
     console.log("Recurring item created in collection", schedule.type, "with ID:", docRef.id)
     await updateDoc(docRef, { scheduleName: schedule.name})

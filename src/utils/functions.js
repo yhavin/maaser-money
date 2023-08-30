@@ -28,6 +28,14 @@ export const calculateElapsedWeeks = (startDateMs, endDateMs) => {
   return [weekMs, elapsedWeeks]
 }
 
+export const calculateElapsedTwoWeeks = (startDateMs, endDateMs) => {
+  const twoWeeksMs = 2* 7 * 24 * 60 * 60 * 1000
+  const elapsedMs = endDateMs - startDateMs
+  const elapsedWeeks = Math.floor(elapsedMs / twoWeeksMs)
+
+  return [twoWeeksMs, elapsedWeeks]
+}
+
 export const calculateElapsedMonths = (startDateMs, endDateMs) => {
   const startDate = new Date(startDateMs)
   const endDate = new Date(endDateMs)
