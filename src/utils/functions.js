@@ -48,7 +48,7 @@ export const calculateElapsedMonths = (startDateMs, endDateMs) => {
   elapsedMonths -= startDate.getMonth()
   elapsedMonths += endDate.getMonth()
 
-  if (endDate < startDate) {
+  if (endDate.getDate() < startDate.getDate()) {
     elapsedMonths--
   }
 
