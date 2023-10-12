@@ -17,12 +17,14 @@ export const useRecurringMonth = async (schedule) => {
   // Logic for creating first item (e.g., monthly schedule created on 13th, starts 15th)
   // A month hasn't passed yet but need first item
   // If list of repeated Item IDs is empty, then no first item yet
-  // Today's day of month equals chosen day of month
+  // Today's day of month greater than or equal to chosen day of month
+  // LOGIC HERE IS PROBABLY INCOMPLETE FOR FIRST OCCURRENCE
 
-  console.log("Item IDs:", schedule.itemIds.length, "Date:", new Date().getDate() === schedule.dayOfMonth)
-  if (schedule.itemIds.length === 0 && new Date().getDate() === schedule.dayOfMonth) {
+  console.log("Item IDs:", schedule.itemIds.length, "Date:", new Date().getDate() >= schedule.dayOfMonth)
+  if (schedule.itemIds.length === 0 && new Date().getDate() >= schedule.dayOfMonth) {
     console.log("Creating first item...")
-    const firstItemDate = new Date(new Date().setHours(0, 0, 0))
+    const firstItemDate = new Date(schedule.prototype.date.toDate().setDate(schedule.dayOfMonth))
+    console.log(firstItemDate)
     schedule.prototype.date = firstItemDate
 
     schedule.prototype.amount = schedule.prototype.conversion
@@ -37,6 +39,7 @@ export const useRecurringMonth = async (schedule) => {
     await updateDoc(scheduleRef, { lastRepeatedDate: firstItemDate })
   }
 
+  // Creation of non-first items
   const itemsToCreate = Math.max(calculateElapsedMonths(lastRepeatedDateMs, checkDateMs), 0)
   console.log("Items:", itemsToCreate)
 
