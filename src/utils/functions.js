@@ -11,7 +11,7 @@ export const formatPercent = (number) => {
 export const convertCurrency = async (amount, baseCurrency, convertCurrency, date="latest") => {
   // Convert provided date to required YYYY-MM-DD format for API call
   if (date !== "latest") {
-    date = date.toLocaleDateString("en-CA")
+    date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0];
   } 
 
   const host = "https://api.frankfurter.app"

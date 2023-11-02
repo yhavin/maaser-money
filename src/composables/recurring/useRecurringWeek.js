@@ -49,7 +49,7 @@ export const useRecurringWeek = async (schedule, numWeeks) => {
     const itemDate = new Date(lastRepeatedDateMs + (i * frequencyMs))
     console.log("Item date:", itemDate)
     schedule.prototype.date = itemDate
-
+    
     schedule.prototype.amount = schedule.prototype.conversion
     ? await convertCurrency(schedule.prototype.baseAmount, schedule.prototype.baseCurrency, schedule.prototype.currency, itemDate)
     : schedule.prototype.amount
