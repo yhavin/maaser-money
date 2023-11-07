@@ -129,7 +129,7 @@
         <tr v-if="filteredIncomes.length > 0" class="hover-underline" v-for="income in filteredIncomes" :key="income.id" @click="emitOpenIncomeModal(income)">
           <td>{{ income.description }}</td>
           <td class="recurring-symbol">{{ income.recurring ? "&#128257;" : null }}</td>
-          <td class="number-align">{{ income.date.toDate().toLocaleDateString("default", { day: "2-digit", month: "short", year: "numeric" }) }}</td>
+          <td class="number-align">{{ income.date.toDate().toLocaleDateString("default", { day: "numeric", month: "short", year: "numeric" }) }}</td>
           <td class="number-align">{{ income.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
         <tr v-else>
@@ -148,7 +148,7 @@
       <table>
         <tr v-if="filteredDeductions.length > 0" class="hover-underline" v-for="deduction in filteredDeductions" :key="deduction.id" @click="emitOpenDeductionModal(deduction)">
           <td>{{ deduction.description }}</td>
-          <td class="number-align">{{ deduction.date.toDate().toLocaleDateString("default", { day: "2-digit", month: "short", year: "numeric" }) }}</td>
+          <td class="number-align">{{ deduction.date.toDate().toLocaleDateString("default", { day: "numeric", month: "short", year: "numeric" }) }}</td>
           <td class="number-align">{{ deduction.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
         <tr v-else>
@@ -167,7 +167,7 @@
       <table>
         <tr v-if="filteredMaasers.length > 0" class="hover-underline" v-for="maaser in filteredMaasers" :key="maaser.id" @click="emitOpenMaaserModal(maaser)">
           <td>{{ maaser.description }}</td>
-          <td class="number-align">{{ maaser.date.toDate().toLocaleDateString("default", { day: "2-digit", month: "short", year: "numeric" }) }}</td>
+          <td class="number-align">{{ maaser.date.toDate().toLocaleDateString("default", { day: "numeric", month: "short", year: "numeric" }) }}</td>
           <td class="number-align">{{ maaser.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
         <tr v-else>
