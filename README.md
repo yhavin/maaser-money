@@ -27,7 +27,7 @@ There is a biblical obligation to donate 10% of one's income to charity ([Deuter
  ![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=orange)
 
 - Frontend: Vue.js
-- Backend: Firebase
+- Backend: Firebase (Node)
 - Database: Firestore
 - Styles and components: PicoCSS
 
