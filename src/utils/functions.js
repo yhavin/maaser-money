@@ -54,3 +54,35 @@ export const calculateElapsedMonths = (startDateMs, endDateMs) => {
 
   return elapsedMonths
 }
+
+export const sanitiseAmount = (amount) => {
+  let sanitisedAmount = amount.replace(/[^0-9,.]/g, "")
+  const hasComma = sanitisedAmount.includes(",")
+  const hasPeriod = sanitisedAmount.includes(".")
+
+  if (hasComma && hasPeriod) {
+    if (sanitisedAmount.lastIndexOf(".") > sanitisedAmount.lastIndexOf(",")) {
+      sanitisedAmount = sanitisedAmount.replace(/,/g, "")
+    } else {
+      sanitisedAmount = sanitisedAmount.replace(/\./g, "").replace(/,/g, ".")
+    }
+  } else if (hasComma) {
+    const parts = sanitisedAmount.split(",")
+    // Check if there are at least three digits (indicating thousands separator)
+    if (parts.length > 1 && parts[parts.length -1].length >= 3) {
+      sanitisedAmount = sanitisedAmount.replace(/,/g, "")
+    } else {  // Otherwise, assume the comma is decimal separator (European style)
+      sanitisedAmount = sanitisedAmount.replace(/,/g, ".")
+    }
+  }
+
+  return sanitisedAmount
+}
+
+export const debounce = (fn, delay) => {
+  let timeoutID
+  return function (...args) {
+    clearTimeout(timeoutID)
+    timeoutID = setTimeout(() => fn.apply(this, args), delay)
+  }
+}
