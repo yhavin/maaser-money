@@ -47,7 +47,7 @@
       <header>{{ newMaaser.description || "Donation" }}</header>
       <form>
         <input v-model="newMaaser.description" placeholder="Description" :aria-invalid="invalidMaaserDescription">
-        <input :value="newMaaser.amount" @input="onAmountInput" placeholder="Amount" :aria-invalid="invalidMaaserAmount">
+        <input :value="newMaaser.amount" @input="event => onAmountInput(event, props)" placeholder="Amount" :aria-invalid="invalidMaaserAmount">
         <label>
           <input type="checkbox" v-model="newMaaser.conversion">
           Convert currency
