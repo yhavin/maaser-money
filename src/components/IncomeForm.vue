@@ -1,10 +1,8 @@
 <script setup>
-  import { parse } from "dotenv"
-  import { currencyOptions } from "../utils/constants"
-  import { recurringFrequencies } from "../utils/constants"
+  import { currencyOptions } from '../utils/constants'
+  import { recurringFrequencies } from '../utils/constants'
   import { weekDays } from "../utils/constants"
   import { monthDays } from "../utils/constants"
-  import { sanitiseAmount, debounce } from "../utils/functions"
 
   
   const props = defineProps({
@@ -28,23 +26,6 @@
     emits("handleSubmitIncome")
   }
 
-  const onAmountInput = debounce((event, props) => {
-    const amount = event.target.value
-    // Ensure that backspaced input doesn't return "NaN"
-    if (amount.trim() === "") {
-      props.newIncome.amount = null
-    } else {
-      const sanitisedFloatAmount = parseFloat(sanitiseAmount(amount))
-      console.log(sanitisedFloatAmount, typeof sanitisedFloatAmount)
-      // Ensure that random characters don't get converted to NaN
-      if (!isNaN(sanitisedFloatAmount)) {
-        props.newIncome.amount = sanitisedFloatAmount
-      } else {
-        props.newIncome.amount = null
-      }
-    }
-  }, 1000)
-
 </script>
 
 <template>
@@ -53,7 +34,7 @@
       <header>{{ newIncome.description || "Income" }}</header>
       <form>
         <input v-model="newIncome.description" placeholder="Description" :aria-invalid="invalidIncomeDescription">
-        <input :value="newIncome.amount" @input="event => onAmountInput(event, props)" placeholder="Amount" :aria-invalid="invalidIncomeAmount">
+        <input v-model.number="newIncome.amount" placeholder="Amount" :aria-invalid="invalidIncomeAmount">
         <label>
           <input type="checkbox" v-model="newIncome.conversion">
           Convert currency

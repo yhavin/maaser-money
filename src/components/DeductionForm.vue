@@ -1,6 +1,5 @@
 <script setup>
-  import { currencyOptions } from "../utils/constants"
-  import { sanitiseAmount, debounce } from "../utils/functions"
+  import { currencyOptions } from '../utils/constants'
 
 
   const props = defineProps({
@@ -23,23 +22,6 @@
     emits("handleSubmitDeduction")
   }
 
-  const onAmountInput = debounce((event, props) => {
-    const amount = event.target.value
-    // Ensure that backspaced input doesn't return "NaN"
-    if (amount.trim() === "") {
-      props.newDeduction.amount = null
-    } else {
-      const sanitisedFloatAmount = parseFloat(sanitiseAmount(amount))
-      console.log(sanitisedFloatAmount, typeof sanitisedFloatAmount)
-      // Ensure that random characters don't get converted to NaN
-      if (!isNaN(sanitisedFloatAmount)) {
-        props.newDeduction.amount = sanitisedFloatAmount
-      } else {
-        props.newDeduction.amount = null
-      }
-    }
-  }, 1000)
-
 </script>
 
 <template>
@@ -49,7 +31,7 @@
       <form>
         <input v-model="newDeduction.description" placeholder="Description" :aria-invalid="invalidDeductionDescription">
         <small>Deductions are things like business expenses that lower how much income you need to pay ma'aser on</small>
-        <input :value="newDeduction.amount" @input="event => onAmountInput(event, props)" placeholder="Amount" :aria-invalid="invalidDeductionAmount">
+        <input v-model.number="newDeduction.amount" placeholder="Amount" :aria-invalid="invalidDeductionAmount">
         <label>
           <input type="checkbox" v-model="newDeduction.conversion">
           Convert currency

@@ -27,8 +27,6 @@ coverage
 *.sln
 *.sw?
 
-.vscode
-
 
 # Illustrator files
 og-image.ai

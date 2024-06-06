@@ -1,6 +1,5 @@
 <script setup>
-  import { currencyOptions } from "../utils/constants"
-  import { sanitiseAmount, debounce } from "../utils/functions"
+  import { currencyOptions } from '../utils/constants'
 
 
   const props = defineProps({
@@ -21,24 +20,6 @@
   const emitHandleSubmitMaaser = () => {
     emits("handleSubmitMaaser")
   }
-
-  const onAmountInput = debounce((event, props) => {
-    const amount = event.target.value
-    // Ensure that backspaced input doesn't return "NaN"
-    if (amount.trim() === "") {
-      props.newMaaser.amount = null
-    } else {
-      const sanitisedFloatAmount = parseFloat(sanitiseAmount(amount))
-      console.log(sanitisedFloatAmount, typeof sanitisedFloatAmount)
-      // Ensure that random characters don't get converted to NaN
-      if (!isNaN(sanitisedFloatAmount)) {
-        props.newMaaser.amount = sanitisedFloatAmount
-      } else {
-        props.newMaaser.amount = null
-      }
-    }
-  }, 1000)
-
 </script>
 
 <template>
@@ -47,7 +28,7 @@
       <header>{{ newMaaser.description || "Donation" }}</header>
       <form>
         <input v-model="newMaaser.description" placeholder="Description" :aria-invalid="invalidMaaserDescription">
-        <input :value="newMaaser.amount" @input="event => onAmountInput(event, props)" placeholder="Amount" :aria-invalid="invalidMaaserAmount">
+        <input v-model.number="newMaaser.amount" placeholder="Amount" :aria-invalid="invalidMaaserAmount">
         <label>
           <input type="checkbox" v-model="newMaaser.conversion">
           Convert currency
