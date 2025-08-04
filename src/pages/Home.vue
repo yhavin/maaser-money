@@ -316,7 +316,7 @@
   }
 
   // Ma'aser
-  const defaultMaaser = { description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
+  const defaultMaaser = { description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, recurring: false, frequency: null, scheduleId: null, uid: null }
   const newMaaser = ref({ description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
   const maasers = ref([])
   
@@ -361,14 +361,22 @@
       conversion: newMaaser.value.conversion,
       baseCurrency: newMaaser.value.conversion ? newMaaser.value.baseCurrency : userCurrency.value,
       baseAmount: newMaaser.value.amount,
+      recurring: newMaaser.value.recurring,
+      frequency: null,
+      scheduleId: null,
       uid: userId
     }
     if (validateMaaser()) {
       isLoadingButton.value = true
-      const docRef = await addDoc(maaserCollectionRef, newMaaser.value)
-      console.log("Ma'aser added with ID:", docRef.id)
+      if (newMaaser.value.recurring) {
+        await useCreateSchedule("maaser", newMaaser, userId, defaultSchedule, newSchedule, scheduleCollectionRef)
+      } else {
+        const docRef = await addDoc(maaserCollectionRef, newMaaser.value)
+        console.log("Ma'aser added with ID:", docRef.id)
+      }
       setMaaserClosed()
-      fetchMaaser()
+      await fetchMaaser()
+      await fetchSchedules()
       newMaaser.value = { ...defaultMaaser }
       invalidMaaserDescription.value = null
       invalidMaaserAmount.value = null
@@ -379,7 +387,11 @@
 
   const handleDeleteMaaser = async (maaser) => {
     isLoadingButton.value = true
+    const scheduleRef = maaser.scheduleId ? doc(scheduleCollectionRef, maaser.scheduleId) : null
     await deleteDoc(doc(maaserCollectionRef, maaser.id))
+    if (scheduleRef) {
+      await updateDoc(scheduleRef, { itemIds: arrayRemove(maaser.id) })
+    }
     fetchMaaser()
     closeMaaserModal()
   }
@@ -487,6 +499,7 @@
 
     <MaaserForm
       :newMaaser="newMaaser"
+      :newSchedule="newSchedule"
       :maaserOpen="maaserOpen"
       :userCurrency="userCurrency"
       :invalidMaaserDescription="invalidMaaserDescription"

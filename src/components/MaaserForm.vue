@@ -1,9 +1,13 @@
 <script setup>
   import { currencyOptions } from '../utils/constants'
+  import { recurringFrequencies } from '../utils/constants'
+  import { weekDays } from "../utils/constants"
+  import { monthDays } from "../utils/constants"
 
-
+  
   const props = defineProps({
     newMaaser: Object,
+    newSchedule: Object,
     maaserOpen: Boolean,
     userCurrency: String,
     invalidMaaserDescription: Boolean,
@@ -40,6 +44,27 @@
         <label>
           <input type="checkbox" v-model="newMaaser.taxDeductible">
           Tax deductible
+        </label>
+        <label>
+          <input type="checkbox" v-model="newMaaser.recurring">
+          Recurring
+        </label>
+        <input v-if="newMaaser.recurring" v-model="newSchedule.name" placeholder="Schedule name">
+        <div class="grid">
+          <select v-if="newMaaser.recurring" v-model="newSchedule.frequency">
+            <option v-for="(frequency, index) in recurringFrequencies" :key="index" :value="frequency.name">{{ frequency.label }}</option>
+          </select>
+          <select v-if="newMaaser.recurring && newSchedule.frequency == 'week'" v-model="newSchedule.dayOfWeek">
+            <option v-for="(day, index) in weekDays" :value="index + 1">{{ day }}</option>
+          </select>
+          <select v-if="newMaaser.recurring && newSchedule.frequency == 'month'" v-model="newSchedule.dayOfMonth">
+            <option v-for="(day, index) in monthDays" :value="index + 1">{{ day }}</option>
+          </select>
+        </div>
+        <label v-if="newMaaser.recurring && newSchedule.frequency">
+          Repeat until
+          <input v-if="newMaaser.recurring && newSchedule.frequency" type="date" v-model="newSchedule.endDate">
+          <small>Leave blank to repeat forever</small>
         </label>
       </form>
       <footer>

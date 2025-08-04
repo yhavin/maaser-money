@@ -52,7 +52,7 @@
         <input v-if="newIncome.recurring" v-model="newSchedule.name" placeholder="Schedule name">
         <div class="grid">
           <select v-if="newIncome.recurring" v-model="newSchedule.frequency">
-            <option v-for="(frequency, index) in recurringFrequencies" :key="index" :value="frequency.name" placeholder="Frequency">{{ frequency.label }}</option>
+            <option v-for="(frequency, index) in recurringFrequencies" :key="index" :value="frequency.name">{{ frequency.label }}</option>
           </select>
           <select v-if="newIncome.recurring && newSchedule.frequency == 'week'" v-model="newSchedule.dayOfWeek">
             <option v-for="(day, index) in weekDays" :value="index + 1">{{ day }}</option>
