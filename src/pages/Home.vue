@@ -147,7 +147,8 @@
     if (validateIncome()) {
       isLoadingButton.value = true
       if (newIncome.value.recurring) {
-        await useCreateSchedule("income", newIncome, userId, defaultSchedule, newSchedule, scheduleCollectionRef)
+        const createdSchedule = await useCreateSchedule("income", newIncome, userId, defaultSchedule, newSchedule, scheduleCollectionRef)
+        store.addToCache('schedule', createdSchedule)
       } else {
         const docRef = await addDoc(incomeCollectionRef, newIncome.value)
         console.log("Income added with ID:", docRef.id)
@@ -322,7 +323,8 @@
     if (validateMaaser()) {
       isLoadingButton.value = true
       if (newMaaser.value.recurring) {
-        await useCreateSchedule("maaser", newMaaser, userId, defaultSchedule, newSchedule, scheduleCollectionRef)
+        const createdSchedule = await useCreateSchedule("maaser", newMaaser, userId, defaultSchedule, newSchedule, scheduleCollectionRef)
+        store.addToCache('schedule', createdSchedule)
       } else {
         const docRef = await addDoc(maaserCollectionRef, newMaaser.value)
         console.log("Ma'aser added with ID:", docRef.id)

@@ -27,7 +27,8 @@ export const useRecurringWeek = async (schedule, numWeeks) => {
   const isScheduledDay = todayDayOfWeek === scheduledDayOfWeek
   const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-  console.log(`Frequency: Weekly, Item IDs: ${schedule.itemIds.length}, Today: ${dayNames[todayDayOfWeek]}, Scheduled: ${dayNames[scheduledDayOfWeek]}, FirstItem: ${isScheduledDay}`)
+  const frequencyLabel = numWeeks === 1 ? 'Weekly' : 'Fortnightly'
+  console.log(`Frequency: ${frequencyLabel}, Item IDs: ${schedule.itemIds.length}, Today: ${dayNames[todayDayOfWeek]}, Scheduled: ${dayNames[scheduledDayOfWeek]}, FirstItem: ${isScheduledDay}`)
   
   if (schedule.itemIds.length === 0 && isScheduledDay) {
     console.log("Creating first item...")

@@ -18,7 +18,11 @@ export const useCreateSchedule = async (collectionName, prototype, userId, defau
   }
 
   const docRef = await addDoc(scheduleCollectionRef, newSchedule.value)
-  console.log("Schedule created with ID:", docRef.id)
+  console.log(`Schedule created with ID: ${docRef.id}, Collection: ${collectionName}`)
   await updateDoc(docRef, { "prototype.scheduleId": docRef.id })
+  
+  const createdSchedule = { id: docRef.id, ...newSchedule.value }
   newSchedule.value = { ...defaultSchedule }
+  
+  return createdSchedule
 }

@@ -57,6 +57,9 @@
           <select v-if="newMaaser.recurring && newSchedule.frequency == 'week'" v-model="newSchedule.dayOfWeek">
             <option v-for="(day, index) in weekDays" :value="index + 1">{{ day }}</option>
           </select>
+          <select v-if="newMaaser.recurring && newSchedule.frequency == 'twoWeeks'" v-model="newSchedule.dayOfWeek">
+            <option v-for="(day, index) in weekDays" :value="index + 1">{{ day }}</option>
+          </select>
           <select v-if="newMaaser.recurring && newSchedule.frequency == 'month'" v-model="newSchedule.dayOfMonth">
             <option v-for="(day, index) in monthDays" :value="index + 1">{{ day }}</option>
           </select>
