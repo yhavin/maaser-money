@@ -41,6 +41,10 @@
           <th>Tax deductible</th>
           <td><input type="checkbox" :checked="selectedMaaser.taxDeductible" disabled></td>
         </tr>
+        <tr v-if="selectedMaaser.recurring">
+          <th>Schedule &nbsp; &#128257;</th>
+          <td>{{ selectedMaaser.scheduleName || "No name" }}</td>
+        </tr>
       </table>
       <small v-if=selectedMaaser.conversion>Converted from {{ selectedMaaser.baseAmount.toLocaleString(userLanguage, { style: "currency", currency: selectedMaaser.baseCurrency}) }}</small>
       <footer>

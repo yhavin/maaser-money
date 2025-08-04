@@ -22,8 +22,14 @@ export const useRecurringWeek = async (schedule, numWeeks) => {
   // Applies to biweekly as well -- will start two weeks from next chosen day of week
   // No current support for choosing which week to start biweekly
 
-  console.log("Item IDs:", schedule.itemIds.length, "Day:", new Date().getDay() === schedule.dayOfWeek - 1)
-  if (schedule.itemIds.length === 0 && new Date().getDay() === schedule.dayOfWeek - 1) {
+  const todayDayOfWeek = new Date().getDay()
+  const scheduledDayOfWeek = schedule.dayOfWeek - 1
+  const isScheduledDay = todayDayOfWeek === scheduledDayOfWeek
+  const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+  console.log(`Frequency: Weekly, Item IDs: ${schedule.itemIds.length}, Today: ${dayNames[todayDayOfWeek]}, Scheduled: ${dayNames[scheduledDayOfWeek]}, FirstItem: ${isScheduledDay}`)
+  
+  if (schedule.itemIds.length === 0 && isScheduledDay) {
     console.log("Creating first item...")
     const firstItemDate = new Date(new Date().setHours(0, 0, 0))
     schedule.prototype.date = firstItemDate
@@ -43,7 +49,7 @@ export const useRecurringWeek = async (schedule, numWeeks) => {
   
   let [frequencyMs, itemsToCreate] = numWeeks === 1 ? calculateElapsedWeeks(lastRepeatedDateMs, checkDateMs) : calculateElapsedTwoWeeks(lastRepeatedDateMs, checkDateMs)
   itemsToCreate = Math.max(itemsToCreate, 0)
-  console.log("Items:", itemsToCreate)
+  console.log("Items to create:", itemsToCreate)
 
   for (let i = 1; i <= itemsToCreate; i++) {
     const itemDate = new Date(lastRepeatedDateMs + (i * frequencyMs))

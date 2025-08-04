@@ -20,8 +20,13 @@ export const useRecurringMonth = async (schedule) => {
   // Today's day of month greater than or equal to chosen day of month
   // LOGIC HERE IS PROBABLY INCOMPLETE FOR FIRST OCCURRENCE
 
-  console.log("Item IDs:", schedule.itemIds.length, "Date:", new Date().getDate() >= schedule.dayOfMonth)
-  if (schedule.itemIds.length === 0 && new Date().getDate() >= schedule.dayOfMonth) {
+  const todayDate = new Date().getDate()
+  const scheduledDate = schedule.dayOfMonth
+  const shouldCreateFirstItem = todayDate === scheduledDate
+
+  console.log(`Frequency: Monthly, Item IDs: ${schedule.itemIds.length}, Today: ${todayDate}, Scheduled: ${scheduledDate}, FirstItem: ${shouldCreateFirstItem}`)
+  
+  if (schedule.itemIds.length === 0 && shouldCreateFirstItem) {
     console.log("Creating first item...")
     const firstItemDate = new Date(schedule.prototype.date.toDate().setDate(schedule.dayOfMonth))
     console.log(firstItemDate)
@@ -41,7 +46,7 @@ export const useRecurringMonth = async (schedule) => {
 
   // Creation of non-first items
   const itemsToCreate = Math.max(calculateElapsedMonths(lastRepeatedDateMs, checkDateMs), 0)
-  console.log("Items:", itemsToCreate)
+  console.log("Items to create:", itemsToCreate)
 
   let lastRepeatedDateValue = new Date(lastRepeatedDateMs)
   const monthIndex = lastRepeatedDateValue.getMonth()

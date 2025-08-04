@@ -167,6 +167,7 @@
       <table>
         <tr v-if="filteredMaasers.length > 0" class="hover-underline" v-for="maaser in filteredMaasers" :key="maaser.id" @click="emitOpenMaaserModal(maaser)">
           <td>{{ maaser.description }}</td>
+          <td class="recurring-symbol">{{ maaser.recurring ? "&#128257;" : null }}</td>
           <td class="number-align">{{ maaser.date.toDate().toLocaleDateString("default", { day: "numeric", month: "short", year: "numeric" }) }}</td>
           <td class="number-align">{{ maaser.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
