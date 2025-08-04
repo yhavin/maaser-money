@@ -1,13 +1,14 @@
 <script setup>
-  import { ref, computed, onMounted, watch } from "vue"
+  import { ref, onMounted, watch } from "vue"
   import { db, auth } from "../firebase.config.js"
-  import { collection, addDoc, getDocs, query, where, orderBy, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore"
+  import { collection, addDoc, getDocs, query, where, doc, deleteDoc, updateDoc, arrayRemove } from "firebase/firestore"
   import { signOut } from "firebase/auth"
   import { useRouter } from "vue-router"
   import { currencyLanguages } from "../utils/constants"
   import { formatPercent, convertCurrency } from "../utils/functions.js"
   import { useCreateSchedule } from "../composables/recurring/useCreateSchedule.js"
   import { useRunRecurring } from "../composables/recurring/useRunRecurring.js"
+  import { useTransactionsStore } from "../stores/transactions.js"
   import IncomeForm from "../components/IncomeForm.vue"
   import DeductionForm from "../components/DeductionForm.vue"
   import MaaserForm from "../components/MaaserForm.vue"
@@ -26,14 +27,13 @@
   const isSafari = ref(false)
   const isPWAInstalled = ref(false)
   
+  const store = useTransactionsStore()
+
   onMounted(async () => {
     fetchUserInfo()
     // Only gets first new recurring item until refresh
     await useRunRecurring(userId, scheduleCollectionRef)
-    fetchSchedules()
-    fetchIncome()
-    fetchDeductions()
-    fetchMaaser()
+    await store.fetchAllData(userId)
     isIOS.value = /iPad|iPhone|iPod/.test(navigator.userAgent)
     isSafari.value = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
     const mediaQuery = window.matchMedia('(display-mode: standalone)')
@@ -85,24 +85,13 @@
   // Recurring
   const defaultSchedule = ({ endDate: null, frequency: null })
   const newSchedule = ref({ endDate: null, frequency: null })
-  const schedules = ref()
-
-  const fetchSchedules = async () => {
-    const querySnapshot = await getDocs(
-      query(scheduleCollectionRef, where("uid", "==", userId), where("active", "==", true), orderBy("startDate", "desc"))
-    )
-    const fetchedSchedules = []
-    querySnapshot.forEach((doc) => {
-      fetchedSchedules.push({ id: doc.id, ...doc.data() })
-    })
-    schedules.value = fetchedSchedules
-  }
 
   const handleDeleteSchedule = async (schedule) => {
     isLoadingButton.value = true
     const scheduleRef = doc(scheduleCollectionRef, schedule.id)
     await updateDoc(scheduleRef, { active: false })
-    fetchSchedules()
+    // Remove from cache instead of full refresh
+    store.removeFromCache('schedule', schedule.id)
     closeScheduleModal()
   }
 
@@ -117,7 +106,6 @@
   // Income
   const defaultIncome = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, recurring: false, scheduleId: null, uid: null }
   const newIncome = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, recurring: false, scheduleId: null, uid: null })
-  const incomes = ref([])
 
   const incomeOpen = ref(false)
 
@@ -134,16 +122,6 @@
     invalidIncomeAmount.value = null
   }
 
-  const fetchIncome = async () => {
-    const querySnapshot = await getDocs(
-      query(incomeCollectionRef, where("uid", "==", userId), orderBy("date", "desc"))
-    )
-    const fetchedIncomes = []
-    querySnapshot.forEach((doc) => {
-      fetchedIncomes.push({ id: doc.id, ...doc.data() })
-    })
-    incomes.value = fetchedIncomes
-  }
 
   const handleSubmitIncome = async () => {
     let amount
@@ -173,10 +151,10 @@
       } else {
         const docRef = await addDoc(incomeCollectionRef, newIncome.value)
         console.log("Income added with ID:", docRef.id)
+        // Add to cache instead of full refresh
+        store.addToCache('income', { id: docRef.id, ...newIncome.value })
       }
       setIncomeClosed()
-      await fetchIncome()
-      await fetchSchedules()
       newIncome.value = { ...defaultIncome }
       invalidIncomeDescription.value = null
       invalidIncomeAmount.value = null
@@ -193,13 +171,11 @@
     if (scheduleRef) {
       await updateDoc(scheduleRef, { itemIds: arrayRemove(income.id) })
     }
-    fetchIncome()
+    // Remove from cache instead of full refresh
+    store.removeFromCache('income', income.id)
     closeIncomeModal()
   }
 
-  const totalIncome = computed(() => {
-    return incomes.value.reduce((sum, income) =>  sum + income.amount, 0)
-  })
 
   const selectedIncome = ref(null)
   const openIncomeModal = (income) => {
@@ -224,7 +200,6 @@
   // Deductions
   const defaultDeduction = { description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null }
   const newDeduction = ref({ description: "", amount: null, date: null, percent: "10%", currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
-  const deductions = ref([])
   
   const deductionOpen = ref(false)
 
@@ -240,16 +215,6 @@
     invalidDeductionAmount.value = null
   }
 
-  const fetchDeductions = async () => {
-    const querySnapshot = await getDocs(
-      query(deductionCollectionRef, where("uid", "==", userId), orderBy("date", "desc"))
-    )
-    const fetchedDeductions = []
-    querySnapshot.forEach((doc) => {
-      fetchedDeductions.push({ id: doc.id, ...doc.data() })
-    })
-    deductions.value = fetchedDeductions
-  }
 
   const handleSubmitDeduction = async () => {
     let amount
@@ -273,8 +238,9 @@
       isLoadingButton.value = true
       const docRef = await addDoc(deductionCollectionRef, newDeduction.value)
       console.log("Deduction added with ID:", docRef.id)
+      // Add to cache instead of full refresh
+      store.addToCache('deduction', { id: docRef.id, ...newDeduction.value })
       setDeductionClosed()
-      fetchDeductions()
       newDeduction.value = { ...defaultDeduction }
       invalidDeductionDescription.value = null
       invalidDeductionAmount.value = null
@@ -287,13 +253,11 @@
   const handleDeleteDeduction = async (deduction) => {
     isLoadingButton.value = true
     await deleteDoc(doc(deductionCollectionRef, deduction.id))
-    fetchDeductions()
+    // Remove from cache instead of full refresh
+    store.removeFromCache('deduction', deduction.id)
     closeDeductionModal()
   }
 
-  const totalDeductions = computed(() => {
-    return deductions.value.reduce((sum, deduction) =>  sum + deduction.amount, 0)
-  })
 
   const selectedDeduction = ref(null)
   const openDeductionModal = (deduction) => {
@@ -318,18 +282,7 @@
   // Ma'aser
   const defaultMaaser = { description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, recurring: false, frequency: null, scheduleId: null, uid: null }
   const newMaaser = ref({ description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
-  const maasers = ref([])
   
-  const fetchMaaser = async () => {
-    const querySnapshot = await getDocs(
-      query(maaserCollectionRef, where("uid", "==", userId), orderBy("date", "desc"))
-    )
-    const fetchedMaasers = []
-    querySnapshot.forEach((doc) => {
-      fetchedMaasers.push({ id: doc.id, ...doc.data() })
-    })
-    maasers.value = fetchedMaasers
-  }
 
   const maaserOpen = ref(false)
 
@@ -373,10 +326,10 @@
       } else {
         const docRef = await addDoc(maaserCollectionRef, newMaaser.value)
         console.log("Ma'aser added with ID:", docRef.id)
+        // Add to cache instead of full refresh
+        store.addToCache('maaser', { id: docRef.id, ...newMaaser.value })
       }
       setMaaserClosed()
-      await fetchMaaser()
-      await fetchSchedules()
       newMaaser.value = { ...defaultMaaser }
       invalidMaaserDescription.value = null
       invalidMaaserAmount.value = null
@@ -392,31 +345,11 @@
     if (scheduleRef) {
       await updateDoc(scheduleRef, { itemIds: arrayRemove(maaser.id) })
     }
-    fetchMaaser()
+    // Remove from cache instead of full refresh
+    store.removeFromCache('maaser', maaser.id)
     closeMaaserModal()
   }
 
-  const totalMaaser = computed(() => {
-    return maasers.value.reduce((sum, maaser) =>  sum + maaser.amount, 0)
-  })
-
-  const totalTaxDeductible = computed(() => {
-    const deductible = maasers.value.filter((maaser) => maaser.taxDeductible)
-    return deductible.reduce((sum, maaser) => sum + maaser.amount, 0)
-  })
-
-  const maaserDue = computed(() => {
-    let owing = 0
-    incomes.value.forEach((income) => {
-      owing += (income.amount * income.percent)
-    })
-
-    let owingDeducted = 0
-    deductions.value.forEach((deduction) => {
-      owingDeducted += (deduction.amount * deduction.percent)
-    })
-    return owing - owingDeducted - totalMaaser.value
-  })
 
   const selectedMaaser = ref(null)
   const openMaaserModal = (maaser) => {
@@ -513,11 +446,11 @@
       :userInfo="userInfo"
       :userLanguage="userLanguage"
       :userCurrency="userCurrency"
-      :totalIncome="totalIncome"
-      :totalDeductions="totalDeductions"
-      :totalMaaser="totalMaaser"
-      :maaserDue="maaserDue"
-      :totalTaxDeductible="totalTaxDeductible"
+      :totalIncome="store.totalIncome"
+      :totalDeductions="store.totalDeductions"
+      :totalMaaser="store.totalMaaser"
+      :maaserDue="store.maaserDue"
+      :totalTaxDeductible="store.totalTaxDeductible"
       @scrollToTarget="scrollToTarget"
     />
 
@@ -525,9 +458,9 @@
       :userInfo="userInfo"
       :userLanguage="userLanguage"
       :userCurrency="userCurrency"
-      :incomes="incomes"
-      :deductions="deductions"
-      :maasers="maasers"
+      :incomes="store.incomes"
+      :deductions="store.deductions"
+      :maasers="store.maasers"
       @openIncomeModal="openIncomeModal"
       @openDeductionModal="openDeductionModal"
       @openMaaserModal="openMaaserModal"
@@ -560,12 +493,12 @@
       @handleDeleteMaaser="handleDeleteMaaser"
     />
 
-    <div v-if="schedules?.length > 0">
+    <div v-if="store.schedules?.length > 0">
       <SchedulesTable
         :userInfo="userInfo"
         :userLanguage="userLanguage"
         :userCurrency="userCurrency"
-        :schedules="schedules"
+        :schedules="store.schedules"
         @openScheduleModal="openScheduleModal"
       />
     </div>
@@ -578,26 +511,6 @@
       @closeScheduleModal="closeScheduleModal"
       @handleDeleteSchedule="handleDeleteSchedule"
     />
-
-    <!-- <div ref="scrollToHere">
-      <article>
-        <h3>Partners <sup><small>(Beta)</small></sup></h3>
-        <article>
-          <header class="partner-header">
-            <img src="/img/swarthmore-chabad.png" width="315">
-          </header>
-          <h5 class="partner-card">Swarthmore Chabad</h5>
-          <small>
-            <strong>Kickstarter Campaign</strong>
-            <br />
-            Fostering a creative and engaging Jewish space at Swarthmore College for tomorrow's leaders.
-          </small>
-          <footer class="partner-footer">
-            <a role="button" href="https://charidy.com/swarthmorechabad?utm_source=maaser.money" target="_blank">Donate</a>
-          </footer>
-        </article>
-      </article>
-    </div> -->
 
     <div v-if="!isPWAInstalled && isIOS && isSafari">
       <AddToHomeScreen />

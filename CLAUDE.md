@@ -20,6 +20,7 @@ The project uses Firebase Hosting. Build files are output to `dist/` directory w
 
 ### Tech Stack
 - **Frontend**: Vue 3 with Composition API
+- **State Management**: Pinia with persistence plugin
 - **Build Tool**: Vite
 - **Routing**: Vue Router 4
 - **Database**: Firebase Firestore
@@ -32,6 +33,7 @@ The project uses Firebase Hosting. Build files are output to `dist/` directory w
 #### Key Directories
 - `src/pages/` - Main application pages (Home, Splash, NotFound)
 - `src/components/` - Reusable Vue components for forms, tables, and details
+- `src/stores/` - Pinia stores for centralized state management with persistence
 - `src/composables/` - Vue composables, primarily for recurring transaction logic
 - `src/utils/` - Utility functions and constants
 - `public/` - Static assets including PWA manifest and icons
@@ -39,12 +41,27 @@ The project uses Firebase Hosting. Build files are output to `dist/` directory w
 #### Core Files
 - `router.js` - Vue Router configuration with authentication guards
 - `src/firebase.config.js` - Firebase initialization and service exports
-- `src/main.js` - Application entry point
+- `src/main.js` - Application entry point with Pinia configuration
+- `src/stores/transactions.js` - Main data store with persistent caching
 
 ### Authentication Flow
 The app uses Firebase Auth with route guards. Unauthenticated users are redirected to `/auth` (Splash page), while authenticated users access the main app at `/` (Home page).
 
 ### Data Architecture
+
+#### Pinia Store Architecture
+The app uses centralized state management with persistent caching:
+
+- **State**: Internal storage with descriptive names (`incomeItems`, `deductionItems`, `maaserItems`)
+- **Getters**: Public API with clean names (`incomes`, `deductions`, `maasers`) that automatically handle date formatting
+- **Actions**: Smart cache operations that minimize Firebase requests
+- **Persistence**: Automatic localStorage caching with `pinia-plugin-persistedstate`
+
+#### Caching Strategy
+- **Cache Duration**: Infinite - never expires automatically until data changes
+- **Smart Updates**: Individual items added/removed from cache without full refetch
+- **Firebase Optimization**: Dramatic reduction in read requests (users can use app for days with only 1 initial fetch)
+- **Date Handling**: Automatic conversion between Firestore timestamps and JavaScript dates for localStorage compatibility
 
 #### Firestore Collections
 The app uses several Firestore collections:
@@ -59,6 +76,7 @@ The app uses several Firestore collections:
 - Recurring schedules generate transactions automatically via composables
 - Currency conversion is handled via external API (frankfurter.app)
 - Transactions support tagging (e.g., tax deductible donations)
+- Cache updates use `addToCache()` and `removeFromCache()` for individual item management
 
 ### Component Architecture
 
@@ -114,7 +132,8 @@ The app is configured as a Progressive Web App:
 ### Firebase Integration
 - All database operations use Firestore v9 modular SDK
 - Authentication state is managed globally via router guards
-- Real-time updates are used sparingly; most data is fetched on component mount
+- Data is cached persistently to minimize Firebase read requests
+- Individual CRUD operations update cache directly without full refetch
 
 ### Styling Approach
 - PicoCSS provides base styling
