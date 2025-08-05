@@ -11,12 +11,12 @@ const fixDate = (dateObj) => {
   if (!dateObj) return null
   if (dateObj.toDate) return dateObj // Already has toDate method
   if (dateObj.seconds !== undefined) {
-    // Firestore timestamp format from cache
+    // Firestore timestamp format
     return {
       toDate: () => new Date(dateObj.seconds * 1000 + (dateObj.nanoseconds || 0) / 1000000)
     }
   }
-  // Fallback - try to create date directly
+  // Otherwise create date directly
   return {
     toDate: () => new Date(dateObj)
   }
@@ -27,12 +27,18 @@ export const useTransactionsStore = defineStore('transactions', {
     incomeItems: [],
     deductionItems: [],
     maaserItems: [],
-    schedules: [],
-    listeners: []
+    scheduleItems: [],
+    listeners: [],
+    initialized: false
   }),
   
+  persist: {
+    key: 'maaser-transactions',
+    storage: localStorage,
+    paths: ['incomeItems', 'deductionItems', 'maaserItems', 'scheduleItems', 'initialized']
+  },
+  
   getters: {
-    // Clean public API - always return data with working dates
     incomes: (state) => {
       return state.incomeItems.map(income => ({
         ...income,
@@ -107,6 +113,7 @@ export const useTransactionsStore = defineStore('transactions', {
           (error) => console.error('Income listener error:', error)
         )
         
+        
         // Deduction listener
         const deductionUnsubscribe = onSnapshot(
           query(deductionCollectionRef, where("uid", "==", userId), orderBy("date", "desc")),
@@ -120,6 +127,7 @@ export const useTransactionsStore = defineStore('transactions', {
           },
           (error) => console.error('Deduction listener error:', error)
         )
+        
         
         // Maaser listener
         const maaserUnsubscribe = onSnapshot(
@@ -143,7 +151,7 @@ export const useTransactionsStore = defineStore('transactions', {
             snapshot.forEach((doc) => {
               items.push({ id: doc.id, ...doc.data() })
             })
-            this.schedules = items
+            this.scheduleItems = items
             console.log(`Updated ${items.length} schedule items`)
           },
           (error) => console.error('Schedule listener error:', error)
@@ -160,14 +168,15 @@ export const useTransactionsStore = defineStore('transactions', {
     
     cleanupListeners() {
       console.log('Cleaning up listeners')
-      this.listeners.forEach(unsubscribe => unsubscribe())
+      this.listeners.forEach(unsubscribe => {
+        if (typeof unsubscribe === 'function') {
+          unsubscribe()
+        }
+      })
       this.listeners = []
       
-      // Clear data
-      this.incomeItems = []
-      this.deductionItems = []
-      this.maaserItems = []
-      this.schedules = []
+      // Reset initialization state
+      this.initialized = false
     },
   }
 })
