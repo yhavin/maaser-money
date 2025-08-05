@@ -43,7 +43,8 @@
   const exportIncomeToCsv = () => {
     const parser = new Parser()
     const incomesForExport = filteredIncomes.value.map((income) => {
-      return { ...income, date: income.date.toDate() }
+      // Make date readable by Excel instead of with T datetime separator
+      return { ...income, date: income.date.toDate().toISOString().replace('T', ' ').replace(/\.\d{3}Z$/, '') }
     })
     const csv = parser.parse(incomesForExport)
     console.log(csv)
@@ -72,7 +73,7 @@
   const exportDeductionsToCsv = () => {
     const parser = new Parser()
     const deductionsForExport = filteredDeductions.value.map((deduction) => {
-      return { ...deduction, date: deduction.date.toDate() }
+      return { ...deduction, date: deduction.date.toDate().toISOString().replace('T', ' ').replace(/\.\d{3}Z$/, '') }
     })
     const csv = parser.parse(deductionsForExport)
     console.log(csv)
@@ -101,7 +102,7 @@
   const exportMaaserToCsv = () => {
     const parser = new Parser()
     const maasersForExport = filteredMaasers.value.map((maaser) => {
-      return { ...maaser, date: maaser.date.toDate() }
+      return { ...maaser, date: maaser.date.toDate().toISOString().replace('T', ' ').replace(/\.\d{3}Z$/, '') }
     })
     const csv = parser.parse(maasersForExport)
     console.log(csv)
