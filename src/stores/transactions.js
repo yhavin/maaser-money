@@ -59,6 +59,13 @@ export const useTransactionsStore = defineStore('transactions', {
         date: fixDate(maaser.date)
       }))
     },
+
+    schedules: (state) => {
+      return state.scheduleItems.map(schedule => ({
+        ...schedule,
+        date: fixDate(schedule.date)
+      }))
+    },
     
     totalIncome: (state) => {
       return state.incomeItems.reduce((sum, income) => sum + income.amount, 0)
