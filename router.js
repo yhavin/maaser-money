@@ -4,7 +4,7 @@ import Landing from "./src/pages/Landing.vue"
 import Login from "./src/pages/Login.vue"
 import Register from "./src/pages/Register.vue"
 import Reset from "./src/pages/Reset.vue"
-import Home from "./src/pages/Home.vue"
+import Dashboard from "./src/pages/Dashboard.vue"
 import NotFound from "./src/pages/NotFound.vue"
 
 
@@ -41,8 +41,8 @@ const router = createRouter({
       },
       {
         path: "/app",
-        name: "Home",
-        component: Home,
+        name: "Dashboard",
+        component: Dashboard,
         meta: { requiresAuth: true, title: "Dashboard | Ma'aser Money" }
       },
       {
