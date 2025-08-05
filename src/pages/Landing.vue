@@ -713,7 +713,8 @@ section {
   }
   
   .brand-name {
-    display: none;
+    font-size: 1.1rem;
+    margin-top: 4px;
   }
   
   .landing-nav {
