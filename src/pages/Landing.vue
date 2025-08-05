@@ -142,7 +142,7 @@
           </div>
           <div class="faq-item">
             <h3>Can you connect to my bank account?</h3>
-            <p>At the momennt, Ma'aser Money does not connect to your bank. All transactions are put into the app directly, either as one-off entries or on automatic schedules.</p>
+            <p>At the moment, Ma'aser Money does not connect to your bank. All transactions are put into the app directly, either as one-off entries or on automatic schedules.</p>
           </div>
           <div class="faq-item">
             <h3>Can I export my data?</h3>
