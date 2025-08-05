@@ -44,7 +44,7 @@
 
   const logout = () => {
     signOut(auth)
-    router.push("/auth")
+    router.push("/")
   }
   
   const incomeCollectionRef = collection(db, "income")
@@ -282,7 +282,7 @@
 
   // Ma'aser
   const defaultMaaser = { description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, recurring: false, frequency: null, scheduleId: null, uid: null }
-  const newMaaser = ref({ description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, uid: null })
+  const newMaaser = ref({ description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, recurring: false, frequency: null, scheduleId: null, uid: null })
   
 
   const maaserOpen = ref(false)
@@ -518,15 +518,19 @@
       <AddToHomeScreen />
     </div>
 
-    <FooterActions />
-    <br />
-    <img href="#" src="/img/icons/logo-circle.png" class="footer-logo">
+    <footer class="app-footer">
+      <FooterActions />
+    </footer>
   </main>
 </template>
 
 <style scoped>
   a, td {
     cursor: pointer;
+  }
+
+  .app-footer {
+    margin: 2rem 0;
   }
 
   .title {
@@ -575,20 +579,6 @@
   }
 }
 
-.footer-logo {
-  display: block;
-  width: 7%;
-  height: auto;
-  margin-bottom: 5%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-@media (max-width: 767px) {
-  .footer-logo {
-    width: 20%;
-  }
-}
 
 .partner-header {
   margin-bottom: 12px;

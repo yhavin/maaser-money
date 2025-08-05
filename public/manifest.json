@@ -2,7 +2,7 @@
   "name": "Ma'aser Money",
   "short_name": "Ma'aser Money",
   "description": "Earn responsibly. Track your income and ma'aser.",
-  "start_url": "/",
+  "start_url": "/app",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#00897b",

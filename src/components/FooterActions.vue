@@ -30,11 +30,22 @@
 </script>
 
 <template>
-  <span class="gutter-text">Feedback and bug reports welcome by&nbsp;<a href="mailto:y.havin@gmail.com?subject=Ma%27aser%20app%20feedback">email</a></span>
-  <span class="gutter-text"><a :href="paymentLink" target="_blank">Donate to support this app <span>❤️</span></a></span>
+  <div class="footer-actions">
+    <span class="gutter-text">Feedback and bug reports welcome by&nbsp;<a href="mailto:y.havin@gmail.com?subject=Ma%27aser%20Money%20feedback">email</a></span>
+    <span class="gutter-text"><a :href="paymentLink" target="_blank">Donate to support this app <span>❤️</span></a></span>
+    <img src="/img/icons/logo-circle.png" alt="Ma'aser Money" class="footer-logo">
+    <p class="footer-copyright">&copy; 2025 Ma'aser Money</p>
+  </div>
 </template>
 
 <style scoped>
+  .footer-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
   a {
     cursor: pointer;
   }
@@ -43,5 +54,26 @@
     font-size: 13px;
     display: flex;
     justify-content: center;
+  }
+
+  .footer-logo {
+    display: block;
+    width: 60px;
+    height: 60px;
+    margin: 1rem auto;
+  }
+
+  .footer-copyright {
+    margin: 0;
+    color: #6c757d;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  @media (max-width: 767px) {
+    .footer-logo {
+      width: 50px;
+      height: 50px;
+    }
   }
 </style>
