@@ -33,7 +33,7 @@
     fetchUserInfo()
     // Only gets first new recurring item until refresh
     await useRunRecurring(userId, scheduleCollectionRef)
-    await store.fetchAllData(userId)
+    store.setupListeners(userId)
     isIOS.value = /iPad|iPhone|iPod/.test(navigator.userAgent)
     isSafari.value = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
     const mediaQuery = window.matchMedia('(display-mode: standalone)')
@@ -43,6 +43,7 @@
   const router = useRouter()
 
   const logout = () => {
+    store.cleanupListeners()
     signOut(auth)
     router.push("/")
   }
@@ -90,8 +91,6 @@
     isLoadingButton.value = true
     const scheduleRef = doc(scheduleCollectionRef, schedule.id)
     await updateDoc(scheduleRef, { active: false })
-    // Remove from cache instead of full refresh
-    store.removeFromCache('schedule', schedule.id)
     closeScheduleModal()
   }
 
@@ -147,13 +146,10 @@
     if (validateIncome()) {
       isLoadingButton.value = true
       if (newIncome.value.recurring) {
-        const createdSchedule = await useCreateSchedule("income", newIncome, userId, defaultSchedule, newSchedule, scheduleCollectionRef)
-        store.addToCache('schedule', createdSchedule)
+        await useCreateSchedule("income", newIncome, userId, defaultSchedule, newSchedule, scheduleCollectionRef)
       } else {
         const docRef = await addDoc(incomeCollectionRef, newIncome.value)
         console.log("Income added with ID:", docRef.id)
-        // Add to cache instead of full refresh
-        store.addToCache('income', { id: docRef.id, ...newIncome.value })
       }
       setIncomeClosed()
       newIncome.value = { ...defaultIncome }
@@ -172,8 +168,6 @@
     if (scheduleRef) {
       await updateDoc(scheduleRef, { itemIds: arrayRemove(income.id) })
     }
-    // Remove from cache instead of full refresh
-    store.removeFromCache('income', income.id)
     closeIncomeModal()
   }
 
@@ -239,8 +233,6 @@
       isLoadingButton.value = true
       const docRef = await addDoc(deductionCollectionRef, newDeduction.value)
       console.log("Deduction added with ID:", docRef.id)
-      // Add to cache instead of full refresh
-      store.addToCache('deduction', { id: docRef.id, ...newDeduction.value })
       setDeductionClosed()
       newDeduction.value = { ...defaultDeduction }
       invalidDeductionDescription.value = null
@@ -254,8 +246,6 @@
   const handleDeleteDeduction = async (deduction) => {
     isLoadingButton.value = true
     await deleteDoc(doc(deductionCollectionRef, deduction.id))
-    // Remove from cache instead of full refresh
-    store.removeFromCache('deduction', deduction.id)
     closeDeductionModal()
   }
 
@@ -323,13 +313,10 @@
     if (validateMaaser()) {
       isLoadingButton.value = true
       if (newMaaser.value.recurring) {
-        const createdSchedule = await useCreateSchedule("maaser", newMaaser, userId, defaultSchedule, newSchedule, scheduleCollectionRef)
-        store.addToCache('schedule', createdSchedule)
+        await useCreateSchedule("maaser", newMaaser, userId, defaultSchedule, newSchedule, scheduleCollectionRef)
       } else {
         const docRef = await addDoc(maaserCollectionRef, newMaaser.value)
         console.log("Ma'aser added with ID:", docRef.id)
-        // Add to cache instead of full refresh
-        store.addToCache('maaser', { id: docRef.id, ...newMaaser.value })
       }
       setMaaserClosed()
       newMaaser.value = { ...defaultMaaser }
@@ -347,8 +334,6 @@
     if (scheduleRef) {
       await updateDoc(scheduleRef, { itemIds: arrayRemove(maaser.id) })
     }
-    // Remove from cache instead of full refresh
-    store.removeFromCache('maaser', maaser.id)
     closeMaaserModal()
   }
 

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { db } from '../firebase.config.js'
-import { collection, getDocs, query, where, orderBy } from 'firebase/firestore'
+import { collection, query, where, orderBy, onSnapshot } from 'firebase/firestore'
 
 const incomeCollectionRef = collection(db, "income")
 const deductionCollectionRef = collection(db, "deductions")
@@ -28,7 +28,7 @@ export const useTransactionsStore = defineStore('transactions', {
     deductionItems: [],
     maaserItems: [],
     schedules: [],
-    lastFetch: null
+    listeners: []
   }),
   
   getters: {
@@ -86,135 +86,88 @@ export const useTransactionsStore = defineStore('transactions', {
   },
   
   actions: {
-    async fetchAllData(userId) {
-      // Use cached data if it exists
-      if (this.lastFetch && this.incomeItems.length > 0) {
-        console.log('Using cached data')
-        return
-      }
+    setupListeners(userId) {
+      console.log('Setting up real-time listeners')
       
-      console.log('Fetching fresh data from Firebase')
+      // Clear any existing listeners
+      this.cleanupListeners()
       
       try {
-        // Fetch incomes
-        const incomeSnapshot = await getDocs(
-          query(incomeCollectionRef, where("uid", "==", userId), orderBy("date", "desc"))
+        // Income listener
+        const incomeUnsubscribe = onSnapshot(
+          query(incomeCollectionRef, where("uid", "==", userId), orderBy("date", "desc")),
+          (snapshot) => {
+            const items = []
+            snapshot.forEach((doc) => {
+              items.push({ id: doc.id, ...doc.data() })
+            })
+            this.incomeItems = items
+            console.log(`Updated ${items.length} income items`)
+          },
+          (error) => console.error('Income listener error:', error)
         )
-        const fetchedIncomes = []
-        incomeSnapshot.forEach((doc) => {
-          fetchedIncomes.push({ id: doc.id, ...doc.data() })
-        })
-        this.incomeItems = fetchedIncomes
         
-        // Fetch deductions
-        const deductionSnapshot = await getDocs(
-          query(deductionCollectionRef, where("uid", "==", userId), orderBy("date", "desc"))
+        // Deduction listener
+        const deductionUnsubscribe = onSnapshot(
+          query(deductionCollectionRef, where("uid", "==", userId), orderBy("date", "desc")),
+          (snapshot) => {
+            const items = []
+            snapshot.forEach((doc) => {
+              items.push({ id: doc.id, ...doc.data() })
+            })
+            this.deductionItems = items
+            console.log(`Updated ${items.length} deduction items`)
+          },
+          (error) => console.error('Deduction listener error:', error)
         )
-        const fetchedDeductions = []
-        deductionSnapshot.forEach((doc) => {
-          fetchedDeductions.push({ id: doc.id, ...doc.data() })
-        })
-        this.deductionItems = fetchedDeductions
         
-        // Fetch maasers
-        const maaserSnapshot = await getDocs(
-          query(maaserCollectionRef, where("uid", "==", userId), orderBy("date", "desc"))
+        // Maaser listener
+        const maaserUnsubscribe = onSnapshot(
+          query(maaserCollectionRef, where("uid", "==", userId), orderBy("date", "desc")),
+          (snapshot) => {
+            const items = []
+            snapshot.forEach((doc) => {
+              items.push({ id: doc.id, ...doc.data() })
+            })
+            this.maaserItems = items
+            console.log(`Updated ${items.length} maaser items`)
+          },
+          (error) => console.error('Maaser listener error:', error)
         )
-        const fetchedMaasers = []
-        maaserSnapshot.forEach((doc) => {
-          fetchedMaasers.push({ id: doc.id, ...doc.data() })
-        })
-        this.maaserItems = fetchedMaasers
         
-        // Fetch schedules
-        const scheduleSnapshot = await getDocs(
-          query(scheduleCollectionRef, where("uid", "==", userId), where("active", "==", true), orderBy("startDate", "desc"))
+        // Schedule listener
+        const scheduleUnsubscribe = onSnapshot(
+          query(scheduleCollectionRef, where("uid", "==", userId), where("active", "==", true), orderBy("startDate", "desc")),
+          (snapshot) => {
+            const items = []
+            snapshot.forEach((doc) => {
+              items.push({ id: doc.id, ...doc.data() })
+            })
+            this.schedules = items
+            console.log(`Updated ${items.length} schedule items`)
+          },
+          (error) => console.error('Schedule listener error:', error)
         )
-        const fetchedSchedules = []
-        scheduleSnapshot.forEach((doc) => {
-          fetchedSchedules.push({ id: doc.id, ...doc.data() })
-        })
-        this.schedules = fetchedSchedules
         
-        this.lastFetch = Date.now()
+        // Store unsubscribe functions
+        this.listeners = [incomeUnsubscribe, deductionUnsubscribe, maaserUnsubscribe, scheduleUnsubscribe]
         
       } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error('Error setting up listeners:', error)
         throw error
       }
     },
     
-    addToCache(type, item) {
-      // Convert Date objects to Firestore-like timestamp format for localStorage compatibility
-      const itemWithDate = { 
-        ...item, 
-        date: item.date instanceof Date ? {
-          seconds: Math.floor(item.date.getTime() / 1000),
-          nanoseconds: (item.date.getTime() % 1000) * 1000000
-        } : item.date
-      }
+    cleanupListeners() {
+      console.log('Cleaning up listeners')
+      this.listeners.forEach(unsubscribe => unsubscribe())
+      this.listeners = []
       
-      switch(type) {
-        case 'income':
-          this.incomeItems.unshift(itemWithDate)
-          break
-        case 'deduction':
-          this.deductionItems.unshift(itemWithDate)
-          break
-        case 'maaser':
-          this.maaserItems.unshift(itemWithDate)
-          break
-        case 'schedule':
-          this.schedules.unshift(item)
-          break
-      }
-      console.log(`Added ${type} to cache`)
+      // Clear data
+      this.incomeItems = []
+      this.deductionItems = []
+      this.maaserItems = []
+      this.schedules = []
     },
-    
-    removeFromCache(type, itemId) {
-      switch(type) {
-        case 'income':
-          this.incomeItems = this.incomeItems.filter(item => item.id !== itemId)
-          break
-        case 'deduction':
-          this.deductionItems = this.deductionItems.filter(item => item.id !== itemId)
-          break
-        case 'maaser':
-          this.maaserItems = this.maaserItems.filter(item => item.id !== itemId)
-          break
-        case 'schedule':
-          this.schedules = this.schedules.filter(item => item.id !== itemId)
-          break
-      }
-      console.log(`Removed ${type} from cache`)
-    },
-    
-    
-    // Optimistic updates for immediate UI feedback
-    addIncomeOptimistic(income) {
-      this.incomeItems.unshift(income)
-    },
-    
-    addDeductionOptimistic(deduction) {
-      this.deductionItems.unshift(deduction)
-    },
-    
-    addMaaserOptimistic(maaser) {
-      this.maaserItems.unshift(maaser)
-    },
-    
-    removeIncomeOptimistic(incomeId) {
-      this.incomeItems = this.incomeItems.filter(income => income.id !== incomeId)
-    },
-    
-    removeDeductionOptimistic(deductionId) {
-      this.deductionItems = this.deductionItems.filter(deduction => deduction.id !== deductionId)
-    },
-    
-    removeMaaserOptimistic(maaserId) {
-      this.maaserItems = this.maaserItems.filter(maaser => maaser.id !== maaserId)
-    }
-  },
-  
-  persist: true
+  }
 })
