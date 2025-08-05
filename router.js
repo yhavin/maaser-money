@@ -62,8 +62,8 @@ router.beforeEach((to, from, next) => {
     if (requiresAuth && !user) {
       // Non-logged-in user tries to access app → redirect to login
       next("/login")
-    } else if (user && (to.path === "/login" || to.path === "/reset" || to.path === "/")) {
-      // Logged-in user tries to visit login/reset/landing pages → redirect to app
+    } else if (user && (to.path === "/login" || to.path === "/reset")) {
+      // Logged-in user tries to visit login/reset pages → redirect to app
       next("/app")
     } else {
       next()
