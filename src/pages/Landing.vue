@@ -21,9 +21,9 @@
       <div class="container">
         <div class="hero-content">
           <div class="hero-text">
-            <h1>Track Your Ma'aser with Confidence</h1>
+            <h1>Track your ma'aser with confidence</h1>
             <p class="hero-subtitle">
-              Easily track your ma'aser balance with the world's most intuitive tracker.
+              No more messy spreadsheets. Start using the world's most intuitive ma'aser tracker.
             </p>
             <div class="hero-actions">
               <button @click="goToSignUp" class="cta-primary">Start tracking</button>
@@ -95,7 +95,7 @@
     <section class="how-it-works">
       <div class="container">
         <div class="section-header">
-          <h2>How It Works</h2>
+          <h2>How it works</h2>
         </div>
         <div class="steps-grid">
           <div class="step">
@@ -121,7 +121,7 @@
     <section class="faq">
       <div class="container">
         <div class="section-header">
-          <h2>Frequently Asked Questions</h2>
+          <h2>Frequently asked questions</h2>
         </div>
         <div class="faq-grid">
           <div class="faq-item">
@@ -164,8 +164,8 @@
     <section class="final-cta">
       <div class="container">
         <div class="cta-content">
-          <h2>Ready to Track Your Ma'aser?</h2>
-          <p>Join users who are already giving with confidence and precision.</p>
+          <h2>Ready?</h2>
+          <p>Start tracking your ma'aser with confidence and precision.</p>
           <button @click="goToSignUp" class="cta-primary large">Get started</button>
         </div>
       </div>
@@ -614,7 +614,6 @@ section {
 .cta-content p {
   font-size: 1.1rem;
   margin-bottom: 2rem;
-  opacity: 0.9;
 }
 
 .final-cta .cta-primary {
