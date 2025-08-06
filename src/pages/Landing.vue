@@ -204,6 +204,33 @@ const goToLanding = () => {
 <style scoped>
 /* Landing Page Specific Styles */
 
+/* Force light mode for landing page */
+.landing-page {
+  color-scheme: light;
+  background-color: white !important;
+}
+
+
+.landing-page .features {
+  background: white !important;
+}
+
+.landing-page .how-it-works {
+  background: white !important;
+}
+
+.landing-page .faq {
+  background: white !important;
+}
+
+.landing-page .landing-footer {
+  background: #f8f9fa !important;
+}
+
+.landing-page .landing-footer * {
+  color: #6c757d !important;
+}
+
 /* General section spacing */
 section {
   margin-bottom: 2rem;
@@ -753,6 +780,10 @@ section {
   
   .final-cta {
     padding: 2rem 0;
+  }
+  
+  .final-cta .cta-content {
+    padding: 0 2rem;
   }
   
   .features-grid,
