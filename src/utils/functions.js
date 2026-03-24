@@ -14,9 +14,9 @@ export const convertCurrency = async (amount, baseCurrency, convertCurrency, dat
     date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0];
   } 
 
-  const host = "https://api.frankfurter.app"
+  const host = "https://api.frankfurter.dev"
   try {
-    const response = await fetch(`${host}/${date}?amount=${amount}&from=${baseCurrency}&to=${convertCurrency}`)
+    const response = await fetch(`${host}/v1/${date}?amount=${amount}&from=${baseCurrency}&to=${convertCurrency}`)
     const data = await response.json()
     const convertedAmount = data.rates[convertCurrency]
     return Number(convertedAmount.toFixed(2))

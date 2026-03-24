@@ -74,7 +74,7 @@ The app uses several Firestore collections:
 #### Key Data Patterns
 - All transactions are user-scoped using `uid` field
 - Recurring schedules generate transactions automatically via composables
-- Currency conversion is handled via external API (frankfurter.app)
+- Currency conversion is handled via external API (frankfurter.dev)
 - Transactions support tagging (e.g., tax deductible donations)
 - Cache updates use `addToCache()` and `removeFromCache()` for individual item management
 
@@ -109,7 +109,7 @@ The recurring system is implemented via composables in `src/composables/recurrin
 ### Currency and Localization
 
 - Multi-currency support via `currencyOptions` constant
-- Currency conversion using frankfurter.app API
+- Currency conversion using frankfurter.dev API
 - Locale-specific formatting via `currencyLanguages` mapping
 - Timezone handling for recurring schedules
 
