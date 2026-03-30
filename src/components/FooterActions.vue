@@ -34,7 +34,7 @@
     <span class="gutter-text">Feedback and bug reports welcome by&nbsp;<a href="mailto:y.havin@gmail.com?subject=Ma%27aser%20Money%20feedback">email</a></span>
     <span class="gutter-text"><a :href="paymentLink" target="_blank">Donate to support this app <span>❤️</span></a></span>
     <img src="/img/icons/logo-circle.png" alt="Ma'aser Money" class="footer-logo">
-    <p class="footer-copyright">&copy; 2025 Ma'aser Money</p>
+    <p class="footer-copyright">&copy; {{ new Date().getFullYear() }} Ma'aser Money</p>
   </div>
 </template>
 
