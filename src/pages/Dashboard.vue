@@ -21,7 +21,7 @@
   import ScheduleDetail from "../components/ScheduleDetail.vue"
   import AddToHomeScreen from "../components/AddToHomeScreen.vue"
   import FooterActions from "../components/FooterActions.vue"
-  import { BanknotesIcon, ReceiptPercentIcon, HeartIcon } from "@heroicons/vue/24/outline"
+  import { BanknotesIcon, ReceiptPercentIcon, HeartIcon, ArrowLeftStartOnRectangleIcon } from "@heroicons/vue/24/outline"
 
   
   const isIOS = ref(false)
@@ -373,7 +373,7 @@
         <details role="list">
           <summary aria-haspopup="listbox" role="link">{{ auth.currentUser.email }}</summary>
           <ul role="listbox">
-            <li><button class="secondary outline list" @click="logout">&#8594; Log out</button></li>
+            <li><button class="secondary outline list" @click="logout"><ArrowLeftStartOnRectangleIcon style="width: 1em; vertical-align: middle; margin-right: 0.4em;" /> Log out</button></li>
           </ul>
         </details>
       </li>
@@ -537,6 +537,8 @@
     align-items: center;
     gap: 0.5rem;
     direction: ltr;
+    padding: 0.4rem 0.75rem;
+    width: 100%;
   }
 
   .dropdown-icon {
