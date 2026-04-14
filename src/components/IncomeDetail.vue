@@ -1,4 +1,6 @@
 <script setup>
+  import { ArrowPathRoundedSquareIcon } from "@heroicons/vue/24/outline"
+
   const props = defineProps({
     userLanguage: String,
     userCurrency: String,
@@ -46,7 +48,7 @@
           <td>{{ (selectedIncome.amount * selectedIncome.percent).toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
         <tr v-if="selectedIncome.recurring">
-          <th>Schedule &nbsp; &#128257;</th>
+          <th class="icon-inline">Schedule <ArrowPathRoundedSquareIcon class="recurring-icon" /></th>
           <td>{{ selectedIncome.scheduleName || "No name" }}</td>
         </tr>
       </table>
@@ -58,3 +60,27 @@
     </article>
   </dialog>
 </template>
+
+<style scoped>
+  .icon-inline {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .recurring-icon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .recurring-icon {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+</style>

@@ -1,5 +1,6 @@
 <script setup>
   import { currencyOptions } from '../utils/constants'
+  import { ReceiptPercentIcon } from "@heroicons/vue/24/outline"
 
 
   const props = defineProps({
@@ -27,7 +28,7 @@
 <template>
   <dialog :open="deductionOpen">
     <article>
-      <header>{{ newDeduction.description || "Deduction" }}</header>
+      <header class="modal-header"><ReceiptPercentIcon class="modal-header-icon" />{{ newDeduction.description || "Deduction" }}</header>
       <form>
         <input v-model="newDeduction.description" placeholder="Description" :aria-invalid="invalidDeductionDescription">
         <small>Deductions are things like business expenses that lower how much income you need to pay ma'aser on</small>
@@ -50,3 +51,24 @@
     </article>
   </dialog>
 </template>
+
+<style scoped>
+  .modal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .modal-header-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .modal-header-icon {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+</style>

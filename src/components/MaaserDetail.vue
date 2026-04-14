@@ -1,4 +1,6 @@
 <script setup>
+  import { ArrowPathRoundedSquareIcon } from "@heroicons/vue/24/outline"
+
   const props = defineProps({
     userLanguage: String,
     userCurrency: String,
@@ -42,7 +44,7 @@
           <td><input type="checkbox" :checked="selectedMaaser.taxDeductible" disabled></td>
         </tr>
         <tr v-if="selectedMaaser.recurring">
-          <th>Schedule &nbsp; &#128257;</th>
+          <th class="icon-inline">Schedule <ArrowPathRoundedSquareIcon class="recurring-icon" /></th>
           <td>{{ selectedMaaser.scheduleName || "No name" }}</td>
         </tr>
       </table>
@@ -56,5 +58,25 @@
 </template>
 
 <style scoped>
+  .icon-inline {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
 
+  .recurring-icon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .recurring-icon {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
 </style>

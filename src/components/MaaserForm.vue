@@ -3,6 +3,7 @@
   import { recurringFrequencies } from '../utils/constants'
   import { weekDays } from "../utils/constants"
   import { monthDays } from "../utils/constants"
+  import { HeartIcon } from "@heroicons/vue/24/outline"
 
   
   const props = defineProps({
@@ -29,7 +30,7 @@
 <template>
   <dialog :open="maaserOpen">
     <article>
-      <header>{{ newMaaser.description || "Donation" }}</header>
+      <header class="modal-header"><HeartIcon class="modal-header-icon" />{{ newMaaser.description || "Donation" }}</header>
       <form>
         <input v-model="newMaaser.description" placeholder="Description" :aria-invalid="invalidMaaserDescription">
         <input v-model.number="newMaaser.amount" placeholder="Amount" :aria-invalid="invalidMaaserAmount">
@@ -77,3 +78,24 @@
     </article>
   </dialog>
 </template>
+
+<style scoped>
+  .modal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .modal-header-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .modal-header-icon {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+</style>

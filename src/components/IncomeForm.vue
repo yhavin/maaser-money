@@ -3,6 +3,7 @@
   import { recurringFrequencies } from '../utils/constants'
   import { weekDays } from "../utils/constants"
   import { monthDays } from "../utils/constants"
+  import { BanknotesIcon } from "@heroicons/vue/24/outline"
 
   
   const props = defineProps({
@@ -31,7 +32,7 @@
 <template>
   <dialog :open="incomeOpen">
     <article>
-      <header>{{ newIncome.description || "Income" }}</header>
+      <header class="modal-header"><BanknotesIcon class="modal-header-icon" />{{ newIncome.description || "Income" }}</header>
       <form>
         <input v-model="newIncome.description" placeholder="Description" :aria-invalid="invalidIncomeDescription">
         <input v-model.number="newIncome.amount" placeholder="Amount" :aria-invalid="invalidIncomeAmount">
@@ -77,3 +78,24 @@
     </article>
   </dialog>
 </template>
+
+<style scoped>
+  .modal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .modal-header-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .modal-header-icon {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+</style>

@@ -1,6 +1,7 @@
 <script setup> 
   import { ref, computed } from "vue"
   import { Parser } from "@json2csv/plainjs"
+  import { ArrowPathRoundedSquareIcon } from "@heroicons/vue/24/outline"
 
 
   const props = defineProps({
@@ -129,7 +130,7 @@
       <table>
         <tr v-if="filteredIncomes.length > 0" class="hover-underline" v-for="income in filteredIncomes" :key="income.id" @click="emitOpenIncomeModal(income)">
           <td>{{ income.description }}</td>
-          <td class="recurring-symbol">{{ income.recurring ? "&#128257;" : null }}</td>
+          <td class="recurring-symbol"><ArrowPathRoundedSquareIcon v-if="income.recurring" class="recurring-icon" /></td>
           <td class="number-align">{{ income.date.toDate().toLocaleDateString("default", { day: "numeric", month: "short", year: "numeric" }) }}</td>
           <td class="number-align">{{ income.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
@@ -168,7 +169,7 @@
       <table>
         <tr v-if="filteredMaasers.length > 0" class="hover-underline" v-for="maaser in filteredMaasers" :key="maaser.id" @click="emitOpenMaaserModal(maaser)">
           <td>{{ maaser.description }}</td>
-          <td class="recurring-symbol">{{ maaser.recurring ? "&#128257;" : null }}</td>
+          <td class="recurring-symbol"><ArrowPathRoundedSquareIcon v-if="maaser.recurring" class="recurring-icon" /></td>
           <td class="number-align">{{ maaser.date.toDate().toLocaleDateString("default", { day: "numeric", month: "short", year: "numeric" }) }}</td>
           <td class="number-align">{{ maaser.amount.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
@@ -201,6 +202,19 @@
 
   .number-align {
     text-align: right;
+  }
+
+  .recurring-icon {
+    width: 1rem;
+    height: 1rem;
+    display: block;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .recurring-icon {
+      width: 1rem;
+      height: 1rem;
+    }
   }
 
   @media (max-width: 767px) {

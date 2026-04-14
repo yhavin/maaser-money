@@ -21,6 +21,7 @@
   import ScheduleDetail from "../components/ScheduleDetail.vue"
   import AddToHomeScreen from "../components/AddToHomeScreen.vue"
   import FooterActions from "../components/FooterActions.vue"
+  import { BanknotesIcon, ReceiptPercentIcon, HeartIcon } from "@heroicons/vue/24/outline"
 
   
   const isIOS = ref(false)
@@ -382,9 +383,9 @@
         <details role="list">
           <summary aria-haspopup="listbox" role="button" @click="isDropdownOpen = true">&#65291;</summary>
           <ul role="listbox" v-show="isDropdownOpen">
-            <li><button class="secondary outline list" @click="setIncomeOpen"> Income &#65291;</button></li>
-            <li><button class="secondary outline list" @click="setDeductionOpen">Deduction &#65291;</button></li>
-            <li><button class="secondary outline list" @click="setMaaserOpen">Donation &#65291;</button></li>
+            <li><button class="secondary outline list" @click="setIncomeOpen"><BanknotesIcon class="dropdown-icon" /> Income</button></li>
+            <li><button class="secondary outline list" @click="setDeductionOpen"><ReceiptPercentIcon class="dropdown-icon" /> Deduction</button></li>
+            <li><button class="secondary outline list" @click="setMaaserOpen"><HeartIcon class="dropdown-icon" /> Donation</button></li>
           </ul>
         </details>
       </li>
@@ -532,6 +533,16 @@
   .list {
     border: none;
     text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    direction: ltr;
+  }
+
+  .dropdown-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex-shrink: 0;
   }
 
   details {
@@ -546,6 +557,11 @@
     .secondary:hover {
       background-color: #2a3e4e;
       color: white;
+    }
+
+    .dropdown-icon {
+      width: 1.1rem;
+      height: 1.1rem;
     }
   }
 
