@@ -44,7 +44,7 @@
   const router = useRouter()
 
   const logout = () => {
-    store.cleanupListeners()
+    store.resetForLogout()
     signOut(auth)
     router.push("/")
   }
