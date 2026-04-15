@@ -1,9 +1,8 @@
 <script setup>
   import { ref, onMounted, watch } from "vue"
-  import { db, auth } from "../firebase.config.js"
+  import { db, auth, clearLocalCache } from "../firebase.config.js"
   import { collection, addDoc, getDocs, query, where, doc, deleteDoc, updateDoc, arrayRemove } from "firebase/firestore"
   import { signOut } from "firebase/auth"
-  import { useRouter } from "vue-router"
   import { currencyLanguages } from "../utils/constants"
   import { formatPercent, convertCurrency } from "../utils/functions.js"
   import { useCreateSchedule } from "../composables/recurring/useCreateSchedule.js"
@@ -41,12 +40,15 @@
     isPWAInstalled.value = mediaQuery.matches
   })
   
-  const router = useRouter()
-
-  const logout = () => {
+  const logout = async () => {
     store.resetForLogout()
-    signOut(auth)
-    router.push("/")
+    await signOut(auth)
+    try {
+      await clearLocalCache()
+    } catch (error) {
+      console.error('Error clearing local cache:', error)
+    }
+    window.location.href = "/"
   }
   
   const incomeCollectionRef = collection(db, "income")

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app"
-import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from "firebase/firestore"
+import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, terminate, clearIndexedDbPersistence } from "firebase/firestore"
 import { getAuth } from "firebase/auth"
 import { getAnalytics } from "firebase/analytics"
 import { getStorage } from "firebase/storage"
@@ -24,4 +24,9 @@ const auth = getAuth(app)
 const analytics = getAnalytics(app)
 const storage = getStorage(app)
 
-export { db, auth, analytics, storage }
+const clearLocalCache = async () => {
+  await terminate(db)
+  await clearIndexedDbPersistence(db)
+}
+
+export { db, auth, analytics, storage, clearLocalCache }
