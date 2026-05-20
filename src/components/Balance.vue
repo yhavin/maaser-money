@@ -1,4 +1,6 @@
 <script setup>
+  import { ScaleIcon } from "@heroicons/vue/24/outline"
+
   const props = defineProps({
     userInfo: Object,
     userLanguage: String,
@@ -19,7 +21,7 @@
 
 <template>
   <article v-if="!!userLanguage">
-    <h3>Balance</h3>
+    <h3 class="section-header"><ScaleIcon class="section-header-icon" />Balance</h3>
     <table>
       <tr>
         <th>Income</th>
@@ -46,6 +48,20 @@
 </template>
 
 <style scoped>
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .section-header-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    position: relative;
+    top: -3px;
+  }
+
   article {
     margin-top: 0px;
   }

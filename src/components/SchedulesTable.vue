@@ -1,4 +1,5 @@
 <script setup>
+  import { CalendarDaysIcon } from "@heroicons/vue/24/outline"
   import { recurringFrequencies } from '../utils/constants'
   
   
@@ -20,7 +21,7 @@
 
 <template>
   <article>
-    <h3>Schedules</h3>
+    <h3 class="section-header"><CalendarDaysIcon class="section-header-icon" />Schedules</h3>
     <table>
       <thead>
         <tr>
@@ -41,6 +42,20 @@
 </template>
 
 <style scoped>
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .section-header-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    position: relative;
+    top: -3px;
+  }
+
   a, td {
       cursor: pointer;
     }

@@ -1,7 +1,7 @@
 <script setup> 
   import { ref, computed } from "vue"
   import { Parser } from "@json2csv/plainjs"
-  import { ArrowPathRoundedSquareIcon } from "@heroicons/vue/24/outline"
+  import { ArrowPathRoundedSquareIcon, ClipboardDocumentListIcon } from "@heroicons/vue/24/outline"
 
 
   const props = defineProps({
@@ -119,7 +119,7 @@
 
 <template>
   <article v-if="!!userLanguage">
-    <h3>Transactions</h3>
+    <h3 class="section-header"><ClipboardDocumentListIcon class="section-header-icon" />Transactions</h3>
     <details>
       <summary>Income</summary>
       <a v-if="incomes.length" @click="exportIncomeToCsv">&#x2193 Export</a>
@@ -182,6 +182,20 @@
 </template>
 
 <style scoped>
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .section-header-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    position: relative;
+    top: -3px;
+  }
+
   a, td {
     cursor: pointer;
   }
