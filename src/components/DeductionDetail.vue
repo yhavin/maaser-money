@@ -1,4 +1,6 @@
 <script setup>
+  import { ReceiptPercentIcon } from "@heroicons/vue/24/outline"
+
   const props = defineProps({
     userLanguage: String,
     userCurrency: String,
@@ -22,7 +24,7 @@
     <article>
       <header>
         <a href="#" class="close" @click.prevent="emitCloseDeductionModal"></a>
-        Deduction
+        <span class="modal-header"><ReceiptPercentIcon class="modal-header-icon" />Deduction</span>
       </header>
       <table>
         <tr>
@@ -54,3 +56,19 @@
     </article>
   </dialog>
 </template>
+
+<style scoped>
+  .modal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .modal-header-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+    position: relative;
+    top: -3px;
+  }
+</style>

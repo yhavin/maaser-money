@@ -1,5 +1,5 @@
 <script setup>
-  import { ArrowPathRoundedSquareIcon } from "@heroicons/vue/24/outline"
+  import { ArrowPathRoundedSquareIcon, BanknotesIcon } from "@heroicons/vue/24/outline"
 
   const props = defineProps({
     userLanguage: String,
@@ -24,7 +24,7 @@
     <article>
       <header>
         <a href="#" class="close" @click.prevent="emitCloseIncomeModal"></a>
-        Income
+        <span class="modal-header"><BanknotesIcon class="modal-header-icon" />Income</span>
       </header>
       <table>
         <tr>
@@ -62,6 +62,20 @@
 </template>
 
 <style scoped>
+  .modal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .modal-header-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+    position: relative;
+    top: -3px;
+  }
+
   .icon-inline {
     display: flex;
     align-items: center;

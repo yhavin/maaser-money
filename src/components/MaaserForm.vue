@@ -90,6 +90,8 @@
     width: 1.25rem;
     height: 1.25rem;
     flex-shrink: 0;
+    position: relative;
+    top: -3px;
   }
 
   @media (prefers-color-scheme: dark) {
