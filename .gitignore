@@ -39,3 +39,13 @@ og-image white.ai
 .env
 env.production
 env.js
+
+
+# Exported user data
+exports
+
+
+# Service account keys
+ma-aser-*.json
+*service-account*.json
+*serviceAccount*.json
