@@ -41,7 +41,7 @@
     <article>
       <img src="/img/icons/logo-circle.png" class="logo">
       <!-- <hgroup>
-        <h1>Ma'aser Money</h1>
+        <h1>Ma’aser Money</h1>
         <h3>Earn responsibly</h3>
       </hgroup> -->
       <div v-if="showLogin"><Login /></div>

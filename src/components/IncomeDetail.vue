@@ -40,11 +40,11 @@
           <td>{{ selectedIncome.date.toDate().toLocaleDateString("default", { day: "numeric", month: "short", year: "numeric" }) }}</td>
         </tr>
         <tr>
-          <th>Ma'aser percent</th>
+          <th>Ma’aser percent</th>
           <td>{{ ((selectedIncome.percent * 100).toFixed(0) + "%") }}</td>
         </tr>
         <tr>
-          <th>Ma'aser owing</th>
+          <th>Ma’aser owing</th>
           <td>{{ (selectedIncome.amount * selectedIncome.percent).toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
         <tr v-if="selectedIncome.recurring">

@@ -37,7 +37,7 @@
       </tr>
       <tfoot>
         <tr>
-          <th><strong>Ma'aser due</strong></th>
+          <th><strong>Ma’aser due</strong></th>
           <td><strong>{{ maaserDue.toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</strong></td>
         </tr>
       </tfoot>

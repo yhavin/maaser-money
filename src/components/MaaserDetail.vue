@@ -24,7 +24,7 @@
     <article>
       <header>
         <a href="#" class="close" @click.prevent="emitCloseMaaserModal"></a>
-        <span class="modal-header"><HeartIcon class="modal-header-icon" />Ma'aser</span>
+        <span class="modal-header"><HeartIcon class="modal-header-icon" />Ma’aser</span>
       </header>
       <table>
         <tr>

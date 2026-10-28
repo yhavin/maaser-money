@@ -40,11 +40,11 @@
           <td>{{ selectedDeduction.date.toDate().toLocaleDateString("default", { day: "numeric", month: "short", year: "numeric" }) }}</td>
         </tr>
         <tr>
-          <th>Ma'aser percent</th>
+          <th>Ma’aser percent</th>
           <td>{{ ((selectedDeduction.percent * 100).toFixed(0) + "%") }}</td>
         </tr>
         <tr>
-          <th>Ma'aser deducted</th>
+          <th>Ma’aser deducted</th>
           <td>{{ (selectedDeduction.amount * selectedDeduction.percent).toLocaleString(userLanguage, { style: "currency", currency: userCurrency }) }}</td>
         </tr>
       </table>

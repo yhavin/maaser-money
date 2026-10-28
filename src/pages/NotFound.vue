@@ -24,8 +24,8 @@ const goToSignUp = () => {
       <div class="container">
         <div class="nav-content">
           <div class="logo-section" @click="goToLanding">
-            <img src="/img/icons/logo-circle.png" alt="Ma'aser Money Logo" class="nav-logo">
-            <span class="brand-name">Ma'aser Money</span>
+            <img src="/img/icons/logo-circle.png" alt="Ma’aser Money Logo" class="nav-logo">
+            <span class="brand-name">Ma’aser Money</span>
           </div>
           <div class="nav-buttons grid">
             <button @click="goToLogin" class="nav-btn secondary">Log in</button>
@@ -41,14 +41,14 @@ const goToSignUp = () => {
         <div class="error-content">
           <div class="error-visual">
             <div class="error-logo-container">
-              <img src="/img/icons/logo-circle-large.png" alt="Ma'aser Money" class="error-logo">
+              <img src="/img/icons/logo-circle-large.png" alt="Ma’aser Money" class="error-logo">
             </div>
           </div>
           <div class="error-text">
             <h1 class="error-number">404</h1>
             <h2>This page can't be tracked</h2>
             <p class="error-subtitle">
-              But your ma'aser can. Let's get you back on track.
+              But your ma’aser can. Let's get you back on track.
             </p>
             <div class="error-actions">
               <button @click="goToLanding" class="cta-primary">Go home</button>

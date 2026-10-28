@@ -273,7 +273,7 @@
     return !invalidDeductionDescription.value && !invalidDeductionAmount.value
   }
 
-  // Ma'aser
+  // Ma’aser
   const defaultMaaser = { description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, recurring: false, frequency: null, scheduleId: null, uid: null }
   const newMaaser = ref({ description: "", amount: null, date: null, taxDeductible: false, currency: null, conversion: false, baseCurrency: null, baseAmount: null, recurring: false, frequency: null, scheduleId: null, uid: null })
   
@@ -319,7 +319,7 @@
         await useCreateSchedule("maaser", newMaaser, userId, defaultSchedule, newSchedule, scheduleCollectionRef)
       } else {
         const docRef = await addDoc(maaserCollectionRef, newMaaser.value)
-        console.log("Ma'aser added with ID:", docRef.id)
+        console.log("Ma’aser added with ID:", docRef.id)
       }
       setMaaserClosed()
       newMaaser.value = { ...defaultMaaser }

@@ -45,7 +45,7 @@
           <option v-for="(currency, index) in currencyOptions" :key=index :disabled="currency === userCurrency">{{ currency }}</option>
         </select>
         <input v-model="newIncome.percent" placeholder="%" :aria-invalid="invalidIncomePercent">
-        <small>How much ma'aser do you want to contribute for this income?</small>
+        <small>How much ma’aser do you want to contribute for this income?</small>
         <label>
           <input type="checkbox" v-model="newIncome.recurring">
           Recurring

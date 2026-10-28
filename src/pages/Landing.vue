@@ -5,8 +5,8 @@
       <div class="container">
         <div class="nav-content">
           <div class="logo-section" @click="goToLanding">
-            <img src="/img/icons/logo-circle.png" alt="Ma'aser Money Logo" class="nav-logo">
-            <span class="brand-name">Ma'aser Money</span>
+            <img src="/img/icons/logo-circle.png" alt="Ma’aser Money Logo" class="nav-logo">
+            <span class="brand-name">Ma’aser Money</span>
           </div>
           <div class="nav-buttons grid">
             <button @click="goToLogin" class="nav-btn secondary">Log in</button>
@@ -21,9 +21,9 @@
       <div class="container">
         <div class="hero-content">
           <div class="hero-text">
-            <h1>Track your ma'aser with confidence</h1>
+            <h1>Track your ma’aser with confidence</h1>
             <p class="hero-subtitle">
-              No more messy spreadsheets. Start using the world's most intuitive ma'aser tracker.
+              No more messy spreadsheets. Start using the world's most intuitive ma’aser tracker.
             </p>
             <div class="hero-actions">
               <button @click="goToSignUp" class="cta-primary">Start tracking</button>
@@ -31,7 +31,7 @@
           </div>
             <div class="hero-visual">
             <div class="hero-logo-container">
-              <img src="/img/icons/logo-circle-large.png" alt="Ma'aser Money" class="hero-logo-glow">
+              <img src="/img/icons/logo-circle-large.png" alt="Ma’aser Money" class="hero-logo-glow">
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@
               <img src="/img/icons/deduction.svg" alt="Tax Deductions">
             </div>
             <h3>Smart deductions</h3>
-            <p>Adjust your ma'aser obligation if you have business expenses or deductible items.</p>
+            <p>Adjust your ma’aser obligation if you have business expenses or deductible items.</p>
           </div>
           <div class="feature-card">
             <div class="feature-icon">
@@ -106,7 +106,7 @@
           <div class="step">
             <div class="step-number">2</div>
             <h3>Record deductions</h3>
-            <p>If you need, log business expenses and deductible items to ensure you're calculating ma'aser on your true net income.</p>
+            <p>If you need, log business expenses and deductible items to ensure you're calculating ma’aser on your true net income.</p>
           </div>
           <div class="step">
             <div class="step-number">3</div>
@@ -125,8 +125,8 @@
         </div>
         <div class="faq-grid">
           <div class="faq-item">
-            <h3>What is ma'aser?</h3>
-            <p>Ma'aser is the Jewish mitzvah (biblical commandment) of giving 10% of one's income to charity.</p>
+            <h3>What is ma’aser?</h3>
+            <p>Ma’aser is the Jewish mitzvah (biblical commandment) of giving 10% of one's income to charity.</p>
           </div>
           <div class="faq-item">
             <h3>Can I give more than 10%?</h3>
@@ -134,15 +134,15 @@
           </div>
           <div class="faq-item">
             <h3>Do I have to enter everything manually?</h3>
-            <p>No. If you earn a regular salary or make recurring donations, you can set up schedules and the income and ma'aser items will be created automatically.</p>
+            <p>No. If you earn a regular salary or make recurring donations, you can set up schedules and the income and ma’aser items will be created automatically.</p>
           </div>
           <div class="faq-item">
             <h3>Does it work on mobile devices?</h3>
-            <p>Yes! Ma'aser Money works seamlessly on all devices and can be installed as an icon on your home screen by pressing "Add to Home Screen" or similar depending on your device.</p>
+            <p>Yes! Ma’aser Money works seamlessly on all devices and can be installed as an icon on your home screen by pressing "Add to Home Screen" or similar depending on your device.</p>
           </div>
           <div class="faq-item">
             <h3>Can you connect to my bank account?</h3>
-            <p>At the moment, Ma'aser Money does not connect to your bank. All transactions are put into the app directly, either as one-off entries or on automatic schedules.</p>
+            <p>At the moment, Ma’aser Money does not connect to your bank. All transactions are put into the app directly, either as one-off entries or on automatic schedules.</p>
           </div>
           <div class="faq-item">
             <h3>Can I export my data?</h3>
@@ -150,7 +150,7 @@
           </div>
           <div class="faq-item">
             <h3>What does it cost?</h3>
-            <p>Ma'aser Money is completely free to use. We believe everyone should have access to tools that help them fulfil this beautiful mitzvah.</p>
+            <p>Ma’aser Money is completely free to use. We believe everyone should have access to tools that help them fulfil this beautiful mitzvah.</p>
           </div>
           <div class="faq-item">
             <h3>Is my financial data secure?</h3>
@@ -165,7 +165,7 @@
       <div class="container">
         <div class="cta-content">
           <h2>Ready?</h2>
-          <p>Start tracking your ma'aser with confidence and precision.</p>
+          <p>Start tracking your ma’aser with confidence and precision.</p>
           <button @click="goToSignUp" class="cta-primary large">Get started</button>
         </div>
       </div>

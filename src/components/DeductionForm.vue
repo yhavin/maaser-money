@@ -31,7 +31,7 @@
       <header class="modal-header"><ReceiptPercentIcon class="modal-header-icon" />{{ newDeduction.description || "Deduction" }}</header>
       <form>
         <input v-model="newDeduction.description" placeholder="Description" :aria-invalid="invalidDeductionDescription">
-        <small>Deductions are things like business expenses that lower how much income you need to pay ma'aser on</small>
+        <small>Deductions are things like business expenses that lower how much income you need to pay ma’aser on</small>
         <input v-model.number="newDeduction.amount" placeholder="Amount" :aria-invalid="invalidDeductionAmount">
         <label>
           <input type="checkbox" v-model="newDeduction.conversion">
@@ -42,7 +42,7 @@
           <option v-for="(currency, index) in currencyOptions" :key=index :disabled="currency === userCurrency">{{ currency }}</option>
         </select>
         <input v-model="newDeduction.percent" placeholder="%" :aria-invalid="invalidDeductionPercent">
-        <small>How much ma'aser do you want to remove for this deduction?</small>
+        <small>How much ma’aser do you want to remove for this deduction?</small>
       </form>
       <footer>
           <a role="button" href="#" class="secondary outline" @click.prevent="emitSetDeductionClosed">Cancel</a>
